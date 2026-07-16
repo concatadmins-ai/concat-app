@@ -525,21 +525,140 @@ function AdSection() {
   );
 }
 
+// ─── DYNAMIC GRAVITY GRID BACKGROUND ──────────────────────────────
+function GravityGridBackground() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mouseRef = useRef({ x: -1000, y: -1000 });
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationFrameId: number;
+    let width = (canvas.width = container.clientWidth);
+    let height = (canvas.height = container.clientHeight);
+
+    const handleResize = () => {
+      width = canvas.width = container.clientWidth;
+      height = canvas.height = container.clientHeight;
+    };
+    window.addEventListener("resize", handleResize);
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      mouseRef.current = {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      };
+    };
+
+    const handleMouseLeave = () => {
+      mouseRef.current = { x: -1000, y: -1000 };
+    };
+
+    container.addEventListener("mousemove", handleMouseMove);
+    container.addEventListener("mouseleave", handleMouseLeave);
+
+    const spacing = 8; // Exactly matches global dot grid spacing
+    const dotRadius = 0.75; // Exactly matches global grid dot size
+    const baseRadius = 260; // Static gravity crater around the text area
+    const mouseRadius = 120; // Active gravity crater around mouse pointer
+
+    const render = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      const cols = Math.ceil(width / spacing) + 1;
+      const rows = Math.ceil(height / spacing) + 1;
+      const centerX = width / 2;
+      const centerY = height / 2;
+
+      // Slow heartbeat pulse for the central gravity well
+      const pulse = Math.sin(Date.now() * 0.002) * 8;
+      const currentBaseRadius = baseRadius + pulse;
+
+      ctx.fillStyle = "rgba(255, 255, 255, 0.18)"; // Soft white grid dots matching global vibe
+
+      const mouse = mouseRef.current;
+
+      for (let c = 0; c < cols; c++) {
+        for (let r = 0; r < rows; r++) {
+          const originalX = c * spacing - (spacing / 2);
+          const originalY = r * spacing - (spacing / 2);
+
+          let currentX = originalX;
+          let currentY = originalY;
+
+          // 1. Text gravity (crater at center)
+          const dxCenter = currentX - centerX;
+          const dyCenter = currentY - centerY;
+          const distCenter = Math.sqrt(dxCenter * dxCenter + dyCenter * dyCenter);
+
+          if (distCenter < currentBaseRadius) {
+            // Push dots outward from center to create a clear "crater"
+            const force = Math.pow(1 - distCenter / currentBaseRadius, 2.0);
+            const pushDistance = force * 60; // Pushes dots out by up to 60px
+            currentX += (dxCenter / (distCenter || 1)) * pushDistance;
+            currentY += (dyCenter / (distCenter || 1)) * pushDistance;
+          }
+
+          // 2. Mouse gravity (dynamic crater pushing away grid on hover)
+          if (mouse.x > -500 && mouse.y > -500) {
+            const dxMouse = currentX - mouse.x;
+            const dyMouse = currentY - mouse.y;
+            const distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
+
+            if (distMouse < mouseRadius) {
+              const forceMouse = Math.pow(1 - distMouse / mouseRadius, 1.5);
+              const pushMouse = forceMouse * 30;
+              currentX += (dxMouse / (distMouse || 1)) * pushMouse;
+              currentY += (dyMouse / (distMouse || 1)) * pushMouse;
+            }
+          }
+
+          // Draw grid dot
+          ctx.beginPath();
+          ctx.arc(currentX, currentY, dotRadius, 0, 2 * Math.PI);
+          ctx.fill();
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      container.removeEventListener("mousemove", handleMouseMove);
+      container.removeEventListener("mouseleave", handleMouseLeave);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return (
+    <div ref={containerRef} style={{ position: "absolute", inset: 0, zIndex: 0, overflow: "hidden" }}>
+      <canvas ref={canvasRef} style={{ display: "block", width: "100%", height: "100%" }} />
+    </div>
+  );
+}
+
 // ─── SECTION 5.5 : INTRO TO CONCAT ────────────────────────────────
 function IntroSection() {
   return (
-    <section className="snap-section" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "80px 36px", boxSizing: "border-box", position: "relative" }}>
+    <section className="snap-section" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "80px 36px", boxSizing: "border-box", position: "relative", background: "#0A0A0A" }}>
+
+      {/* Dynamic Gravitational Grid Background */}
+      <GravityGridBackground />
 
       {/* Gravity Glow — the "weight" that pushes the grid away */}
       <div style={{
         position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none",
-        background: "radial-gradient(ellipse 75% 65% at 50% 50%, rgba(74,14,23,0.55) 0%, rgba(74,14,23,0.25) 35%, rgba(74,14,23,0.05) 65%, transparent 100%)",
-      }} />
-
-      {/* Secondary soft halo for depth */}
-      <div style={{
-        position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none",
-        background: "radial-gradient(ellipse 55% 50% at 50% 50%, rgba(0,0,0,0.9) 0%, transparent 100%)",
+        background: "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(74,14,23,0.4) 0%, rgba(74,14,23,0.1) 40%, transparent 100%)",
       }} />
 
       <motion.div
@@ -549,25 +668,11 @@ function IntroSection() {
         transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
         style={{ maxWidth: 820, textAlign: "center", position: "relative", zIndex: 1 }}
       >
-        {/* Liquid Glass Panel */}
         <div style={{
-          background: "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 50%, rgba(74,14,23,0.08) 100%)",
-          border: "1px solid rgba(255,255,255,0.1)",
-          borderRadius: 40,
           padding: "clamp(48px, 7vw, 72px) clamp(32px, 6vw, 64px)",
-          backdropFilter: "blur(40px)",
-          WebkitBackdropFilter: "blur(40px)",
-          boxShadow: "0 0 0 1px rgba(255,255,255,0.04) inset, 0 32px 80px rgba(0,0,0,0.6), 0 0 60px rgba(74,14,23,0.2)",
           position: "relative",
           overflow: "hidden"
         }}>
-          {/* Glass shimmer highlight */}
-          <div style={{
-            position: "absolute", top: 0, left: "10%", right: "10%", height: 1,
-            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
-            pointerEvents: "none"
-          }} />
-
           <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 5, textTransform: "uppercase", color: BURG_LIGHT, marginBottom: 28, opacity: 0.8 }}>
             Why CONCAT exists
           </div>
