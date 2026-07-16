@@ -42,8 +42,9 @@ function ScrollIndicator({ light = false }: { light?: boolean }) {
     <div style={{
       position: "absolute", bottom: 20, left: "50%", transform: "translateX(-50%)",
       display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
-      color, opacity: 0.6, fontSize: 10, fontWeight: 700, letterSpacing: 2,
-      textTransform: "uppercase", pointerEvents: "none", zIndex: 20
+      color: "#FFFFFF", opacity: 1, fontSize: 12, fontWeight: 900, letterSpacing: 2,
+      textTransform: "uppercase", pointerEvents: "none", zIndex: 100,
+      textShadow: "0 2px 10px rgba(0,0,0,0.8)"
     }}>
       <span className="animate-pulse">Scroll</span>
       <svg className="animate-bounce" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -195,20 +196,18 @@ function CarouselSection() {
 
         if (hoverActive !== -1) {
           if (isHov) {
-            el.style.cssText = `position:absolute;width:560px;height:315px;left:-280px;top:-157.5px;transform:translateX(0) translateZ(350px) scale(1);opacity:1;filter:none;z-index:999;box-shadow:0 0 60px rgba(74,14,23,0.4),0 0 0 2.5px rgba(255,255,255,0.6);border-color:rgba(255,255,255,0.7);border-radius:18px;overflow:hidden;cursor:pointer;will-change:transform;box-sizing:border-box;border:1px solid rgba(255,255,255,0.35);transition:transform 0.8s cubic-bezier(0.16,1,0.3,1),width 0.8s cubic-bezier(0.16,1,0.3,1),height 0.8s cubic-bezier(0.16,1,0.3,1),left 0.8s cubic-bezier(0.16,1,0.3,1),top 0.8s cubic-bezier(0.16,1,0.3,1),opacity 0.6s ease,filter 0.6s ease;`;
+            el.style.cssText = `position:absolute;width:560px;height:315px;left:-280px;top:-157.5px;transform:translateX(0) translateZ(350px) scale(1);opacity:1;filter:none;z-index:999;box-shadow:0 0 60px rgba(0,0,0,0.8),0 0 0 2.5px rgba(255,255,255,0.6);background-color:#111111;border-color:rgba(255,255,255,0.7);border-radius:18px;overflow:hidden;cursor:pointer;will-change:transform;box-sizing:border-box;border:1px solid rgba(255,255,255,0.35);transition:transform 0.8s cubic-bezier(0.16,1,0.3,1),width 0.8s cubic-bezier(0.16,1,0.3,1),height 0.8s cubic-bezier(0.16,1,0.3,1),left 0.8s cubic-bezier(0.16,1,0.3,1),top 0.8s cubic-bezier(0.16,1,0.3,1),opacity 0.6s ease,filter 0.6s ease;`;
             if (btn) { btn.style.opacity="1"; btn.style.height="34px"; btn.style.padding="8px 22px"; btn.style.marginTop="14px"; }
             if (title) title.style.fontSize="22px";
           } else {
             const sc = ((0.6 + 0.4 * depth) * 0.65).toFixed(4);
-            el.style.cssText = `position:absolute;width:230px;height:380px;left:-115px;top:-190px;transform:translateX(${(x*1.2).toFixed(1)}px) translateZ(${z.toFixed(1)}px) scale(${sc});opacity:0.2;filter:blur(2px);z-index:${Math.round(depth*100)};border-radius:18px;overflow:hidden;cursor:pointer;will-change:transform;box-sizing:border-box;border:1px solid rgba(255,255,255,0.25);box-shadow:0 8px 32px rgba(0,0,0,0.2);transition:transform 0.8s cubic-bezier(0.16,1,0.3,1),width 0.8s cubic-bezier(0.16,1,0.3,1),height 0.8s cubic-bezier(0.16,1,0.3,1),left 0.8s cubic-bezier(0.16,1,0.3,1),top 0.8s cubic-bezier(0.16,1,0.3,1),opacity 0.6s ease,filter 0.6s ease;`;
+            el.style.cssText = `position:absolute;width:230px;height:380px;left:-115px;top:-190px;transform:translateX(${(x*1.2).toFixed(1)}px) translateZ(${z.toFixed(1)}px) scale(${sc});opacity:1;filter:none;z-index:${Math.round(depth*100)};border-radius:18px;overflow:hidden;cursor:pointer;will-change:transform;box-sizing:border-box;border:1px solid rgba(255,255,255,0.25);box-shadow:0 8px 32px rgba(0,0,0,0.8);background-color:#111111;transition:transform 0.8s cubic-bezier(0.16,1,0.3,1),width 0.8s cubic-bezier(0.16,1,0.3,1),height 0.8s cubic-bezier(0.16,1,0.3,1),left 0.8s cubic-bezier(0.16,1,0.3,1),top 0.8s cubic-bezier(0.16,1,0.3,1),opacity 0.6s ease,filter 0.6s ease;`;
             if (btn) { btn.style.opacity="0"; btn.style.height="0"; btn.style.padding="0"; btn.style.marginTop="0"; }
             if (title) title.style.fontSize="14px";
           }
         } else {
           const scale = (0.6 + 0.4 * depth).toFixed(4);
-          const op    = (0.8 + 0.2 * depth).toFixed(3);
-          const blur  = (1 - depth) * 2;
-          el.style.cssText = `position:absolute;width:230px;height:380px;left:-115px;top:-190px;transform:translateX(${x.toFixed(1)}px) translateZ(${z.toFixed(1)}px) scale(${scale});opacity:${op};${blur>0.2?`filter:blur(${blur.toFixed(1)}px);`:""}z-index:${Math.round(depth*200)};border-radius:18px;overflow:hidden;cursor:pointer;will-change:transform;box-sizing:border-box;border:1px solid rgba(255,255,255,0.35);box-shadow:0 12px 40px rgba(0,0,0,0.25);transition:transform 0.8s cubic-bezier(0.16,1,0.3,1),width 0.8s cubic-bezier(0.16,1,0.3,1),height 0.8s cubic-bezier(0.16,1,0.3,1),left 0.8s cubic-bezier(0.16,1,0.3,1),top 0.8s cubic-bezier(0.16,1,0.3,1),opacity 0.6s ease,filter 0.6s ease;`;
+          el.style.cssText = `position:absolute;width:230px;height:380px;left:-115px;top:-190px;transform:translateX(${x.toFixed(1)}px) translateZ(${z.toFixed(1)}px) scale(${scale});opacity:1;filter:none;z-index:${Math.round(depth*200)};border-radius:18px;overflow:hidden;cursor:pointer;will-change:transform;box-sizing:border-box;border:1px solid rgba(255,255,255,0.35);box-shadow:0 12px 40px rgba(0,0,0,0.8);background-color:#111111;transition:transform 0.8s cubic-bezier(0.16,1,0.3,1),width 0.8s cubic-bezier(0.16,1,0.3,1),height 0.8s cubic-bezier(0.16,1,0.3,1),left 0.8s cubic-bezier(0.16,1,0.3,1),top 0.8s cubic-bezier(0.16,1,0.3,1),opacity 0.6s ease,filter 0.6s ease;`;
           if (btn) { btn.style.opacity="0"; btn.style.height="0"; btn.style.padding="0"; btn.style.marginTop="0"; }
           if (title) title.style.fontSize="14px";
         }
@@ -248,6 +247,7 @@ function CarouselSection() {
               className="carousel-card"
               onMouseEnter={() => { stateRef.current.hoveredIdx = idx; }}
               onMouseLeave={() => { stateRef.current.hoveredIdx = -1; }}
+              style={{ backgroundColor: "#111111" }}
             >
               <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${card.img})`, backgroundSize: "cover", backgroundPosition: "center" }} />
               <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${BURG}cc 0%, rgba(74,14,23,0.08) 50%, transparent 100%)` }} />
@@ -372,10 +372,11 @@ function FinaleSection() {
       <footer style={{
         borderRadius: 22, padding: "22px 32px",
         display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 14,
-        background: "#F9F7F1", border: "1.5px solid rgba(74,14,23,0.15)",
-        boxShadow: "0 10px 40px rgba(74,14,23,0.06)", zIndex: 10
+        background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)",
+        backdropFilter: "blur(30px)", WebkitBackdropFilter: "blur(30px)",
+        boxShadow: "0 10px 40px rgba(0,0,0,0.5)", zIndex: 10
       }}>
-        <span style={{ fontFamily: "inherit", fontSize: 18, fontWeight: 900, color: BURG }}>concat.</span>
+        <span style={{ fontFamily: "inherit", fontSize: 18, fontWeight: 900, color: "#FFFFFF" }}>concat.</span>
         <nav style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
           {[["Shop","/shop"],["Stores","/stores"],["About Us","/our-story"],["Contact","/support"]].map(([name, href]) => (
             <Link key={name} href={href}
@@ -387,7 +388,7 @@ function FinaleSection() {
             </Link>
           ))}
         </nav>
-        <span style={{ fontSize: 11, fontWeight: 400, color: "rgba(74,14,23,0.4)" }}>© 2026 CONCAT</span>
+        <span style={{ fontSize: 11, fontWeight: 400, color: "rgba(255,255,255,0.6)" }}>© 2026 CONCAT</span>
       </footer>
     </section>
   );

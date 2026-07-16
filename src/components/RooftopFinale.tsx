@@ -22,7 +22,7 @@ export default function RooftopFinale() {
       </div>
       
       <div>
-        <footer className="relative overflow-hidden rounded-[24px] py-6 px-9 flex items-center justify-between flex-wrap gap-4 bg-white/5 border border-white/15 backdrop-blur-[24px]">
+        <footer className="relative overflow-hidden rounded-[24px] py-6 px-9 flex items-center justify-between flex-wrap gap-4 bg-white/5 border border-white/15 backdrop-blur-[30px] shadow-[0_10px_40px_rgba(0,0,0,0.5)] z-20">
           <span className="font-bold text-lg text-white stroke-black select-none uppercase">
             concat.
           </span>

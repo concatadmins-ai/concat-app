@@ -61,10 +61,10 @@ export default function Navbar() {
           justifyContent: "space-between",
           padding: "6px 20px", // Reduced padding
           borderRadius: 9999,
-          // Premium Apple Liquid Glass Design
-          background: isScrolled ? "rgba(255, 255, 255, 0.75)" : "rgba(255, 255, 255, 0.2)",
-          border: isScrolled ? "1px solid rgba(255, 255, 255, 0.4)" : "1px solid rgba(255, 255, 255, 0.3)",
-          boxShadow: isScrolled ? "0 4px 24px rgba(0, 0, 0, 0.04)" : "none",
+          // Premium Apple Liquid Glass Design - Always dark transparent for white text
+          background: "rgba(255, 255, 255, 0.05)",
+          border: "1px solid rgba(255, 255, 255, 0.15)",
+          boxShadow: "0 10px 40px rgba(0, 0, 0, 0.5)",
           backdropFilter: "blur(24px) saturate(200%)",
           WebkitBackdropFilter: "blur(24px) saturate(200%)",
           transition: "all 0.4s cubic-bezier(0.25, 1, 0.3, 1)",
@@ -181,11 +181,25 @@ export default function Navbar() {
               const el = e.currentTarget as HTMLElement;
               el.style.transform = "scale(1.03)";
               el.style.background = "#000000";
+              el.style.color = "#FFFFFF";
+              el.style.border = "1px solid rgba(255,255,255,0.3)";
+              const span = el.querySelector("span");
+              if (span) {
+                span.style.background = "#FFFFFF";
+                span.style.color = "#000000";
+              }
             }}
             onMouseLeave={(e) => {
               const el = e.currentTarget as HTMLElement;
               el.style.transform = "scale(1)";
               el.style.background = BURG;
+              el.style.color = CREAM;
+              el.style.border = "none";
+              const span = el.querySelector("span");
+              if (span) {
+                span.style.background = CREAM;
+                span.style.color = BURG;
+              }
             }}
           >
             <ShoppingBag size={14} />
