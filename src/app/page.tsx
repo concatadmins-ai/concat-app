@@ -128,15 +128,15 @@ function HeroSection() {
 // ─── SECTION 2 : HORIZONTAL ACCORDION BRAND COLLAGE ───────────────
 function AccordionSection() {
   const [hovered, setHovered] = useState<string | null>(null);
-  const [page, setPage] = useState(1);
 
-  const activeCards = page === 1 ? BRAND_CARDS.slice(0, 5) : BRAND_CARDS.slice(5, 10);
+  const row1Cards = BRAND_CARDS.slice(0, 4);
+  const row2Cards = BRAND_CARDS.slice(4, 8);
 
-  const handlePrev = () => setPage(1);
-  const handleNext = () => setPage(2);
+  const isRow1Hovered = row1Cards.some((c) => c.id === hovered);
+  const isRow2Hovered = row2Cards.some((c) => c.id === hovered);
 
   return (
-    <section id="featured" className="snap-section" style={{ position: "relative", padding: "100px 36px 40px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+    <section id="featured" className="snap-section" style={{ padding: "100px 36px 40px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center" }}>
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -144,24 +144,24 @@ function AccordionSection() {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         style={{ width: "100%", display: "flex", flexDirection: "column", position: "relative" }}
       >
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, paddingLeft: 12 }}>
+        <div style={{ marginBottom: 20, paddingLeft: 12 }}>
           <h2 style={{ margin: 0, fontFamily: "inherit", fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 950, letterSpacing: -1.5, color: BURG, lineHeight: 1, textTransform: "uppercase" }}>
             featured stores
           </h2>
-          <span style={{ fontSize: 11, fontWeight: 900, color: BURG_LIGHT, letterSpacing: 2, marginRight: 12 }}>
-            PAGE {page} OF 2
-          </span>
         </div>
         
-        {/* Accordion container */}
-        <div style={{ position: "relative", width: "100%", maxWidth: 1200, margin: "0 auto" }}>
-          <div 
-            style={{ height: "450px", width: "100%", display: "flex", gap: 20, padding: "12px 0", overflow: "hidden" }}
-          >
-            {activeCards.map((card) => {
+        {/* Scrollable vertical grid container */}
+        <div 
+          className="hide-scrollbar"
+          style={{ height: "76vh", width: "100%", maxWidth: 1200, margin: "0 auto", overflowY: "auto", display: "flex", flexDirection: "column", gap: 24, padding: "12px 10px" }}
+        >
+          {/* Row 1 ("4 up") */}
+          <div style={{ display: "flex", gap: 20, height: "380px", width: "100%", flexShrink: 0 }}>
+            {row1Cards.map((card) => {
               const isHov = hovered === card.id;
-              // 16:9 ratio when hovered: flex is 5.3, other cards shrink to flex 0.7
-              const flexVal = hovered ? (isHov ? 5.3 : 0.7) : 1;
+              // 16:9 ratio with height 380px: width is ~675px. 
+              // Hovered card flex is 4.35, others contract to 1
+              const flexVal = isRow1Hovered ? (isHov ? 4.35 : 1) : 1.83;
               const opacity = hovered ? (isHov ? 1 : 0) : 1;
               const translateY = hovered && !isHov ? 16 : 0;
 
@@ -209,43 +209,57 @@ function AccordionSection() {
             })}
           </div>
 
-          {/* Left/Right Center Edge Buttons */}
-          <button 
-            onClick={handlePrev} 
-            disabled={page === 1}
-            style={{ 
-              position: "absolute", left: -60, top: "50%", transform: "translateY(-50%)",
-              width: 48, height: 48, borderRadius: "50%", 
-              background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.18)", 
-              color: BURG, display: "flex", alignItems: "center", justifyContent: "center", 
-              cursor: page === 1 ? "not-allowed" : "pointer", transition: "all 0.3s ease", zIndex: 40,
-              opacity: page === 1 ? 0.3 : 1,
-              backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
-              boxShadow: "0 8px 32px rgba(0,0,0,0.4)"
-            }} 
-            onMouseEnter={(e) => { if (page !== 1) { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.18)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1.08)"; } }} 
-            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1)"; }}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-          </button>
-          <button 
-            onClick={handleNext} 
-            disabled={page === 2}
-            style={{ 
-              position: "absolute", right: -60, top: "50%", transform: "translateY(-50%)",
-              width: 48, height: 48, borderRadius: "50%", 
-              background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.18)", 
-              color: BURG, display: "flex", alignItems: "center", justifyContent: "center", 
-              cursor: page === 2 ? "not-allowed" : "pointer", transition: "all 0.3s ease", zIndex: 40,
-              opacity: page === 2 ? 0.3 : 1,
-              backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
-              boxShadow: "0 8px 32px rgba(0,0,0,0.4)"
-            }} 
-            onMouseEnter={(e) => { if (page !== 2) { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.18)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1.08)"; } }} 
-            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1)"; }}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
+          {/* Row 2 ("4 down") */}
+          <div style={{ display: "flex", gap: 20, height: "380px", width: "100%", flexShrink: 0 }}>
+            {row2Cards.map((card) => {
+              const isHov = hovered === card.id;
+              const flexVal = isRow2Hovered ? (isHov ? 4.35 : 1) : 1.83;
+              const opacity = hovered ? (isHov ? 1 : 0) : 1;
+              const translateY = hovered && !isHov ? 16 : 0;
+
+              return (
+                <Link
+                  key={card.id}
+                  href={card.href}
+                  className="expand-card"
+                  style={{ 
+                    flex: flexVal,
+                    height: "100%",
+                    transition: "flex 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+                    borderRadius: 24
+                  }}
+                  onMouseEnter={() => setHovered(card.id)}
+                  onMouseLeave={() => setHovered(null)}
+                >
+                  {/* Media */}
+                  {card.type === "video"
+                    ? <video src={card.src} autoPlay loop muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                    : <img src={card.src} alt={card.brand} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                  }
+                  {/* Overlay */}
+                  <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${BURG}dd 0%, rgba(74,14,23,0.1) 55%, transparent 100%)`, zIndex: 1 }} />
+
+                  {/* Text - calibrated to prevent wrapping/cut off */}
+                  <div style={{
+                    position: "absolute", left: 24, bottom: 24, right: 24, zIndex: 2, pointerEvents: "none",
+                    transition: "opacity 0.4s ease, transform 0.45s ease",
+                    opacity, transform: `translateY(${translateY}px)`,
+                  }}>
+                    <h3 style={{
+                      fontFamily: "inherit", fontSize: "clamp(16px, 1.8vw, 21px)", fontWeight: 900,
+                      color: CREAM, margin: 0, letterSpacing: -0.5, lineHeight: 1.1, textTransform: "uppercase",
+                      overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"
+                    }}>
+                      {card.brand}
+                    </h3>
+                    <p style={{ margin: "10px 0 0", fontSize: 13, color: "#000000", maxWidth: 220, lineHeight: 1.4 }}>
+                      {card.desc}
+                    </p>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </motion.div>
     </section>
