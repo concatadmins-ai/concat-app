@@ -525,182 +525,31 @@ function AdSection() {
   );
 }
 
-// ─── DYNAMIC GRAVITY GRID BACKGROUND ──────────────────────────────
-function GravityGridBackground() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const mouseRef = useRef({ x: -1000, y: -1000 });
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const container = containerRef.current;
-    if (!canvas || !container) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let animationFrameId: number;
-    let width = (canvas.width = container.clientWidth);
-    let height = (canvas.height = container.clientHeight);
-
-    let easeMx = mouseRef.current.x;
-    let easeMy = mouseRef.current.y;
-
-    const handleResize = () => {
-      width = canvas.width = container.clientWidth;
-      height = canvas.height = container.clientHeight;
-    };
-    window.addEventListener("resize", handleResize);
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouseRef.current = {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-      };
-    };
-    const handleMouseLeave = () => {
-      mouseRef.current = { x: -1000, y: -1000 };
-    };
-
-    container.addEventListener("mousemove", handleMouseMove);
-    container.addEventListener("mouseleave", handleMouseLeave);
-
-    const STEP = 65; // Exactly matches global InteractiveGrid spacing
-
-    const warpPoint = (
-      x: number, y: number, mx: number, my: number,
-      threshold: number, maxPush: number, pow = 2.2
-    ) => {
-      const dx = x - mx;
-      const dy = y - my;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < threshold) {
-        const force = Math.pow((threshold - dist) / threshold, pow);
-        const push = force * maxPush;
-        const angle = Math.atan2(dy, dx);
-        return { x: Math.cos(angle) * push, y: Math.sin(angle) * push };
-      }
-      return { x: 0, y: 0 };
-    };
-
-    const render = () => {
-      ctx.clearRect(0, 0, width, height);
-
-      easeMx += (mouseRef.current.x - easeMx) * 0.075;
-      easeMy += (mouseRef.current.y - easeMy) * 0.075;
-
-      const centerX = width / 2;
-      const centerY = height / 2;
-      
-      // Heartbeat pulse for central crater
-      const pulse = Math.sin(Date.now() * 0.002) * 15;
-      const craterRadius = 480 + pulse; // Much larger crater to fully surround text
-      const craterPush = 130; // Much stronger push force
-
-      ctx.strokeStyle = "rgba(255,255,255,0.15)";
-      ctx.lineWidth = 1;
-
-      // ── Horizontal lines ──────────────────────────────────────────
-      ctx.beginPath();
-      for (let gy = STEP; gy < height; gy += STEP) {
-        let firstPoint = true;
-        for (let gx = 0; gx <= width + STEP / 2; gx += STEP / 2) {
-          // 1. Text Crater Warp
-          const textWarp = warpPoint(gx, gy, centerX, centerY, craterRadius, craterPush, 2.0);
-          
-          // 2. Mouse Warp
-          const mouseWarp = warpPoint(gx + textWarp.x, gy + textWarp.y, easeMx, easeMy, 150, 24);
-
-          const finalX = gx + textWarp.x + mouseWarp.x;
-          const finalY = gy + textWarp.y + mouseWarp.y;
-
-          if (firstPoint) { ctx.moveTo(finalX, finalY); firstPoint = false; }
-          else ctx.lineTo(finalX, finalY);
-        }
-      }
-      ctx.stroke();
-
-      // ── Vertical lines ────────────────────────────────────────────
-      ctx.beginPath();
-      for (let gx = STEP; gx < width; gx += STEP) {
-        let firstPoint = true;
-        for (let gy = 0; gy <= height + STEP / 2; gy += STEP / 2) {
-          // 1. Text Crater Warp
-          const textWarp = warpPoint(gx, gy, centerX, centerY, craterRadius, craterPush, 2.0);
-          
-          // 2. Mouse Warp
-          const mouseWarp = warpPoint(gx + textWarp.x, gy + textWarp.y, easeMx, easeMy, 150, 24);
-
-          const finalX = gx + textWarp.x + mouseWarp.x;
-          const finalY = gy + textWarp.y + mouseWarp.y;
-
-          if (firstPoint) { ctx.moveTo(finalX, finalY); firstPoint = false; }
-          else ctx.lineTo(finalX, finalY);
-        }
-      }
-      ctx.stroke();
-
-      // Cursor spotlight matching InteractiveGrid
-      if (mouseRef.current.x > -500) {
-        const grd = ctx.createRadialGradient(easeMx, easeMy, 0, easeMx, easeMy, 100);
-        grd.addColorStop(0, "rgba(255,255,255,0.1)");
-        grd.addColorStop(0.5, "rgba(255,255,255,0.03)");
-        grd.addColorStop(1, "rgba(255,255,255,0)");
-        ctx.fillStyle = grd;
-        ctx.beginPath();
-        ctx.arc(easeMx, easeMy, 100, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      animationFrameId = requestAnimationFrame(render);
-    };
-
-    render();
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      container.removeEventListener("mousemove", handleMouseMove);
-      container.removeEventListener("mouseleave", handleMouseLeave);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
-
-  return (
-    <div ref={containerRef} style={{ position: "absolute", inset: 0, zIndex: 0, overflow: "hidden", background: "#0A0A0A" }}>
-      {/* Underlying static dot texture matching global layout.tsx */}
-      <div className="screen-texture" style={{ position: "absolute", zIndex: 0 }} />
-      <canvas ref={canvasRef} style={{ position: "relative", zIndex: 1, display: "block", width: "100%", height: "100%" }} />
-    </div>
-  );
-}
-
 // ─── SECTION 5.5 : INTRO TO CONCAT ────────────────────────────────
 function IntroSection() {
   return (
-    <section className="snap-section" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "80px 36px", boxSizing: "border-box", position: "relative", background: "#0A0A0A" }}>
-
-      {/* Dynamic Gravitational Grid Background */}
-      <GravityGridBackground />
-
-      {/* Gravity Glow — the "weight" that pushes the grid away */}
-      <div style={{
-        position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none",
-        background: "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(74,14,23,0.4) 0%, rgba(74,14,23,0.1) 40%, transparent 100%)",
-      }} />
+    <section className="snap-section" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "80px 36px", boxSizing: "border-box", position: "relative", zIndex: 10 }}>
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        style={{ maxWidth: 820, textAlign: "center", position: "relative", zIndex: 1 }}
+        style={{ maxWidth: 820, textAlign: "center", position: "relative", zIndex: 2 }}
       >
-        <div style={{
+        {/* We give this container an ID so the global InteractiveGrid knows where to form the massive gravity crater */}
+        <div id="intro-gravity-text" style={{
           padding: "clamp(48px, 7vw, 72px) clamp(32px, 6vw, 64px)",
           position: "relative",
-          overflow: "hidden"
+          overflow: "hidden",
+          borderRadius: 40,
         }}>
+          {/* We keep a subtle glow attached to the text so the crater doesn't feel entirely empty, but it won't block the grid */}
+          <div style={{
+            position: "absolute", inset: 0, zIndex: -1, pointerEvents: "none",
+            background: "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(74,14,23,0.3) 0%, rgba(74,14,23,0.05) 40%, transparent 100%)",
+          }} />
+
           <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 5, textTransform: "uppercase", color: BURG_LIGHT, marginBottom: 28, opacity: 0.8 }}>
             Why CONCAT exists
           </div>

@@ -38,8 +38,6 @@ export default function RootLayout({
         <SplashScreen />
 
         {/* Fixed background effects */}
-        <div className="screen-texture" />
-        <div className="cursor-glow" />
         <InteractiveGrid />
 
         {/* Fixed Navbar - always on top */}
