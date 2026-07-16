@@ -138,7 +138,7 @@ function AccordionSection() {
   return (
     <>
       {/* SCREEN 1: Featured Stores (First 4) */}
-      <section id="featured-1" className="snap-section" style={{ padding: "100px 36px 40px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+      <section id="featured-1" className="snap-section" style={{ padding: "80px 36px 20px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center" }}>
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -146,14 +146,14 @@ function AccordionSection() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           style={{ width: "100%", display: "flex", flexDirection: "column", position: "relative" }}
         >
-          <div style={{ marginBottom: 20, paddingLeft: 12 }}>
+          <div style={{ marginBottom: 16, paddingLeft: 12 }}>
             <h2 style={{ margin: 0, fontFamily: "inherit", fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 950, letterSpacing: -1.5, color: BURG, lineHeight: 1, textTransform: "uppercase" }}>
               featured stores
             </h2>
           </div>
           
           <div style={{ position: "relative", width: "100%", maxWidth: 1200, margin: "0 auto" }}>
-            <div style={{ display: "flex", gap: 20, height: "60vh", maxHeight: "500px", width: "100%" }}>
+            <div style={{ display: "flex", gap: 20, height: "74vh", maxHeight: "660px", width: "100%" }}>
               {row1Cards.map((card) => {
                 const isHov = hovered === card.id;
                 const flexVal = isRow1Hovered ? (isHov ? 5 : 1) : 1;
@@ -205,7 +205,7 @@ function AccordionSection() {
       </section>
 
       {/* SCREEN 2: Featured Stores (Next 4) */}
-      <section id="featured-2" className="snap-section" style={{ padding: "100px 36px 40px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+      <section id="featured-2" className="snap-section" style={{ padding: "40px 36px 20px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center" }}>
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -213,15 +213,8 @@ function AccordionSection() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           style={{ width: "100%", display: "flex", flexDirection: "column", position: "relative" }}
         >
-          {/* Optional: We can keep the heading space empty to align perfectly with the first screen, or render a subtle continuation text */}
-          <div style={{ marginBottom: 20, paddingLeft: 12, opacity: 0, pointerEvents: "none" }}>
-            <h2 style={{ margin: 0, fontFamily: "inherit", fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 950, letterSpacing: -1.5, lineHeight: 1, textTransform: "uppercase" }}>
-              featured stores
-            </h2>
-          </div>
-          
           <div style={{ position: "relative", width: "100%", maxWidth: 1200, margin: "0 auto" }}>
-            <div style={{ display: "flex", gap: 20, height: "60vh", maxHeight: "500px", width: "100%" }}>
+            <div style={{ display: "flex", gap: 20, height: "74vh", maxHeight: "660px", width: "100%" }}>
               {row2Cards.map((card) => {
                 const isHov = hovered === card.id;
                 const flexVal = isRow2Hovered ? (isHov ? 5 : 1) : 1;
