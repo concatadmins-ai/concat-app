@@ -18,7 +18,7 @@ export default function AboutUs() {
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
   return (
-    <div ref={containerRef} style={{ background: "#0A0A0A", minHeight: "100vh", color: "#FFFFFF", overflow: "hidden" }}>
+    <div ref={containerRef} style={{ background: "#0A0A0A", minHeight: "100vh", color: "#FFFFFF", overflowX: "hidden" }}>
       <Navbar />
 
       {/* BACKGROUND TEXTURE */}
