@@ -136,133 +136,142 @@ function AccordionSection() {
   const isRow2Hovered = row2Cards.some((c) => c.id === hovered);
 
   return (
-    <section id="featured" className="snap-section" style={{ padding: "100px 36px 40px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        style={{ width: "100%", display: "flex", flexDirection: "column", position: "relative" }}
-      >
-        <div style={{ marginBottom: 20, paddingLeft: 12 }}>
-          <h2 style={{ margin: 0, fontFamily: "inherit", fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 950, letterSpacing: -1.5, color: BURG, lineHeight: 1, textTransform: "uppercase" }}>
-            featured stores
-          </h2>
-        </div>
-        
-        {/* Scrollable vertical grid container */}
-        <div 
-          className="hide-scrollbar"
-          style={{ height: "76vh", width: "100%", maxWidth: 1200, margin: "0 auto", overflowY: "auto", display: "flex", flexDirection: "column", gap: 24, padding: "12px 10px" }}
+    <>
+      {/* SCREEN 1: Featured Stores (First 4) */}
+      <section id="featured-1" className="snap-section" style={{ padding: "100px 36px 40px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          style={{ width: "100%", display: "flex", flexDirection: "column", position: "relative" }}
         >
-          {/* Row 1 ("4 up") */}
-          <div style={{ display: "flex", gap: 20, height: "380px", width: "100%", flexShrink: 0 }}>
-            {row1Cards.map((card) => {
-              const isHov = hovered === card.id;
-              // 16:9 ratio with height 380px: width is ~675px. 
-              // Hovered card flex is 4.35, others contract to 1
-              const flexVal = isRow1Hovered ? (isHov ? 4.35 : 1) : 1.83;
-              const opacity = hovered ? (isHov ? 1 : 0) : 1;
-              const translateY = hovered && !isHov ? 16 : 0;
-
-              return (
-                <Link
-                  key={card.id}
-                  href={card.href}
-                  className="expand-card"
-                  style={{ 
-                    flex: flexVal,
-                    height: "100%",
-                    transition: "flex 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
-                    borderRadius: 24
-                  }}
-                  onMouseEnter={() => setHovered(card.id)}
-                  onMouseLeave={() => setHovered(null)}
-                >
-                  {/* Media */}
-                  {card.type === "video"
-                    ? <video src={card.src} autoPlay loop muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-                    : <img src={card.src} alt={card.brand} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-                  }
-                  {/* Overlay */}
-                  <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${BURG}dd 0%, rgba(74,14,23,0.1) 55%, transparent 100%)`, zIndex: 1 }} />
-
-                  {/* Text - calibrated to prevent wrapping/cut off */}
-                  <div style={{
-                    position: "absolute", left: 24, bottom: 24, right: 24, zIndex: 2, pointerEvents: "none",
-                    transition: "opacity 0.4s ease, transform 0.45s ease",
-                    opacity, transform: `translateY(${translateY}px)`,
-                  }}>
-                    <h3 style={{
-                      fontFamily: "inherit", fontSize: "clamp(16px, 1.8vw, 21px)", fontWeight: 900,
-                      color: CREAM, margin: 0, letterSpacing: -0.5, lineHeight: 1.1, textTransform: "uppercase",
-                      overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"
-                    }}>
-                      {card.brand}
-                    </h3>
-                    <p style={{ margin: "10px 0 0", fontSize: 13, color: "#000000", maxWidth: 220, lineHeight: 1.4 }}>
-                      {card.desc}
-                    </p>
-                  </div>
-                </Link>
-              );
-            })}
+          <div style={{ marginBottom: 20, paddingLeft: 12 }}>
+            <h2 style={{ margin: 0, fontFamily: "inherit", fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 950, letterSpacing: -1.5, color: BURG, lineHeight: 1, textTransform: "uppercase" }}>
+              featured stores
+            </h2>
           </div>
+          
+          <div style={{ position: "relative", width: "100%", maxWidth: 1200, margin: "0 auto" }}>
+            <div style={{ display: "flex", gap: 20, height: "60vh", maxHeight: "500px", width: "100%" }}>
+              {row1Cards.map((card) => {
+                const isHov = hovered === card.id;
+                const flexVal = isRow1Hovered ? (isHov ? 5 : 1) : 1;
+                const opacity = hovered ? (isHov ? 1 : 0) : 1;
+                const translateY = hovered && !isHov ? 16 : 0;
 
-          {/* Row 2 ("4 down") */}
-          <div style={{ display: "flex", gap: 20, height: "380px", width: "100%", flexShrink: 0 }}>
-            {row2Cards.map((card) => {
-              const isHov = hovered === card.id;
-              const flexVal = isRow2Hovered ? (isHov ? 4.35 : 1) : 1.83;
-              const opacity = hovered ? (isHov ? 1 : 0) : 1;
-              const translateY = hovered && !isHov ? 16 : 0;
+                return (
+                  <Link
+                    key={card.id}
+                    href={card.href}
+                    className="expand-card"
+                    style={{ 
+                      flex: flexVal,
+                      height: "100%",
+                      transition: "flex 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+                      borderRadius: 24
+                    }}
+                    onMouseEnter={() => setHovered(card.id)}
+                    onMouseLeave={() => setHovered(null)}
+                  >
+                    {card.type === "video"
+                      ? <video src={card.src} autoPlay loop muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                      : <img src={card.src} alt={card.brand} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                    }
+                    <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${BURG}dd 0%, rgba(74,14,23,0.1) 55%, transparent 100%)`, zIndex: 1 }} />
 
-              return (
-                <Link
-                  key={card.id}
-                  href={card.href}
-                  className="expand-card"
-                  style={{ 
-                    flex: flexVal,
-                    height: "100%",
-                    transition: "flex 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
-                    borderRadius: 24
-                  }}
-                  onMouseEnter={() => setHovered(card.id)}
-                  onMouseLeave={() => setHovered(null)}
-                >
-                  {/* Media */}
-                  {card.type === "video"
-                    ? <video src={card.src} autoPlay loop muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-                    : <img src={card.src} alt={card.brand} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-                  }
-                  {/* Overlay */}
-                  <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${BURG}dd 0%, rgba(74,14,23,0.1) 55%, transparent 100%)`, zIndex: 1 }} />
-
-                  {/* Text - calibrated to prevent wrapping/cut off */}
-                  <div style={{
-                    position: "absolute", left: 24, bottom: 24, right: 24, zIndex: 2, pointerEvents: "none",
-                    transition: "opacity 0.4s ease, transform 0.45s ease",
-                    opacity, transform: `translateY(${translateY}px)`,
-                  }}>
-                    <h3 style={{
-                      fontFamily: "inherit", fontSize: "clamp(16px, 1.8vw, 21px)", fontWeight: 900,
-                      color: CREAM, margin: 0, letterSpacing: -0.5, lineHeight: 1.1, textTransform: "uppercase",
-                      overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"
+                    <div style={{
+                      position: "absolute", left: 24, bottom: 24, right: 24, zIndex: 2, pointerEvents: "none",
+                      transition: "opacity 0.4s ease, transform 0.45s ease",
+                      opacity, transform: `translateY(${translateY}px)`,
                     }}>
-                      {card.brand}
-                    </h3>
-                    <p style={{ margin: "10px 0 0", fontSize: 13, color: "#000000", maxWidth: 220, lineHeight: 1.4 }}>
-                      {card.desc}
-                    </p>
-                  </div>
-                </Link>
-              );
-            })}
+                      <h3 style={{
+                        fontFamily: "inherit", fontSize: "clamp(16px, 1.8vw, 21px)", fontWeight: 900,
+                        color: CREAM, margin: 0, letterSpacing: -0.5, lineHeight: 1.1, textTransform: "uppercase",
+                        overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"
+                      }}>
+                        {card.brand}
+                      </h3>
+                      <p style={{ margin: "10px 0 0", fontSize: 13, color: "#000000", maxWidth: 220, lineHeight: 1.4 }}>
+                        {card.desc}
+                      </p>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      </motion.div>
-    </section>
+        </motion.div>
+      </section>
+
+      {/* SCREEN 2: Featured Stores (Next 4) */}
+      <section id="featured-2" className="snap-section" style={{ padding: "100px 36px 40px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          style={{ width: "100%", display: "flex", flexDirection: "column", position: "relative" }}
+        >
+          {/* Optional: We can keep the heading space empty to align perfectly with the first screen, or render a subtle continuation text */}
+          <div style={{ marginBottom: 20, paddingLeft: 12, opacity: 0, pointerEvents: "none" }}>
+            <h2 style={{ margin: 0, fontFamily: "inherit", fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 950, letterSpacing: -1.5, lineHeight: 1, textTransform: "uppercase" }}>
+              featured stores
+            </h2>
+          </div>
+          
+          <div style={{ position: "relative", width: "100%", maxWidth: 1200, margin: "0 auto" }}>
+            <div style={{ display: "flex", gap: 20, height: "60vh", maxHeight: "500px", width: "100%" }}>
+              {row2Cards.map((card) => {
+                const isHov = hovered === card.id;
+                const flexVal = isRow2Hovered ? (isHov ? 5 : 1) : 1;
+                const opacity = hovered ? (isHov ? 1 : 0) : 1;
+                const translateY = hovered && !isHov ? 16 : 0;
+
+                return (
+                  <Link
+                    key={card.id}
+                    href={card.href}
+                    className="expand-card"
+                    style={{ 
+                      flex: flexVal,
+                      height: "100%",
+                      transition: "flex 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+                      borderRadius: 24
+                    }}
+                    onMouseEnter={() => setHovered(card.id)}
+                    onMouseLeave={() => setHovered(null)}
+                  >
+                    {card.type === "video"
+                      ? <video src={card.src} autoPlay loop muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                      : <img src={card.src} alt={card.brand} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                    }
+                    <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${BURG}dd 0%, rgba(74,14,23,0.1) 55%, transparent 100%)`, zIndex: 1 }} />
+
+                    <div style={{
+                      position: "absolute", left: 24, bottom: 24, right: 24, zIndex: 2, pointerEvents: "none",
+                      transition: "opacity 0.4s ease, transform 0.45s ease",
+                      opacity, transform: `translateY(${translateY}px)`,
+                    }}>
+                      <h3 style={{
+                        fontFamily: "inherit", fontSize: "clamp(16px, 1.8vw, 21px)", fontWeight: 900,
+                        color: CREAM, margin: 0, letterSpacing: -0.5, lineHeight: 1.1, textTransform: "uppercase",
+                        overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"
+                      }}>
+                        {card.brand}
+                      </h3>
+                      <p style={{ margin: "10px 0 0", fontSize: 13, color: "#000000", maxWidth: 220, lineHeight: 1.4 }}>
+                        {card.desc}
+                      </p>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </motion.div>
+      </section>
+    </>
   );
 }
 
