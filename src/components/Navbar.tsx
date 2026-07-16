@@ -58,7 +58,15 @@ export default function Navbar() {
         if (currentScrollPos > 80) {
           hideTimeoutRef.current = setTimeout(() => {
             setIsVisible(false);
-          }, 1500);
+          }, 2500);
+        }
+      }
+
+      // ── TOP LOCK: Always visible at the very top of the page ──
+      if (currentScrollPos <= 80) {
+        setIsVisible(true);
+        if (hideTimeoutRef.current) {
+          clearTimeout(hideTimeoutRef.current);
         }
       }
 
@@ -70,8 +78,10 @@ export default function Navbar() {
       if (target.closest("a") || target.closest("button") || target.closest("[role='button']")) {
         // Set programmatic scroll lock for 1200ms
         (window as any).__programmaticScrollUntil = Date.now() + 1200;
-        // Make sure it hides the navbar on click if they clicked to go down
-        setIsVisible(false);
+        // Make sure it hides the navbar on click if they clicked to go down, unless we are at top
+        if (lastScrollPosRef.current > 80) {
+          setIsVisible(false);
+        }
       }
     };
 
@@ -96,7 +106,7 @@ export default function Navbar() {
           position: "fixed",
           top: 14,
           left: "50%",
-          transform: isVisible ? "translateX(-50%) translateY(0)" : "translateX(-50%) translateY(-100px)",
+          transform: isVisible ? "translateX(-50%) translateY(0) scale(1)" : "translateX(-50%) translateY(-120%) scale(0.95)",
           opacity: isVisible ? 1 : 0,
           pointerEvents: isVisible ? "auto" : "none",
           zIndex: 100,
@@ -114,7 +124,7 @@ export default function Navbar() {
           boxShadow: "0 10px 40px rgba(0, 0, 0, 0.5)",
           backdropFilter: "blur(24px) saturate(200%)",
           WebkitBackdropFilter: "blur(24px) saturate(200%)",
-          transition: "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
+          transition: "transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1)",
         }}
       >
         {/* Left: Logo */}
