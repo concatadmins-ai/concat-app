@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X, Search, User, ShoppingBag } from "lucide-react";
@@ -20,36 +20,48 @@ const CREAM = "#111111";
 
 export default function Navbar() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [scrollPos, setScrollPos] = useState(0);
-  const { cartItems, toggleCart } = useStore();
-  const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const [isVisible, setIsVisible] = useState(true);
+  const lastScrollPosRef = useRef(0);
 
   useEffect(() => {
     const handleScroll = (e: Event) => {
       const target = e.target as HTMLElement;
-      if (
-        target &&
-        (target.classList?.contains("snap-container") ||
-          target.classList?.contains("page-scroll") ||
-          target.id === "main-scroll" ||
-          target.style.overflowY === "auto" ||
-          target.style.overflowY === "scroll")
-      ) {
-        setScrollPos(target.scrollTop);
+      let currentScrollPos = 0;
+      
+      if ((target as any) === document || target === (window as any)) {
+        currentScrollPos = window.scrollY || document.documentElement.scrollTop;
+      } else if (target && typeof target.scrollTop === "number") {
+        currentScrollPos = target.scrollTop;
+      } else {
+        return;
       }
+
+      const lastScrollPos = lastScrollPosRef.current;
+
+      // Hide when scrolling down past a threshold, show when scrolling up
+      if (currentScrollPos > lastScrollPos && currentScrollPos > 80) {
+        setIsVisible(false);
+      } else if (currentScrollPos < lastScrollPos) {
+        setIsVisible(true);
+      }
+
+      lastScrollPosRef.current = currentScrollPos;
     };
     window.addEventListener("scroll", handleScroll, true);
     return () => window.removeEventListener("scroll", handleScroll, true);
   }, []);
 
-  const isScrolled = scrollPos > 40;
+  const { cartItems, toggleCart } = useStore();
+  const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
     <>
       <header
         style={{
           position: "fixed",
-          top: 14,
+          top: isVisible ? 14 : -70,
+          opacity: isVisible ? 1 : 0,
+          pointerEvents: isVisible ? "auto" : "none",
           left: "50%",
           transform: "translateX(-50%)",
           zIndex: 100,

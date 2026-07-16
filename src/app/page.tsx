@@ -31,25 +31,31 @@ const TOP_PRODUCTS = [
   { id: 1, name: "Velvet Evening Gown", brand: "CONCAT", price: 1200, image: "/media__1784131496078.png" },
   { id: 2, name: "Silk Overcoat",       brand: "AURA",   price: 850,  image: "/media__1784131738979.png" },
   { id: 3, name: "Leather Tote",        brand: "NOVA",   price: 450,  image: "/media__1784132058127.png" },
+  { id: 4, name: "Oversized Cashmere",  brand: "CONCAT", price: 600,  image: "/media__1784132250371.png" },
+  { id: 5, name: "Pleated Trousers",    brand: "AURA",   price: 400,  image: "/media__1784132288061.png" },
   { id: 6, name: "Monolith Boots",      brand: "NOVA",   price: 890,  image: "/media__1784132530186.png" },
   { id: 7, name: "Tailored Blazer",     brand: "CONCAT", price: 1100, image: "/media__1784132886336.png" },
+  { id: 8, name: "Mesh Corset",         brand: "AURA",   price: 350,  image: "/media__1784133094296.png" },
+  { id: 9, name: "Wide-Leg Linen",      brand: "KIRE",   price: 520,  image: "/media__1784133227077.png" },
+  { id: 10, name: "Leather Bomber",     brand: "LUMIS",  price: 1350, image: "/media__1784133952584.png" },
+  { id: 11, name: "Asymmetric Knit",    brand: "CONCAT", price: 680,  image: "/media__1784134008499.png" },
+  { id: 12, name: "Crystal Heels",      brand: "NOVA",   price: 975,  image: "/media__1784145616978.png" },
 ];
 
 // ─── REUSABLE SCROLL INDICATOR ────────────────────────────────────
-function ScrollIndicator({ light = false }: { light?: boolean }) {
-  const color = light ? CREAM : BURG;
+function ScrollIndicator() {
   return (
     <div style={{
-      position: "fixed", bottom: 40, right: 30,
-      display: "flex", flexDirection: "column", alignItems: "center", gap: 12,
-      padding: "16px 8px", borderRadius: 40,
+      position: "fixed", bottom: 30, left: "50%", transform: "translateX(-50%)",
+      display: "flex", alignItems: "center", gap: 10,
+      padding: "10px 20px", borderRadius: 9999,
       background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)",
       backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
       color: "#FFFFFF", opacity: 1, zIndex: 9999,
       boxShadow: "0 10px 40px rgba(0,0,0,0.4)"
     }}>
-      <span style={{ fontSize: 9, fontWeight: 900, letterSpacing: 3, textTransform: "uppercase", writingMode: "vertical-rl", transform: "rotate(180deg)" }}>SCROLL</span>
-      <svg className="animate-bounce" style={{ marginTop: 4 }} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+      <span style={{ fontSize: 10, fontWeight: 900, letterSpacing: 3, textTransform: "uppercase" }}>SCROLL</span>
+      <svg className="animate-bounce" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
     </div>
@@ -113,12 +119,12 @@ function AccordionSection() {
 
   return (
     <section id="featured" className="snap-section" style={{ padding: "100px 36px 40px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-      <div style={{ position: "absolute", top: 110, left: 48, zIndex: 20, textAlign: "left", pointerEvents: "none" }}>
+      <div style={{ position: "absolute", top: 75, left: 48, zIndex: 20, textAlign: "left", pointerEvents: "none" }}>
         <h2 style={{ margin: 0, fontFamily: "inherit", fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 950, letterSpacing: -1.5, color: BURG, lineHeight: 1, textTransform: "uppercase" }}>
           featured stores
         </h2>
       </div>
-      <div style={{ height: "84vh", width: "100%", display: "flex", gap: 20, marginTop: 40 }}>
+      <div style={{ height: "84vh", width: "100%", display: "flex", gap: 20, marginTop: 60 }}>
         {BRAND_CARDS.map((card) => {
           const isHov    = hovered === card.id;
           const flexVal  = hovered ? (isHov ? 2.4 : 0.55) : 1;
@@ -154,7 +160,7 @@ function AccordionSection() {
                 }}>
                   {card.brand}
                 </h3>
-                <p style={{ margin: "10px 0 0", fontSize: 13, color: "rgba(249,247,241,0.7)", maxWidth: 300, lineHeight: 1.5 }}>
+                <p style={{ margin: "10px 0 0", fontSize: 13, color: "#000000", maxWidth: 300, lineHeight: 1.5 }}>
                   {card.desc}
                 </p>
               </div>
@@ -304,7 +310,7 @@ function TopSellingSection() {
       <div style={{ maxWidth: 1200, width: "100%", margin: "0 auto" }}>
         {/* Heading Left Aligned & Cleared, Subheading removed, size reduced */}
         <div style={{ marginBottom: 28, paddingLeft: 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <h2 style={{ margin: 0, fontFamily: "inherit", fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 950, letterSpacing: -1.5, color: BURG, textTransform: "uppercase" }}>top selling</h2>
+          <h2 style={{ margin: 0, fontFamily: "inherit", fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 950, letterSpacing: -1.5, color: BURG, textTransform: "uppercase" }}>hot right now</h2>
           <div style={{ display: "flex", gap: 12 }}>
             <button onClick={() => scroll('left')} style={{ width: 40, height: 40, borderRadius: "50%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.2)", color: BURG, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", transition: "background 0.2s" }} onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")} onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.05)")}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
