@@ -30,6 +30,8 @@ const BRAND_CARDS = [
   { id: "F", brand: "nova",         tagline: "Cyber-Gothic", accent: BURG_MID, desc: "Dark cyber-gothic elements combined with futuristic accessory lines.", type: "image", src: "/eyewear_1784145482095.png", href: "/shop" },
   { id: "G", brand: "kire",         tagline: "Minimalism", accent: BURG_LIGHT, desc: "Stripped back, monochromatic garments celebrating pure raw form.", type: "image", src: "/footwear_1784145445750.png", href: "/shop" },
   { id: "H", brand: "lumis",        tagline: "Deconstructivism", accent: BURG, desc: "Deconstructed knitwear and technical outerwear for variable climates.", type: "image", src: "/accessories_1784145426818.png", href: "/shop" },
+  { id: "I", brand: "vibe",         tagline: "Neo-Street", accent: BURG_LIGHT, desc: "Raw cuts and distressed silhouettes designed to stand out.", type: "image", src: "/media__1784131496078.png", href: "/shop" },
+  { id: "J", brand: "dusk",         tagline: "Nightwear", accent: BURG, desc: "Dark apparel constructed with reflective piping and tech materials.", type: "image", src: "/footwear_1784145445750.png", href: "/shop" },
 ];
 
 const TOP_PRODUCTS = [
@@ -130,80 +132,118 @@ function AccordionSection() {
 
   const scroll = (dir: 'left' | 'right') => {
     if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: dir === 'left' ? -350 : 350, behavior: 'smooth' });
+      // Base panel width is 260, gap is 20, 5 panels is exactly (260 + 20) * 5 = 1400px
+      scrollRef.current.scrollBy({ left: dir === 'left' ? -1400 : 1400, behavior: 'smooth' });
     }
   };
 
   return (
-    <section id="featured" className="snap-section" style={{ padding: "100px 36px 40px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+    <section id="featured" className="snap-section" style={{ position: "relative", padding: "100px 36px 40px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center" }}>
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        style={{ width: "100%", display: "flex", flexDirection: "column" }}
+        style={{ width: "100%", display: "flex", flexDirection: "column", position: "relative" }}
       >
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, paddingLeft: 12 }}>
           <h2 style={{ margin: 0, fontFamily: "inherit", fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 950, letterSpacing: -1.5, color: BURG, lineHeight: 1, textTransform: "uppercase" }}>
             featured stores
           </h2>
-          <div style={{ display: "flex", gap: 12, marginRight: 12 }}>
-            <button onClick={() => scroll('left')} style={{ width: 40, height: 40, borderRadius: "50%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.2)", color: BURG, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", transition: "background 0.2s" }} onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")} onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.05)")}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-            </button>
-            <button onClick={() => scroll('right')} style={{ width: 40, height: 40, borderRadius: "50%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.2)", color: BURG, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", transition: "background 0.2s" }} onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")} onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.05)")}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-            </button>
-          </div>
         </div>
         
-        <div 
-          ref={scrollRef}
-          className="hide-scrollbar"
-          style={{ height: "80vh", width: "100%", display: "flex", gap: 20, overflowX: "auto", padding: "12px 0", scrollBehavior: "smooth" }}
-        >
-          {BRAND_CARDS.map((card) => {
-            const isHov    = hovered === card.id;
-            const cardWidth = hovered ? (isHov ? 480 : 200) : 260;
-            const opacity  = hovered ? (isHov ? 1 : 0) : 1;
-            const translateY = hovered && !isHov ? 16 : 0;
+        {/* Horizontal scroll container */}
+        <div style={{ position: "relative", width: "100%" }}>
+          <div 
+            ref={scrollRef}
+            className="hide-scrollbar"
+            style={{ height: "80vh", width: "100%", display: "flex", gap: 20, overflowX: "auto", padding: "12px 0", scrollBehavior: "smooth" }}
+          >
+            {BRAND_CARDS.map((card) => {
+              const isHov    = hovered === card.id;
+              // base width 260px, on hover expands to 480px, when others are hovered shrinks to 205px.
+              // Total width remains constant at 1300px per page (5 panels)
+              const cardWidth = hovered ? (isHov ? 480 : 205) : 260;
+              const opacity  = hovered ? (isHov ? 1 : 0) : 1;
+              const translateY = hovered && !isHov ? 16 : 0;
 
-            return (
-              <Link
-                key={card.id}
-                href={card.href}
-                className="expand-card"
-                style={{ width: cardWidth, flexShrink: 0, transition: "width 0.5s cubic-bezier(0.16, 1, 0.3, 1)" }}
-                onMouseEnter={() => setHovered(card.id)}
-                onMouseLeave={() => setHovered(null)}
-              >
-                {/* Media */}
-                {card.type === "video"
-                  ? <video src={card.src} autoPlay loop muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-                  : <img src={card.src} alt={card.brand} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-                }
-                {/* Overlay */}
-                <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${BURG}dd 0%, rgba(74,14,23,0.1) 55%, transparent 100%)`, zIndex: 1 }} />
+              return (
+                <Link
+                  key={card.id}
+                  href={card.href}
+                  className="expand-card"
+                  style={{ 
+                    width: cardWidth, 
+                    flex: "none", 
+                    flexShrink: 0, 
+                    transition: "width 0.5s cubic-bezier(0.16, 1, 0.3, 1)" 
+                  }}
+                  onMouseEnter={() => setHovered(card.id)}
+                  onMouseLeave={() => setHovered(null)}
+                >
+                  {/* Media */}
+                  {card.type === "video"
+                    ? <video src={card.src} autoPlay loop muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                    : <img src={card.src} alt={card.brand} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                  }
+                  {/* Overlay */}
+                  <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${BURG}dd 0%, rgba(74,14,23,0.1) 55%, transparent 100%)`, zIndex: 1 }} />
 
-                {/* Text */}
-                <div style={{
-                  position: "absolute", left: 28, bottom: 28, zIndex: 2, pointerEvents: "none",
-                  transition: "opacity 0.4s ease, transform 0.45s ease",
-                  opacity, transform: `translateY(${translateY}px)`,
-                }}>
-                  <h3 style={{
-                    fontFamily: "inherit", fontSize: "clamp(18px,2vw,24px)", fontWeight: 900,
-                    color: CREAM, margin: 0, letterSpacing: -0.5, lineHeight: 1, textTransform: "uppercase"
+                  {/* Text - calibrated to prevent wrapping/cut off */}
+                  <div style={{
+                    position: "absolute", left: 24, bottom: 24, right: 24, zIndex: 2, pointerEvents: "none",
+                    transition: "opacity 0.4s ease, transform 0.45s ease",
+                    opacity, transform: `translateY(${translateY}px)`,
                   }}>
-                    {card.brand}
-                  </h3>
-                  <p style={{ margin: "10px 0 0", fontSize: 13, color: "#000000", maxWidth: 300, lineHeight: 1.5 }}>
-                    {card.desc}
-                  </p>
-                </div>
-              </Link>
-            );
-          })}
+                    <h3 style={{
+                      fontFamily: "inherit", fontSize: "clamp(16px, 1.8vw, 21px)", fontWeight: 900,
+                      color: CREAM, margin: 0, letterSpacing: -0.5, lineHeight: 1.1, textTransform: "uppercase",
+                      overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"
+                    }}>
+                      {card.brand}
+                    </h3>
+                    <p style={{ margin: "10px 0 0", fontSize: 13, color: "#000000", maxWidth: 220, lineHeight: 1.4 }}>
+                      {card.desc}
+                    </p>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Left/Right Center Edge Buttons */}
+          <button 
+            onClick={() => scroll('left')} 
+            style={{ 
+              position: "absolute", left: -24, top: "50%", transform: "translateY(-50%)",
+              width: 48, height: 48, borderRadius: "50%", 
+              background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.18)", 
+              color: BURG, display: "flex", alignItems: "center", justifyContent: "center", 
+              cursor: "pointer", transition: "all 0.3s ease", zIndex: 40,
+              backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
+              boxShadow: "0 8px 32px rgba(0,0,0,0.4)"
+            }} 
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.18)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1.08)"; }} 
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1)"; }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button 
+            onClick={() => scroll('right')} 
+            style={{ 
+              position: "absolute", right: -24, top: "50%", transform: "translateY(-50%)",
+              width: 48, height: 48, borderRadius: "50%", 
+              background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.18)", 
+              color: BURG, display: "flex", alignItems: "center", justifyContent: "center", 
+              cursor: "pointer", transition: "all 0.3s ease", zIndex: 40,
+              backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
+              boxShadow: "0 8px 32px rgba(0,0,0,0.4)"
+            }} 
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.18)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1.08)"; }} 
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1)"; }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
         </div>
       </motion.div>
     </section>
@@ -351,50 +391,78 @@ function TopSellingSection() {
   };
 
   return (
-    <section className="snap-section" style={{ padding: "140px 36px 40px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+    <section className="snap-section" style={{ position: "relative", padding: "140px 36px 40px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center" }}>
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        style={{ maxWidth: 1200, width: "100%", margin: "0 auto" }}
+        style={{ maxWidth: 1200, width: "100%", margin: "0 auto", position: "relative" }}
       >
         {/* Heading Left Aligned & Cleared, Subheading removed, size reduced */}
-        <div style={{ marginBottom: 28, paddingLeft: 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ marginBottom: 28, paddingLeft: 12 }}>
           <h2 style={{ margin: 0, fontFamily: "inherit", fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 950, letterSpacing: -1.5, color: BURG, textTransform: "uppercase" }}>hot right now</h2>
-          <div style={{ display: "flex", gap: 12 }}>
-            <button onClick={() => scroll('left')} style={{ width: 40, height: 40, borderRadius: "50%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.2)", color: BURG, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", transition: "background 0.2s" }} onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")} onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.05)")}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-            </button>
-            <button onClick={() => scroll('right')} style={{ width: 40, height: 40, borderRadius: "50%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.2)", color: BURG, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", transition: "background 0.2s" }} onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")} onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.05)")}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-            </button>
-          </div>
         </div>
 
-        {/* Horizontal scroll container */}
-        <div
-          ref={scrollRef}
-          className="hide-scrollbar"
-          style={{ display: "flex", gap: 24, overflowX: "auto", padding: "12px", scrollBehavior: "smooth", WebkitOverflowScrolling: "touch" }}
-        >
-          {TOP_PRODUCTS.map((prod) => (
-            <Link href={`/shop/${prod.id}`} key={prod.id} style={{ textDecoration: "none", flexShrink: 0 }}>
-              <div className="glass-card" style={{ width: 260, borderRadius: 24, overflow: "hidden", cursor: "pointer", transition: "transform 0.3s ease, box-shadow 0.3s ease" }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)"; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; }}
-              >
-                <div style={{ position: "relative", aspectRatio: "3/4" }}>
-                  <img src={prod.image} alt={prod.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }} />
+        {/* Horizontal scroll container with relative positioning for side buttons */}
+        <div style={{ position: "relative", width: "100%" }}>
+          <div
+            ref={scrollRef}
+            className="hide-scrollbar"
+            style={{ display: "flex", gap: 24, overflowX: "auto", padding: "12px", scrollBehavior: "smooth", WebkitOverflowScrolling: "touch" }}
+          >
+            {TOP_PRODUCTS.map((prod) => (
+              <Link href={`/shop/${prod.id}`} key={prod.id} style={{ textDecoration: "none", flexShrink: 0 }}>
+                <div className="glass-card" style={{ width: 260, borderRadius: 24, overflow: "hidden", cursor: "pointer", transition: "transform 0.3s ease, box-shadow 0.3s ease" }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)"; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; }}
+                >
+                  <div style={{ position: "relative", aspectRatio: "3/4" }}>
+                    <img src={prod.image} alt={prod.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }} />
+                  </div>
+                  <div style={{ padding: "18px 20px" }}>
+                    <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase", color: BURG_LIGHT, margin: "0 0 4px" }}>{prod.brand}</p>
+                    <h3 style={{ fontSize: 14, fontWeight: 700, color: BURG, margin: "0 0 8px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{prod.name}</h3>
+                    <p style={{ fontSize: 15, fontWeight: 800, color: BURG, margin: 0 }}>${prod.price}</p>
+                  </div>
                 </div>
-                <div style={{ padding: "18px 20px" }}>
-                  <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase", color: BURG_LIGHT, margin: "0 0 4px" }}>{prod.brand}</p>
-                  <h3 style={{ fontSize: 14, fontWeight: 700, color: BURG, margin: "0 0 8px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{prod.name}</h3>
-                  <p style={{ fontSize: 15, fontWeight: 800, color: BURG, margin: 0 }}>${prod.price}</p>
-                </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
+          </div>
+
+          {/* Left/Right Center Edge Buttons */}
+          <button 
+            onClick={() => scroll('left')} 
+            style={{ 
+              position: "absolute", left: -24, top: "50%", transform: "translateY(-50%)",
+              width: 48, height: 48, borderRadius: "50%", 
+              background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.18)", 
+              color: BURG, display: "flex", alignItems: "center", justifyContent: "center", 
+              cursor: "pointer", transition: "all 0.3s ease", zIndex: 40,
+              backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
+              boxShadow: "0 8px 32px rgba(0,0,0,0.4)"
+            }} 
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.18)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1.08)"; }} 
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1)"; }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button 
+            onClick={() => scroll('right')} 
+            style={{ 
+              position: "absolute", right: -24, top: "50%", transform: "translateY(-50%)",
+              width: 48, height: 48, borderRadius: "50%", 
+              background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.18)", 
+              color: BURG, display: "flex", alignItems: "center", justifyContent: "center", 
+              cursor: "pointer", transition: "all 0.3s ease", zIndex: 40,
+              backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
+              boxShadow: "0 8px 32px rgba(0,0,0,0.4)"
+            }} 
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.18)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1.08)"; }} 
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1)"; }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
         </div>
       </motion.div>
     </section>
