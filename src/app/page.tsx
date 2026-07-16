@@ -128,14 +128,12 @@ function HeroSection() {
 // ─── SECTION 2 : HORIZONTAL ACCORDION BRAND COLLAGE ───────────────
 function AccordionSection() {
   const [hovered, setHovered] = useState<string | null>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const [page, setPage] = useState(1);
 
-  const scroll = (dir: 'left' | 'right') => {
-    if (scrollRef.current) {
-      // Base panel width is 260, gap is 20, 5 panels is exactly (260 + 20) * 5 = 1400px
-      scrollRef.current.scrollBy({ left: dir === 'left' ? -1400 : 1400, behavior: 'smooth' });
-    }
-  };
+  const activeCards = page === 1 ? BRAND_CARDS.slice(0, 5) : BRAND_CARDS.slice(5, 10);
+
+  const handlePrev = () => setPage(1);
+  const handleNext = () => setPage(2);
 
   return (
     <section id="featured" className="snap-section" style={{ position: "relative", padding: "100px 36px 40px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center" }}>
@@ -150,21 +148,21 @@ function AccordionSection() {
           <h2 style={{ margin: 0, fontFamily: "inherit", fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 950, letterSpacing: -1.5, color: BURG, lineHeight: 1, textTransform: "uppercase" }}>
             featured stores
           </h2>
+          <span style={{ fontSize: 11, fontWeight: 900, color: BURG_LIGHT, letterSpacing: 2, marginRight: 12 }}>
+            PAGE {page} OF 2
+          </span>
         </div>
         
-        {/* Horizontal scroll container */}
-        <div style={{ position: "relative", width: "100%" }}>
+        {/* Accordion container */}
+        <div style={{ position: "relative", width: "100%", maxWidth: 1200, margin: "0 auto" }}>
           <div 
-            ref={scrollRef}
-            className="hide-scrollbar"
-            style={{ height: "80vh", width: "100%", display: "flex", gap: 20, overflowX: "auto", padding: "12px 0", scrollBehavior: "smooth" }}
+            style={{ height: "450px", width: "100%", display: "flex", gap: 20, padding: "12px 0", overflow: "hidden" }}
           >
-            {BRAND_CARDS.map((card) => {
-              const isHov    = hovered === card.id;
-              // base width 260px, on hover expands to 480px, when others are hovered shrinks to 205px.
-              // Total width remains constant at 1300px per page (5 panels)
-              const cardWidth = hovered ? (isHov ? 480 : 205) : 260;
-              const opacity  = hovered ? (isHov ? 1 : 0) : 1;
+            {activeCards.map((card) => {
+              const isHov = hovered === card.id;
+              // 16:9 ratio when hovered: flex is 5.3, other cards shrink to flex 0.7
+              const flexVal = hovered ? (isHov ? 5.3 : 0.7) : 1;
+              const opacity = hovered ? (isHov ? 1 : 0) : 1;
               const translateY = hovered && !isHov ? 16 : 0;
 
               return (
@@ -173,10 +171,10 @@ function AccordionSection() {
                   href={card.href}
                   className="expand-card"
                   style={{ 
-                    width: cardWidth, 
-                    flex: "none", 
-                    flexShrink: 0, 
-                    transition: "width 0.5s cubic-bezier(0.16, 1, 0.3, 1)" 
+                    flex: flexVal,
+                    height: "100%",
+                    transition: "flex 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+                    borderRadius: 24
                   }}
                   onMouseEnter={() => setHovered(card.id)}
                   onMouseLeave={() => setHovered(null)}
@@ -213,33 +211,37 @@ function AccordionSection() {
 
           {/* Left/Right Center Edge Buttons */}
           <button 
-            onClick={() => scroll('left')} 
+            onClick={handlePrev} 
+            disabled={page === 1}
             style={{ 
-              position: "absolute", left: -24, top: "50%", transform: "translateY(-50%)",
+              position: "absolute", left: -60, top: "50%", transform: "translateY(-50%)",
               width: 48, height: 48, borderRadius: "50%", 
               background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.18)", 
               color: BURG, display: "flex", alignItems: "center", justifyContent: "center", 
-              cursor: "pointer", transition: "all 0.3s ease", zIndex: 40,
+              cursor: page === 1 ? "not-allowed" : "pointer", transition: "all 0.3s ease", zIndex: 40,
+              opacity: page === 1 ? 0.3 : 1,
               backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
               boxShadow: "0 8px 32px rgba(0,0,0,0.4)"
             }} 
-            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.18)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1.08)"; }} 
+            onMouseEnter={(e) => { if (page !== 1) { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.18)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1.08)"; } }} 
             onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1)"; }}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
           </button>
           <button 
-            onClick={() => scroll('right')} 
+            onClick={handleNext} 
+            disabled={page === 2}
             style={{ 
-              position: "absolute", right: -24, top: "50%", transform: "translateY(-50%)",
+              position: "absolute", right: -60, top: "50%", transform: "translateY(-50%)",
               width: 48, height: 48, borderRadius: "50%", 
               background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.18)", 
               color: BURG, display: "flex", alignItems: "center", justifyContent: "center", 
-              cursor: "pointer", transition: "all 0.3s ease", zIndex: 40,
+              cursor: page === 2 ? "not-allowed" : "pointer", transition: "all 0.3s ease", zIndex: 40,
+              opacity: page === 2 ? 0.3 : 1,
               backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
               boxShadow: "0 8px 32px rgba(0,0,0,0.4)"
             }} 
-            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.18)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1.08)"; }} 
+            onMouseEnter={(e) => { if (page !== 2) { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.18)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1.08)"; } }} 
             onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1)"; }}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
