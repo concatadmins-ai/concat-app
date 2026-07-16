@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 // ─── Design Tokens ────────────────────────────────────────────────
 const BURG      = "#FFFFFF";
@@ -11,43 +11,79 @@ const BURG_LIGHT= "#AAAAAA";
 const CREAM     = "#111111";
 const CREAM_DARK= "#333333";
 
+// ─── MEDIA MAPPINGS ───────────────────────────────────────────────
+const HERO_VIDEOS = [
+  "/stock/hf_20260716_170443_38e6b78a-8799-4829-87bb-c502c0f8ad3c.mp4",
+  "/stock/hf_20260716_170450_33c114d8-c778-4116-97c7-597d3dbe2fe6.mp4",
+  "/stock/hf_20260716_170805_2c160018-e4cb-4818-b7c1-47a638851a3c.mp4"
+];
+
+const AD_VIDEOS = [
+  "/stock/hf_20260716_171513_5af86a4c-089c-4647-877a-f2cbaad005e1.mp4",
+  "/stock/hf_20260716_171520_383ed21e-fc31-4734-ba9d-1f6ea8b47cb3.mp4",
+  "/stock/hf_20260716_171527_0efa8741-01ae-4e05-a543-d48dc971abf5.mp4"
+];
+
+const FLOOR_IMAGES = [
+  "/stock/hf_20260716_170918_8117694f-5cfb-4f2e-8081-6efa779dfc86.png",
+  "/stock/hf_20260716_170924_df9ce8ea-ffec-4ce5-9372-6967b3068aa4.png",
+  "/stock/hf_20260716_170930_fb120077-9502-4f6c-8cc4-c3b84fd5bd22.png",
+  "/stock/hf_20260716_170936_4b1e50be-9830-4ea5-852f-125b625e55d8.png",
+  "/stock/hf_20260716_170940_3f2a5b8b-b19d-487c-a7a0-1326b8509ddf.png",
+  "/stock/hf_20260716_170945_f02782ca-48fb-4bd7-a7fc-c5fa4745f1d3.png",
+  "/stock/hf_20260716_171353_17500f1a-037d-4b31-a7bd-869f029acd08.png"
+];
+
+const PRODUCT_IMAGES = [
+  "/stock/hf_20260716_171358_f02d013b-66f0-4c44-a0a2-fcb8107b89a9.png",
+  "/stock/hf_20260716_171403_bd14e7cd-f27b-4d9b-9ad8-30b9891c87b2 (1).png",
+  "/stock/hf_20260716_171408_c7b21875-b648-412f-98e1-bb0c6a8b7c85.png",
+  "/stock/hf_20260716_171413_d9f209ad-4baf-4502-acc9-cd477a8993e8.png",
+  "/stock/hf_20260716_171420_7c7da42a-92b7-441e-9572-ee14edfb4819.png",
+  "/stock/hf_20260716_171427_c5fca72f-8cc7-4385-a36b-71f6dea76f23.png",
+  "/stock/hf_20260716_171434_94be5ab4-24e0-4e2e-b0fa-7dc5c6b19af6.png",
+  "/stock/hf_20260716_171439_c41b8767-7905-444f-920e-9e56f8f4e920.png",
+  "/stock/hf_20260716_171443_1894722d-98c6-4aa8-8827-0cc56a69ba7d.png",
+  "/stock/hf_20260716_171449_28cd7c2c-c2db-4f4e-a616-38af99186804.png",
+  "/stock/hf_20260716_171455_b1765adc-5e25-456b-b748-41d24200dc6b.png",
+  "/stock/hf_20260716_171504_1c0920a8-ef61-4837-abdb-ea165072e097.png"
+];
+
 // ─── DATA ─────────────────────────────────────────────────────────
 const CAROUSEL_CARDS = [
-  { title: "MODERN CASUALS", btnText: "visit modern casuals floor", img: "/modern_casuals_1784145387264.png", href: "/floors" },
-  { title: "SEMI FORMALS",   btnText: "visit semi formals floor",   img: "/semi_formals_1784145407787.png",  href: "/floors" },
-  { title: "ACCESSORIES",    btnText: "visit accessories floor",    img: "/accessories_1784145426818.png",   href: "/floors" },
-  { title: "FOOTWEAR",       btnText: "visit footwear floor",       img: "/footwear_1784145445750.png",      href: "/floors" },
-  { title: "FORMALS",        btnText: "visit formals floor",        img: "/formals_1784145500501.png",       href: "/floors" },
-  { title: "EYEWEAR",        btnText: "visit eyewear floor",        img: "/eyewear_1784145482095.png",       href: "/floors" },
-  { title: "TRADITIONALS",   btnText: "visit traditionals floor",   img: "/media__1784132288061.png",        href: "/floors" },
+  { title: "MODERN CASUALS", btnText: "visit modern casuals floor", img: FLOOR_IMAGES[0], href: "/floors" },
+  { title: "SEMI FORMALS",   btnText: "visit semi formals floor",   img: FLOOR_IMAGES[1],  href: "/floors" },
+  { title: "ACCESSORIES",    btnText: "visit accessories floor",    img: FLOOR_IMAGES[2],   href: "/floors" },
+  { title: "FOOTWEAR",       btnText: "visit footwear floor",       img: FLOOR_IMAGES[3],      href: "/floors" },
+  { title: "FORMALS",        btnText: "visit formals floor",        img: FLOOR_IMAGES[4],       href: "/floors" },
+  { title: "EYEWEAR",        btnText: "visit eyewear floor",        img: FLOOR_IMAGES[5],       href: "/floors" },
+  { title: "TRADITIONALS",   btnText: "visit traditionals floor",   img: FLOOR_IMAGES[6],        href: "/floors" },
 ];
 
 const BRAND_CARDS = [
-  { id: "A", brand: "maicharacter", tagline: "Techwear", accent: BURG, desc: "Cyberpunk and functional techwear engineered for the modern nomad.", type: "video", src: "https://d8j0ntlcm91z4.cloudfront.net/user_35rW7NAdtcMtzpF5bPgujmS1f0L/hf_20260715_124221_9ebebe94-0bc0-4d10-9c3d-93099331c307.mp4", href: "/shop" },
-  { id: "B", brand: "orangblue",    tagline: "Bold",     accent: BURG_MID,  desc: "Bold silhouettes and hyper-minimal fashion forward essentials.", type: "video", src: "https://d8j0ntlcm91z4.cloudfront.net/user_35rW7NAdtcMtzpF5bPgujmS1f0L/hf_20260715_124255_5698b73d-6520-4094-9000-8770e6015b3f.mp4", href: "/shop" },
-  { id: "C", brand: "spoocy",       tagline: "Neo-Grunge",accent: BURG_LIGHT,desc: "Atmospheric neo-grunge and reworked street apparel.", type: "image", src: "https://d8j0ntlcm91z4.cloudfront.net/user_35rW7NAdtcMtzpF5bPgujmS1f0L/hf_20260715_124258_931a7f4e-5230-41e1-a2de-5b9c47060d4d.png", href: "/shop" },
-  { id: "D", brand: "crewdogcrep",  tagline: "Utility",  accent: BURG,  desc: "Distressed canvas footwear and industrial utility accessories.", type: "video", src: "https://d8j0ntlcm91z4.cloudfront.net/user_35rW7NAdtcMtzpF5bPgujmS1f0L/hf_20260715_124217_a8f407dc-4235-40e2-af60-843970a65926.mp4", href: "/shop" },
-  { id: "E", brand: "aura",         tagline: "Avant-Garde", accent: BURG, desc: "Experimental draping and gender-fluid luxury silhouettes.", type: "image", src: "/media__1784131496078.png", href: "/shop" },
-  { id: "F", brand: "nova",         tagline: "Cyber-Gothic", accent: BURG_MID, desc: "Dark cyber-gothic elements combined with futuristic accessory lines.", type: "image", src: "/eyewear_1784145482095.png", href: "/shop" },
-  { id: "G", brand: "kire",         tagline: "Minimalism", accent: BURG_LIGHT, desc: "Stripped back, monochromatic garments celebrating pure raw form.", type: "image", src: "/footwear_1784145445750.png", href: "/shop" },
-  { id: "H", brand: "lumis",        tagline: "Deconstructivism", accent: BURG, desc: "Deconstructed knitwear and technical outerwear for variable climates.", type: "image", src: "/accessories_1784145426818.png", href: "/shop" },
-  { id: "I", brand: "vibe",         tagline: "Neo-Street", accent: BURG_LIGHT, desc: "Raw cuts and distressed silhouettes designed to stand out.", type: "image", src: "/media__1784131496078.png", href: "/shop" },
-  { id: "J", brand: "dusk",         tagline: "Nightwear", accent: BURG, desc: "Dark apparel constructed with reflective piping and tech materials.", type: "image", src: "/footwear_1784145445750.png", href: "/shop" },
+  { id: "A", brand: "May Character", tagline: "Techwear", src: "/stock/hf_20260716_170814_196b8582-4782-4688-84cd-1cc5042c639b.mp4", desc: "Cyberpunk and functional techwear engineered for the modern nomad." },
+  { id: "B", brand: "Orange Blue",   tagline: "Bold", src: "/stock/hf_20260716_170822_3222bd46-685c-40ec-8816-fbdf2b769010.mp4", desc: "Bold silhouettes and hyper-minimal fashion forward essentials." },
+  { id: "C", brand: "6'11\"",        tagline: "Poplin & Linen", src: "/stock/hf_20260716_170830_44f9ea45-4cfd-44ef-a4e0-a531204ac330.mp4", desc: "Premium poplin and linen fits for the semi-formal aesthetic." },
+  { id: "D", brand: "Mumbai Shirt Company", tagline: "Formals", src: "/stock/hf_20260716_170838_38b5090a-a2b9-44f9-a807-e8215a7d197e.mp4", desc: "Tailored luxury formalwear and bespoke shirting." },
+  { id: "E", brand: "Dune Marshals", tagline: "Eyewear", src: "/stock/hf_20260716_170846_4744c2b3-2340-41a8-8ab0-ea6a0745aba3.mp4", desc: "Futuristic eyewear and protective optics for modern environments." },
+  { id: "F", brand: "Street Labs",   tagline: "Footwear", src: "/stock/hf_20260716_170855_1352c018-a624-45c1-a700-05cba4fedecd.mp4", desc: "Innovative footwear merging street culture with high-end performance." },
+  { id: "G", brand: "Piso by Sonia", tagline: "Accessories", src: "/stock/hf_20260716_170904_64415aa0-49a3-48d8-bc1b-cc1b5541f949.mp4", desc: "Bespoke jewelry and intricate metalwork accessories." },
+  { id: "H", brand: "Heritage",      tagline: "Traditionals", src: "/stock/hf_20260716_170912_a9673eab-8a70-4684-acb5-3600eae39f5a.mp4", desc: "Authentic traditional wear and cultural craftsmanship reborn." },
 ];
 
 const TOP_PRODUCTS = [
-  { id: 1, name: "Velvet Evening Gown", brand: "CONCAT", price: 1200, image: "/media__1784131496078.png" },
-  { id: 2, name: "Silk Overcoat",       brand: "AURA",   price: 850,  image: "/media__1784131738979.png" },
-  { id: 3, name: "Leather Tote",        brand: "NOVA",   price: 450,  image: "/media__1784132058127.png" },
-  { id: 4, name: "Oversized Cashmere",  brand: "CONCAT", price: 600,  image: "/media__1784132250371.png" },
-  { id: 5, name: "Pleated Trousers",    brand: "AURA",   price: 400,  image: "/media__1784132288061.png" },
-  { id: 6, name: "Monolith Boots",      brand: "NOVA",   price: 890,  image: "/media__1784132530186.png" },
-  { id: 7, name: "Tailored Blazer",     brand: "CONCAT", price: 1100, image: "/media__1784132886336.png" },
-  { id: 8, name: "Mesh Corset",         brand: "AURA",   price: 350,  image: "/media__1784133094296.png" },
-  { id: 9, name: "Wide-Leg Linen",      brand: "KIRE",   price: 520,  image: "/media__1784133227077.png" },
-  { id: 10, name: "Leather Bomber",     brand: "LUMIS",  price: 1350, image: "/media__1784133952584.png" },
-  { id: 11, name: "Asymmetric Knit",    brand: "CONCAT", price: 680,  image: "/media__1784134008499.png" },
-  { id: 12, name: "Crystal Heels",      brand: "NOVA",   price: 975,  image: "/media__1784145616978.png" },
+  { id: 1, name: "Asymmetric Tech Jacket", brand: "MAY CHARACTER", price: 320, image: PRODUCT_IMAGES[0] },
+  { id: 2, name: "Bold Graphic Tee",       brand: "ORANGE BLUE",   price: 85,  image: PRODUCT_IMAGES[1] },
+  { id: 3, name: "Linen Wide Pants",       brand: "6'11\"",        price: 140,  image: PRODUCT_IMAGES[2] },
+  { id: 4, name: "Bespoke Oxford",         brand: "MUMBAI SHIRT",  price: 200,  image: PRODUCT_IMAGES[3] },
+  { id: 5, name: "Dune Aviators",          brand: "DUNE MARSHALS", price: 160,  image: PRODUCT_IMAGES[4] },
+  { id: 6, name: "Urban Stompers",         brand: "STREET LABS",   price: 290,  image: PRODUCT_IMAGES[5] },
+  { id: 7, name: "Silver Choker",          brand: "PISO BY SONIA", price: 410, image: PRODUCT_IMAGES[6] },
+  { id: 8, name: "Embroidered Kurta",      brand: "HERITAGE",      price: 180,  image: PRODUCT_IMAGES[7] },
+  { id: 9, name: "Cargo Noir",             brand: "MAY CHARACTER", price: 210,  image: PRODUCT_IMAGES[8] },
+  { id: 10, name: "Oversized Hoodie",      brand: "ORANGE BLUE",   price: 120, image: PRODUCT_IMAGES[9] },
+  { id: 11, name: "Linen Blazer",          brand: "6'11\"",        price: 350,  image: PRODUCT_IMAGES[10] },
+  { id: 12, name: "Tailored Trousers",     brand: "MUMBAI SHIRT",  price: 175,  image: PRODUCT_IMAGES[11] },
 ];
 
 // ─── REUSABLE SCROLL INDICATOR ────────────────────────────────────
@@ -72,6 +108,16 @@ function ScrollIndicator() {
 
 // ─── SECTION 1 : HERO ─────────────────────────────────────────────
 function HeroSection() {
+  const [vidIndex, setVidIndex] = useState(0);
+
+  useEffect(() => {
+    // Rotate hero videos every 10 seconds
+    const interval = setInterval(() => {
+      setVidIndex((prev) => (prev + 1) % HERO_VIDEOS.length);
+    }, 10000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className="snap-section" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "100px 36px 36px", boxSizing: "border-box" }}>
       <motion.div 
@@ -80,29 +126,35 @@ function HeroSection() {
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         style={{
           width: "100%", height: "82vh", borderRadius: 36,
-          background: "#F9F7F1", // Opaque
+          background: "#111",
           border: "1.5px solid rgba(74,14,23,0.15)",
           boxShadow: "0 30px 70px rgba(74,14,23,0.12)",
           position: "relative", display: "flex", flexDirection: "column", justifyContent: "flex-end",
           padding: 48, boxSizing: "border-box", overflow: "hidden", zIndex: 5,
         }}
       >
-        {/* Campaign image */}
-        <div style={{
-          position: "absolute", inset: 0,
-          backgroundImage: "url('/media__1784130067399.jpg')",
-          backgroundSize: "cover", backgroundPosition: "center 30%",
-          opacity: 0.45,
-        }} />
+        <AnimatePresence mode="wait">
+          <motion.video
+            key={vidIndex}
+            src={HERO_VIDEOS[vidIndex]}
+            autoPlay muted playsInline
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.5 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5 }}
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        </AnimatePresence>
+
         {/* Vignette to bottom so buttons are readable */}
-        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${BURG}cc 0%, transparent 55%)` }} />
+        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 55%)` }} />
 
         {/* CONCAT wordmark watermark */}
         <div style={{
           position: "absolute", top: "50%", left: "50%",
           transform: "translate(-50%,-50%)",
           fontFamily: "inherit", fontSize: "clamp(60px,12vw,170px)",
-          fontWeight: 900, letterSpacing: -6, color: "rgba(255,255,255,0.04)",
+          fontWeight: 900, letterSpacing: -6, color: "rgba(255,255,255,0.08)",
           pointerEvents: "none", userSelect: "none", whiteSpace: "nowrap", zIndex: 1,
         }}>
           CONCAT
@@ -120,7 +172,6 @@ function HeroSection() {
             Full Collection
           </Link>
         </div>
-
       </motion.div>
     </section>
   );
@@ -164,7 +215,7 @@ function AccordionSection() {
                 return (
                   <Link
                     key={card.id}
-                    href={card.href}
+                    href="/shop"
                     className="expand-card"
                     style={{ 
                       flex: flexVal,
@@ -175,11 +226,8 @@ function AccordionSection() {
                     onMouseEnter={() => setHovered(card.id)}
                     onMouseLeave={() => setHovered(null)}
                   >
-                    {card.type === "video"
-                      ? <video src={card.src} autoPlay loop muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-                      : <img src={card.src} alt={card.brand} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-                    }
-                    <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${BURG}dd 0%, rgba(74,14,23,0.1) 55%, transparent 100%)`, zIndex: 1 }} />
+                    <video src={card.src} autoPlay loop muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                    <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.1) 55%, transparent 100%)`, zIndex: 1 }} />
 
                     <div style={{
                       position: "absolute", left: 24, bottom: 24, right: 24, zIndex: 2, pointerEvents: "none",
@@ -193,7 +241,7 @@ function AccordionSection() {
                       }}>
                         {card.brand}
                       </h3>
-                      <p style={{ margin: "10px 0 0", fontSize: 13, color: "#000000", maxWidth: 220, lineHeight: 1.4 }}>
+                      <p style={{ margin: "10px 0 0", fontSize: 13, color: "#AAAAAA", maxWidth: 220, lineHeight: 1.4 }}>
                         {card.desc}
                       </p>
                     </div>
@@ -225,7 +273,7 @@ function AccordionSection() {
                 return (
                   <Link
                     key={card.id}
-                    href={card.href}
+                    href="/shop"
                     className="expand-card"
                     style={{ 
                       flex: flexVal,
@@ -236,11 +284,8 @@ function AccordionSection() {
                     onMouseEnter={() => setHovered(card.id)}
                     onMouseLeave={() => setHovered(null)}
                   >
-                    {card.type === "video"
-                      ? <video src={card.src} autoPlay loop muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-                      : <img src={card.src} alt={card.brand} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-                    }
-                    <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${BURG}dd 0%, rgba(74,14,23,0.1) 55%, transparent 100%)`, zIndex: 1 }} />
+                    <video src={card.src} autoPlay loop muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                    <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.1) 55%, transparent 100%)`, zIndex: 1 }} />
 
                     <div style={{
                       position: "absolute", left: 24, bottom: 24, right: 24, zIndex: 2, pointerEvents: "none",
@@ -254,7 +299,7 @@ function AccordionSection() {
                       }}>
                         {card.brand}
                       </h3>
-                      <p style={{ margin: "10px 0 0", fontSize: 13, color: "#000000", maxWidth: 220, lineHeight: 1.4 }}>
+                      <p style={{ margin: "10px 0 0", fontSize: 13, color: "#AAAAAA", maxWidth: 220, lineHeight: 1.4 }}>
                         {card.desc}
                       </p>
                     </div>
@@ -369,11 +414,11 @@ function CarouselSection() {
                 onMouseLeave={() => { stateRef.current.hoveredIdx = -1; }}
                 style={{ backgroundColor: "#111111" }}
               >
-                <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${card.img})`, backgroundSize: "cover", backgroundPosition: "center" }} />
-                <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${BURG}cc 0%, rgba(74,14,23,0.08) 50%, transparent 100%)` }} />
+                <div style={{ position: "absolute", inset: 0, backgroundImage: `url('${card.img}')`, backgroundSize: "cover", backgroundPosition: "center" }} />
+                <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.08) 50%, transparent 100%)` }} />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 55%)", pointerEvents: "none" }} />
                 <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "20px 18px" }}>
-                  <div className="card-title" style={{ fontSize: 14, fontWeight: 800, color: CREAM, textTransform: "uppercase", letterSpacing: 0.5, lineHeight: 1.2, textShadow: "0 2px 8px rgba(0,0,0,0.5)", transition: "font-size 0.5s ease" }}>
+                  <div className="card-title" style={{ fontSize: 14, fontWeight: 800, color: BURG, textTransform: "uppercase", letterSpacing: 0.5, lineHeight: 1.2, textShadow: "0 2px 8px rgba(0,0,0,0.5)", transition: "font-size 0.5s ease" }}>
                     {card.title}
                   </div>
                   <Link href={card.href} className="visit-btn" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", padding: 0, background: BURG, color: CREAM, border: "1px solid rgba(255,255,255,0.3)", borderRadius: 9999, fontFamily: "inherit", fontSize: 9, fontWeight: 700, letterSpacing: 3, cursor: "pointer", opacity: 0, height: 0, marginTop: 0, overflow: "hidden", transition: "all 0.4s ease", boxSizing: "border-box" }}>
@@ -441,7 +486,7 @@ function TopSellingSection() {
             }}
           >
             {TOP_PRODUCTS.map((prod) => (
-              <Link href={`/shop/${prod.id}`} key={prod.id} style={{ textDecoration: "none", flexShrink: 0 }}>
+              <Link href={`/shop`} key={prod.id} style={{ textDecoration: "none", flexShrink: 0 }}>
                 <div className="glass-card" style={{ width: 260, borderRadius: 24, overflow: "hidden", cursor: "pointer", transition: "transform 0.3s ease, box-shadow 0.3s ease" }}
                   onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)"; }}
                   onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; }}
@@ -500,6 +545,16 @@ function TopSellingSection() {
 
 // ─── SECTION 5 : AD CAMPAIGN PANEL ───────────────────────────────
 function AdSection() {
+  const [vidIndex, setVidIndex] = useState(0);
+
+  const nextAd = () => {
+    setVidIndex((prev) => (prev + 1) % AD_VIDEOS.length);
+  };
+
+  const prevAd = () => {
+    setVidIndex((prev) => (prev - 1 + AD_VIDEOS.length) % AD_VIDEOS.length);
+  };
+
   return (
     <section className="snap-section" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "100px 36px 36px", boxSizing: "border-box" }}>
       <motion.div 
@@ -509,22 +564,39 @@ function AdSection() {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         style={{
           width: "100%", height: "82vh", borderRadius: 36,
-          background: "#F9F7F1",
+          background: "#111",
           border: "1.5px solid rgba(74,14,23,0.15)",
           boxShadow: "0 30px 70px rgba(74,14,23,0.12)",
           position: "relative", overflow: "hidden"
         }}
       >
-        <video
-          src="https://d8j0ntlcm91z4.cloudfront.net/user_35rW7NAdtcMtzpF5bPgujmS1f0L/hf_20260715_124217_a8f407dc-4235-40e2-af60-843970a65926.mp4"
-          autoPlay loop muted playsInline
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-        />
-        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${BURG}bb 0%, transparent 60%)` }} />
+        <AnimatePresence mode="wait">
+          <motion.video
+            key={vidIndex}
+            src={AD_VIDEOS[vidIndex]}
+            autoPlay loop muted playsInline
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6 }}
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        </AnimatePresence>
+        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%)` }} />
 
         {/* Campaign Info - Subheading removed, size reduced */}
         <div style={{ position: "absolute", left: 48, bottom: 48, zIndex: 5 }}>
-          <h3 style={{ fontFamily: "inherit", fontSize: "clamp(18px, 2.5vw, 28px)", fontWeight: 950, color: CREAM, margin: 0, textTransform: "uppercase", letterSpacing: -0.5 }}>CREWDOG CREP</h3>
+          <h3 style={{ fontFamily: "inherit", fontSize: "clamp(18px, 2.5vw, 28px)", fontWeight: 950, color: BURG, margin: 0, textTransform: "uppercase", letterSpacing: -0.5 }}>LATEST CAMPAIGN</h3>
+        </div>
+
+        {/* Arrow Controls */}
+        <div style={{ position: "absolute", right: 48, bottom: 48, zIndex: 5, display: "flex", gap: 16 }}>
+          <button onClick={prevAd} style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.3)", color: "#FFF", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(10px)" }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button onClick={nextAd} style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.3)", color: "#FFF", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(10px)" }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
         </div>
       </motion.div>
     </section>
@@ -608,7 +680,7 @@ function FinaleSection() {
             concat
             <span style={{ color: BURG_LIGHT }}>.</span>
           </div>
-          <div style={{ marginTop: 20, fontSize: 11, fontWeight: 700, letterSpacing: 5, textTransform: "uppercase", color: "rgba(74,14,23,0.45)" }}>
+          <div style={{ marginTop: 20, fontSize: 11, fontWeight: 700, letterSpacing: 5, textTransform: "uppercase", color: "rgba(255,255,255,0.45)" }}>
             Aggregating the aesthetic underground
           </div>
         </div>
