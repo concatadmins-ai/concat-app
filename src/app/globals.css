@@ -1,26 +1,238 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
+@custom-variant dark (&:is(.dark *));
+
+/* ── Design Tokens ── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --cream:        #FFFFFF;
+  --cream-dark:   #F2F2F2;
+  --burg-light:   #888888;
+  --burg-mid:     #444444;
+  --burg-deep:    #111111;
+  --burg-darkest: #000000;
+  --text-dark:    #FFFFFF;
+  --text-mid:     rgba(255,255,255,0.65);
+  --text-light:   rgba(255,255,255,0.4);
+  --glass-bg:     #FFFFFF;
+  --glass-border: rgba(255,255,255,0.45);
+  --glass-shadow: 0 10px 40px rgba(0,0,0,0.5);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── Base ── */
+html, body {
+  margin: 0; padding: 0;
+  height: 100%; overflow: hidden;
+  font-family: var(--font-geist-sans), 'Space Grotesk', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: var(--text-dark);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(150deg, #111111 0%, #000000 25%, #1A1A1A 55%, #000000 78%, #0A0A0A 100%);
+  background-attachment: fixed;
+}
+
+a { color: inherit; text-decoration: none; }
+* { box-sizing: border-box; }
+::selection { background: rgba(74,14,23,0.15); }
+
+/* ── Completely Opaque Card (0% transparent, blocks grid dots) ── */
+.glass-card {
+  background: #111111;
+  border: 1.5px solid rgba(255,255,255,0.15);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  transition: all 0.3s cubic-bezier(0.25,1,0.3,1);
+  color: #FFFFFF;
+}
+
+.glass-card:hover {
+  background: #1A1A1A;
+  box-shadow: 0 16px 50px rgba(0,0,0,0.7);
+  border-color: rgba(255,255,255,0.3);
+}
+
+/* ── Hero Buttons (Transparent initially, turns white & pops on hover) ── */
+.hero-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 28px; border-radius: 9999px; cursor: pointer;
+  background: transparent; color: #FFFFFF;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  font-family: inherit; font-size: 12px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; backdrop-filter: blur(12px);
+  transition: all 0.35s cubic-bezier(0.25, 1, 0.3, 1);
+}
+.hero-btn:hover {
+  background: #FFFFFF;
+  color: #000000;
+  border-color: #FFFFFF;
+  transform: scale(1.06) translateY(-2px);
+  box-shadow: 0 12px 30px rgba(255, 255, 255, 0.25);
+}
+
+/* ── Navbar Glass ── */
+.navbar-glass {
+  background: rgba(255, 255, 255, 0.32);
+  backdrop-filter: blur(35px) saturate(190%);
+  -webkit-backdrop-filter: blur(35px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.65), 0 10px 40px rgba(74,14,23,0.06);
+  transition: all 0.3s ease;
+}
+.navbar-glass:hover {
+  background: rgba(255, 255, 255, 0.44);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+/* ── Expand Card (Accordion Collage) ── */
+.expand-card {
+  flex: 1;
+  height: 100%;
+  position: relative;
+  border-radius: 32px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.2);
+  backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  cursor: pointer;
+  transition: flex 1.4s cubic-bezier(0.16,1,0.3,1), border-color 0.4s ease, box-shadow 0.4s ease;
+}
+.expand-card:hover {
+  border-color: rgba(255,255,255,0.45);
+  box-shadow: 0 0 40px rgba(74,14,23,0.25);
+}
+
+/* ── Snap Scroll ── */
+.snap-container {
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.snap-container::-webkit-scrollbar { display: none; }
+
+.snap-section {
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Sub-pages scroll ── */
+.page-scroll {
+  height: 100vh;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.page-scroll::-webkit-scrollbar { display: none; }
+
+/* ── Carousel Card ── */
+.carousel-card {
+  position: absolute;
+  width: 230px; height: 380px;
+  left: -115px; top: -190px;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  will-change: transform, opacity;
+  box-sizing: border-box;
+  border: 1px solid rgba(255,255,255,0.35);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  transition:
+    transform 0.8s cubic-bezier(0.16,1,0.3,1),
+    width 0.8s cubic-bezier(0.16,1,0.3,1),
+    height 0.8s cubic-bezier(0.16,1,0.3,1),
+    left 0.8s cubic-bezier(0.16,1,0.3,1),
+    top 0.8s cubic-bezier(0.16,1,0.3,1),
+    opacity 0.6s ease,
+    border-color 0.4s ease,
+    box-shadow 0.4s ease,
+    filter 0.6s ease;
+}
+
+/* ── Texture overlay ── */
+.screen-texture {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background-image: radial-gradient(rgba(255,255,255,0.2) 1.5px, transparent 1.5px);
+  background-size: 8px 8px;
+}
+
+/* ── Cursor Glow ── */
+.cursor-glow {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(circle 250px at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 50%, transparent 100%);
+}
+
+/* ── Input ── */
+.burg-input {
+  width: 100%;
+  padding: 15px 20px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.4);
+  border: 1px solid rgba(255,255,255,0.5);
+  backdrop-filter: blur(10px);
+  color: var(--text-dark);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+.burg-input:focus {
+  border-color: var(--burg-deep);
+  background: rgba(255,255,255,0.6);
+}
+.burg-input::placeholder { color: rgba(26,10,13,0.35); }
+
+/* ── Button Primary ── */
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 32px; border-radius: 9999px; border: none; cursor: pointer;
+  background: var(--burg-deep); color: #F9F7F1;
+  font-family: inherit; font-size: 12px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase;
+  box-shadow: 0 10px 28px rgba(74,14,23,0.3);
+  transition: all 0.3s ease;
+}
+.btn-primary:hover {
+  background: var(--burg-darkest);
+  box-shadow: 0 14px 35px rgba(74,14,23,0.45);
+  transform: translateY(-1px);
+}
+
+/* ── Button Ghost ── */
+.btn-ghost {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 28px; border-radius: 9999px; cursor: pointer;
+  background: rgba(255,255,255,0.18); color: var(--text-dark);
+  border: 1px solid rgba(255,255,255,0.4);
+  font-family: inherit; font-size: 12px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+}
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.35);
+  border-color: rgba(255,255,255,0.65);
+}
+
+/* ── Custom scrollbar for panels ── */
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(74,14,23,0.2); border-radius: 999px; }
+
+/* ── Tag chip ── */
+.tag-chip {
+  display: inline-flex; align-items: center;
+  padding: 5px 14px; border-radius: 9999px;
+  background: rgba(255,255,255,0.3); border: 1px solid rgba(255,255,255,0.45);
+  font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--burg-deep); backdrop-filter: blur(8px);
+  cursor: pointer; transition: all 0.2s ease;
+}
+.tag-chip:hover, .tag-chip.active {
+  background: var(--burg-deep); color: #F9F7F1; border-color: var(--burg-deep);
 }
