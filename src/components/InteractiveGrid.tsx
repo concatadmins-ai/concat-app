@@ -30,7 +30,7 @@ export default function InteractiveGrid() {
     /** Push a grid point away from the cursor with a smooth falloff */
     const warpPoint = (
       x: number, y: number, mx: number, my: number,
-      threshold = 250, maxPush = 64
+      threshold = 150, maxPush = 24
     ) => {
       const dx = x - mx;
       const dy = y - my;
@@ -55,34 +55,30 @@ export default function InteractiveGrid() {
       easeMy += (mouseRef.current.y - easeMy) * 0.075;
 
       // ── Horizontal lines ──────────────────────────────────────────
+      ctx.strokeStyle = "rgba(255,255,255,0.15)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
       for (let gy = STEP; gy < height; gy += STEP) {
-        ctx.beginPath();
         let firstPoint = true;
         for (let gx = 0; gx <= width + STEP / 2; gx += STEP / 2) {
           const w = warpPoint(gx, gy, easeMx, easeMy);
-          const baseIntensity = 0.15 + (w.dist < w.threshold ? ((w.threshold - w.dist) / w.threshold) * 0.4 : 0);
-          ctx.strokeStyle = `rgba(255,255,255,${baseIntensity.toFixed(3)})`;
-          ctx.lineWidth = 1 + (w.dist < w.threshold ? ((w.threshold - w.dist) / w.threshold) * 1.5 : 0);
           if (firstPoint) { ctx.moveTo(w.x, w.y); firstPoint = false; }
           else ctx.lineTo(w.x, w.y);
         }
-        ctx.stroke();
       }
+      ctx.stroke();
 
       // ── Vertical lines ────────────────────────────────────────────
+      ctx.beginPath();
       for (let gx = STEP; gx < width; gx += STEP) {
-        ctx.beginPath();
         let firstPoint = true;
         for (let gy = 0; gy <= height + STEP / 2; gy += STEP / 2) {
           const w = warpPoint(gx, gy, easeMx, easeMy);
-          const baseIntensity = 0.15 + (w.dist < w.threshold ? ((w.threshold - w.dist) / w.threshold) * 0.4 : 0);
-          ctx.strokeStyle = `rgba(255,255,255,${baseIntensity.toFixed(3)})`;
-          ctx.lineWidth = 1 + (w.dist < w.threshold ? ((w.threshold - w.dist) / w.threshold) * 1.5 : 0);
           if (firstPoint) { ctx.moveTo(w.x, w.y); firstPoint = false; }
           else ctx.lineTo(w.x, w.y);
         }
-        ctx.stroke();
       }
+      ctx.stroke();
 
       // ── Cursor spotlight ─────────────────────────────────────────
       const grd = ctx.createRadialGradient(easeMx, easeMy, 0, easeMx, easeMy, 100);

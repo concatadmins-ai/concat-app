@@ -40,14 +40,16 @@ function ScrollIndicator({ light = false }: { light?: boolean }) {
   const color = light ? CREAM : BURG;
   return (
     <div style={{
-      position: "absolute", bottom: 20, left: "50%", transform: "translateX(-50%)",
-      display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
-      color: "#FFFFFF", opacity: 1, fontSize: 12, fontWeight: 900, letterSpacing: 2,
-      textTransform: "uppercase", pointerEvents: "none", zIndex: 100,
-      textShadow: "0 2px 10px rgba(0,0,0,0.8)"
+      position: "fixed", bottom: 40, right: 30,
+      display: "flex", flexDirection: "column", alignItems: "center", gap: 12,
+      padding: "16px 8px", borderRadius: 40,
+      background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)",
+      backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
+      color: "#FFFFFF", opacity: 1, zIndex: 9999,
+      boxShadow: "0 10px 40px rgba(0,0,0,0.4)"
     }}>
-      <span className="animate-pulse">Scroll</span>
-      <svg className="animate-bounce" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+      <span style={{ fontSize: 9, fontWeight: 900, letterSpacing: 3, textTransform: "uppercase", writingMode: "vertical-rl", transform: "rotate(180deg)" }}>SCROLL</span>
+      <svg className="animate-bounce" style={{ marginTop: 4 }} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
     </div>
@@ -100,7 +102,6 @@ function HeroSection() {
           </Link>
         </div>
 
-        <ScrollIndicator light />
       </div>
     </section>
   );
@@ -112,7 +113,12 @@ function AccordionSection() {
 
   return (
     <section id="featured" className="snap-section" style={{ padding: "100px 36px 40px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-      <div style={{ height: "84vh", width: "100%", display: "flex", gap: 20 }}>
+      <div style={{ position: "absolute", top: 110, left: 48, zIndex: 20, textAlign: "left", pointerEvents: "none" }}>
+        <h2 style={{ margin: 0, fontFamily: "inherit", fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 950, letterSpacing: -1.5, color: BURG, lineHeight: 1, textTransform: "uppercase" }}>
+          featured stores
+        </h2>
+      </div>
+      <div style={{ height: "84vh", width: "100%", display: "flex", gap: 20, marginTop: 40 }}>
         {BRAND_CARDS.map((card) => {
           const isHov    = hovered === card.id;
           const flexVal  = hovered ? (isHov ? 2.4 : 0.55) : 1;
@@ -156,7 +162,6 @@ function AccordionSection() {
           );
         })}
       </div>
-      <ScrollIndicator light />
     </section>
   );
 }
@@ -167,7 +172,7 @@ function CarouselSection() {
   const stateRef = useRef({ angle: 0, targetAngle: 0, hoveredIdx: -1 });
   const animRef  = useRef<number | null>(null);
   const N = CAROUSEL_CARDS.length;
-  const rx = 380, rz = 130;
+  const rx = 550, rz = 200;
 
   useEffect(() => {
     const tick = () => {
@@ -281,23 +286,38 @@ function CarouselSection() {
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
 
-      <ScrollIndicator />
     </section>
   );
 }
 
 // ─── SECTION 4 : TOP SELLING (HORIZONTAL SCROLL) ──────────────────
 function TopSellingSection() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const scroll = (dir: 'left' | 'right') => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: dir === 'left' ? -350 : 350, behavior: 'smooth' });
+    }
+  };
+
   return (
     <section className="snap-section" style={{ padding: "140px 36px 40px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center" }}>
       <div style={{ maxWidth: 1200, width: "100%", margin: "0 auto" }}>
         {/* Heading Left Aligned & Cleared, Subheading removed, size reduced */}
-        <div style={{ marginBottom: 28, paddingLeft: 12 }}>
+        <div style={{ marginBottom: 28, paddingLeft: 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <h2 style={{ margin: 0, fontFamily: "inherit", fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 950, letterSpacing: -1.5, color: BURG, textTransform: "uppercase" }}>top selling</h2>
+          <div style={{ display: "flex", gap: 12 }}>
+            <button onClick={() => scroll('left')} style={{ width: 40, height: 40, borderRadius: "50%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.2)", color: BURG, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", transition: "background 0.2s" }} onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")} onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.05)")}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button onClick={() => scroll('right')} style={{ width: 40, height: 40, borderRadius: "50%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.2)", color: BURG, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", transition: "background 0.2s" }} onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")} onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.05)")}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
         </div>
 
         {/* Horizontal scroll container */}
         <div
+          ref={scrollRef}
           className="hide-scrollbar"
           style={{ display: "flex", gap: 24, overflowX: "auto", padding: "12px", scrollBehavior: "smooth", WebkitOverflowScrolling: "touch" }}
         >
@@ -320,8 +340,6 @@ function TopSellingSection() {
           ))}
         </div>
       </div>
-
-      <ScrollIndicator />
     </section>
   );
 }
@@ -348,8 +366,6 @@ function AdSection() {
         <div style={{ position: "absolute", left: 48, bottom: 48, zIndex: 5 }}>
           <h3 style={{ fontFamily: "inherit", fontSize: "clamp(18px, 2.5vw, 28px)", fontWeight: 950, color: CREAM, margin: 0, textTransform: "uppercase", letterSpacing: -0.5 }}>CREWDOG CREP</h3>
         </div>
-
-        <ScrollIndicator light />
       </div>
     </section>
   );
@@ -400,10 +416,11 @@ export default function Home() {
     <div className="snap-container">
       <HeroSection />
       <AccordionSection />
-      <CarouselSection />
       <TopSellingSection />
+      <CarouselSection />
       <AdSection />
       <FinaleSection />
+      <ScrollIndicator />
     </div>
   );
 }
