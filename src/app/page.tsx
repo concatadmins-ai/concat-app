@@ -53,7 +53,7 @@ const TOP_PRODUCTS = [
 function ScrollIndicator() {
   return (
     <div style={{
-      position: "fixed", bottom: 30, left: "50%", transform: "translateX(-50%)",
+      position: "fixed", bottom: 16, left: "50%", transform: "translateX(-50%)",
       display: "flex", alignItems: "center", gap: 10,
       padding: "10px 20px", borderRadius: 9999,
       background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)",

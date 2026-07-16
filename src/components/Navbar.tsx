@@ -22,6 +22,7 @@ export default function Navbar() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollPosRef = useRef(0);
+  const hideTimeoutRef = useRef<any>(null);
 
   useEffect(() => {
     const handleScroll = (e: Event) => {
@@ -42,6 +43,10 @@ export default function Navbar() {
         return;
       }
 
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+      }
+
       const lastScrollPos = lastScrollPosRef.current;
 
       // Hide when scrolling down past a threshold, show when scrolling up
@@ -49,6 +54,12 @@ export default function Navbar() {
         setIsVisible(false);
       } else if (currentScrollPos < lastScrollPos) {
         setIsVisible(true);
+        // If we scroll up and pause, hide it again (only if not at the very top)
+        if (currentScrollPos > 80) {
+          hideTimeoutRef.current = setTimeout(() => {
+            setIsVisible(false);
+          }, 1500);
+        }
       }
 
       lastScrollPosRef.current = currentScrollPos;
@@ -69,6 +80,9 @@ export default function Navbar() {
     return () => {
       window.removeEventListener("scroll", handleScroll, true);
       window.removeEventListener("click", handleClick, true);
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+      }
     };
   }, []);
 
