@@ -19,6 +19,7 @@ const CAROUSEL_CARDS = [
   { title: "FOOTWEAR",       btnText: "visit footwear floor",       img: "/footwear_1784145445750.png",      href: "/floors" },
   { title: "FORMALS",        btnText: "visit formals floor",        img: "/formals_1784145500501.png",       href: "/floors" },
   { title: "EYEWEAR",        btnText: "visit eyewear floor",        img: "/eyewear_1784145482095.png",       href: "/floors" },
+  { title: "TRADITIONALS",   btnText: "visit traditionals floor",   img: "/media__1784132288061.png",        href: "/floors" },
 ];
 
 const BRAND_CARDS = [
