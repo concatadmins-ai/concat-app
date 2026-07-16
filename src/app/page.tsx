@@ -528,40 +528,81 @@ function AdSection() {
 // ─── SECTION 5.5 : INTRO TO CONCAT ────────────────────────────────
 function IntroSection() {
   return (
-    <section className="snap-section" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "100px 36px", boxSizing: "border-box" }}>
+    <section className="snap-section" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "80px 36px", boxSizing: "border-box", position: "relative" }}>
+
+      {/* Gravity Glow — the "weight" that pushes the grid away */}
+      <div style={{
+        position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none",
+        background: "radial-gradient(ellipse 75% 65% at 50% 50%, rgba(74,14,23,0.55) 0%, rgba(74,14,23,0.25) 35%, rgba(74,14,23,0.05) 65%, transparent 100%)",
+      }} />
+
+      {/* Secondary soft halo for depth */}
+      <div style={{
+        position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none",
+        background: "radial-gradient(ellipse 55% 50% at 50% 50%, rgba(0,0,0,0.9) 0%, transparent 100%)",
+      }} />
+
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        style={{ maxWidth: 800, textAlign: "center" }}
+        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        style={{ maxWidth: 820, textAlign: "center", position: "relative", zIndex: 1 }}
       >
-        <h2 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 900, color: BURG, margin: "0 0 24px", letterSpacing: -1, lineHeight: 1.1 }}>
-          Beyond the algorithm.<br/>Beyond the mass market.
-        </h2>
-        <p style={{ fontSize: "clamp(16px, 1.8vw, 20px)", fontWeight: 400, color: BURG_LIGHT, margin: "0 0 40px", lineHeight: 1.6 }}>
-          We believe you aren't limited to the same commercial brands you see everywhere. There's a whole world of independent labels crafting superior styles and fabrics at the exact same price point, serving every age and niche. 
-          <br/><br/>
-          We built CONCAT so you don't have to rely on luck to discover them.
-        </p>
-        <Link href="/about-us" style={{
-          display: "inline-flex", alignItems: "center", gap: 10,
-          background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)",
-          padding: "14px 28px", borderRadius: 9999, color: BURG,
-          fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1,
-          textDecoration: "none", transition: "all 0.3s ease",
-          backdropFilter: "blur(20px)"
-        }}
-        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.15)"; (e.currentTarget as HTMLElement).style.transform = "scale(1.05)"; }}
-        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.05)"; (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}
-        >
-          Discover Our Mission
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </Link>
+        {/* Liquid Glass Panel */}
+        <div style={{
+          background: "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 50%, rgba(74,14,23,0.08) 100%)",
+          border: "1px solid rgba(255,255,255,0.1)",
+          borderRadius: 40,
+          padding: "clamp(48px, 7vw, 72px) clamp(32px, 6vw, 64px)",
+          backdropFilter: "blur(40px)",
+          WebkitBackdropFilter: "blur(40px)",
+          boxShadow: "0 0 0 1px rgba(255,255,255,0.04) inset, 0 32px 80px rgba(0,0,0,0.6), 0 0 60px rgba(74,14,23,0.2)",
+          position: "relative",
+          overflow: "hidden"
+        }}>
+          {/* Glass shimmer highlight */}
+          <div style={{
+            position: "absolute", top: 0, left: "10%", right: "10%", height: 1,
+            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
+            pointerEvents: "none"
+          }} />
+
+          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 5, textTransform: "uppercase", color: BURG_LIGHT, marginBottom: 28, opacity: 0.8 }}>
+            Why CONCAT exists
+          </div>
+
+          <h2 style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 900, color: "#FFFFFF", margin: "0 0 28px", letterSpacing: -1.5, lineHeight: 1.05 }}>
+            Beyond the algorithm.<br/>
+            <span style={{ color: BURG_LIGHT }}>Beyond the mass market.</span>
+          </h2>
+
+          <p style={{ fontSize: "clamp(16px, 1.8vw, 19px)", fontWeight: 400, color: "rgba(255,255,255,0.72)", margin: "0 0 44px", lineHeight: 1.75, maxWidth: 640, marginLeft: "auto", marginRight: "auto" }}>
+            You are not limited to the same commercial brands you see everywhere. There's an entire world of independent labels — crafting superior styles and fabrics, at the exact same price, for every age, taste, and niche.
+            <br/><br/>
+            We built CONCAT so you never have to rely on luck to discover them.
+          </p>
+
+          <Link href="/about-us" style={{
+            display: "inline-flex", alignItems: "center", gap: 10,
+            background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.18)",
+            padding: "14px 30px", borderRadius: 9999, color: "#FFFFFF",
+            fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.5,
+            textDecoration: "none", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+            backdropFilter: "blur(12px)"
+          }}
+          onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(255,255,255,0.16)"; el.style.transform = "scale(1.05) translateY(-2px)"; el.style.boxShadow = "0 12px 30px rgba(0,0,0,0.4)"; }}
+          onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(255,255,255,0.07)"; el.style.transform = "scale(1)"; el.style.boxShadow = "none"; }}
+          >
+            Our Story
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </Link>
+        </div>
       </motion.div>
     </section>
   );
 }
+
 
 // ─── SECTION 6 : FINALE ──────────────────────────────────────────
 function FinaleSection() {
