@@ -164,7 +164,7 @@ function AccordionSection() {
 function CarouselSection() {
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const stateRef = useRef({ angle: 0, targetAngle: 0, hoveredIdx: -1 });
-  const animRef  = useRef<number>();
+  const animRef  = useRef<number | null>(null);
   const N = CAROUSEL_CARDS.length;
   const rx = 380, rz = 130;
 
