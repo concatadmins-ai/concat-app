@@ -415,15 +415,31 @@ function TopSellingSection() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        style={{ maxWidth: 1200, width: "100%", margin: "0 auto", position: "relative" }}
+        style={{ maxWidth: 1200, width: "100%", margin: "0 auto", position: "relative", transform: "translateY(-48px)" }}
       >
         {/* Heading Left Aligned & Cleared, Subheading removed, size reduced */}
         <div style={{ marginBottom: 28, paddingLeft: 12 }}>
           <h2 style={{ margin: 0, fontFamily: "inherit", fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 950, letterSpacing: -1.5, color: BURG, textTransform: "uppercase" }}>hot right now</h2>
         </div>
 
-        {/* Horizontal scroll container with relative positioning for side buttons */}
+        {/* Horizontal scroll container with relative positioning for side buttons and blur edge overlays */}
         <div style={{ position: "relative", width: "100%" }}>
+          {/* Left Edge Blur Overlay */}
+          <div style={{
+            position: "absolute", left: 0, top: 0, bottom: 0, width: 80,
+            background: "linear-gradient(to right, #111111 0%, rgba(17,17,17,0.8) 30%, rgba(17,17,17,0.3) 70%, transparent 100%)",
+            backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)",
+            pointerEvents: "none", zIndex: 10, borderRadius: "24px 0 0 24px"
+          }} />
+
+          {/* Right Edge Blur Overlay */}
+          <div style={{
+            position: "absolute", right: 0, top: 0, bottom: 0, width: 80,
+            background: "linear-gradient(to left, #111111 0%, rgba(17,17,17,0.8) 30%, rgba(17,17,17,0.3) 70%, transparent 100%)",
+            backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)",
+            pointerEvents: "none", zIndex: 10, borderRadius: "0 24px 24px 0"
+          }} />
+
           <div
             ref={scrollRef}
             className="hide-scrollbar"
