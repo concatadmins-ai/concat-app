@@ -10,7 +10,7 @@ const NAV_LINKS = [
   { name: "Shop",      href: "/shop" },
   { name: "Stores",    href: "/stores" },
   { name: "Floor",     href: "/floors" },
-  { name: "Our Story", href: "/our-story" },
+  { name: "About Us", href: "/about-us" },
   { name: "Support",   href: "/support" },
   { name: "Careers",   href: "/careers" },
 ];

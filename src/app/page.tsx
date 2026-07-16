@@ -54,15 +54,15 @@ function ScrollIndicator() {
   return (
     <div style={{
       position: "fixed", bottom: 16, left: "50%", transform: "translateX(-50%)",
-      display: "flex", alignItems: "center", gap: 10,
-      padding: "10px 20px", borderRadius: 9999,
-      background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)",
-      backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
-      color: "#FFFFFF", opacity: 1, zIndex: 9999,
-      boxShadow: "0 10px 40px rgba(0,0,0,0.4)"
+      display: "flex", alignItems: "center", gap: 6,
+      padding: "6px 14px", borderRadius: 9999,
+      background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)",
+      backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
+      color: "rgba(255,255,255,0.6)", opacity: 1, zIndex: 9999,
+      boxShadow: "0 4px 20px rgba(0,0,0,0.3)"
     }}>
-      <span style={{ fontSize: 10, fontWeight: 900, letterSpacing: 3, textTransform: "uppercase" }}>SCROLL</span>
-      <svg className="animate-bounce" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+      <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>SCROLL</span>
+      <svg className="animate-bounce" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
     </div>
@@ -422,28 +422,17 @@ function TopSellingSection() {
           <h2 style={{ margin: 0, fontFamily: "inherit", fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 950, letterSpacing: -1.5, color: BURG, textTransform: "uppercase" }}>hot right now</h2>
         </div>
 
-        {/* Horizontal scroll container with relative positioning for side buttons and blur edge overlays */}
+        {/* Horizontal scroll container with relative positioning for side buttons and CSS mask fade edges */}
         <div style={{ position: "relative", width: "100%" }}>
-          {/* Left Edge Blur Overlay */}
-          <div style={{
-            position: "absolute", left: 0, top: 0, bottom: 0, width: 80,
-            background: "linear-gradient(to right, #111111 0%, rgba(17,17,17,0.8) 30%, rgba(17,17,17,0.3) 70%, transparent 100%)",
-            backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)",
-            pointerEvents: "none", zIndex: 10, borderRadius: "24px 0 0 24px"
-          }} />
-
-          {/* Right Edge Blur Overlay */}
-          <div style={{
-            position: "absolute", right: 0, top: 0, bottom: 0, width: 80,
-            background: "linear-gradient(to left, #111111 0%, rgba(17,17,17,0.8) 30%, rgba(17,17,17,0.3) 70%, transparent 100%)",
-            backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)",
-            pointerEvents: "none", zIndex: 10, borderRadius: "0 24px 24px 0"
-          }} />
-
           <div
             ref={scrollRef}
             className="hide-scrollbar"
-            style={{ display: "flex", gap: 24, overflowX: "auto", padding: "12px", scrollBehavior: "smooth", WebkitOverflowScrolling: "touch" }}
+            style={{ 
+              display: "flex", gap: 24, overflowX: "auto", padding: "12px", 
+              scrollBehavior: "smooth", WebkitOverflowScrolling: "touch",
+              maskImage: "linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)"
+            }}
           >
             {TOP_PRODUCTS.map((prod) => (
               <Link href={`/shop/${prod.id}`} key={prod.id} style={{ textDecoration: "none", flexShrink: 0 }}>
@@ -536,6 +525,44 @@ function AdSection() {
   );
 }
 
+// ─── SECTION 5.5 : INTRO TO CONCAT ────────────────────────────────
+function IntroSection() {
+  return (
+    <section className="snap-section" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "100px 36px", boxSizing: "border-box" }}>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        style={{ maxWidth: 800, textAlign: "center" }}
+      >
+        <h2 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 900, color: BURG, margin: "0 0 24px", letterSpacing: -1, lineHeight: 1.1 }}>
+          Beyond the algorithm.<br/>Beyond the mass market.
+        </h2>
+        <p style={{ fontSize: "clamp(16px, 1.8vw, 20px)", fontWeight: 400, color: BURG_LIGHT, margin: "0 0 40px", lineHeight: 1.6 }}>
+          We believe you aren't limited to the same commercial brands you see everywhere. There's a whole world of independent labels crafting superior styles and fabrics at the exact same price point, serving every age and niche. 
+          <br/><br/>
+          We built CONCAT so you don't have to rely on luck to discover them.
+        </p>
+        <Link href="/about-us" style={{
+          display: "inline-flex", alignItems: "center", gap: 10,
+          background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)",
+          padding: "14px 28px", borderRadius: 9999, color: BURG,
+          fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1,
+          textDecoration: "none", transition: "all 0.3s ease",
+          backdropFilter: "blur(20px)"
+        }}
+        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.15)"; (e.currentTarget as HTMLElement).style.transform = "scale(1.05)"; }}
+        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.05)"; (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}
+        >
+          Discover Our Mission
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </Link>
+      </motion.div>
+    </section>
+  );
+}
+
 // ─── SECTION 6 : FINALE ──────────────────────────────────────────
 function FinaleSection() {
   return (
@@ -566,7 +593,7 @@ function FinaleSection() {
       }}>
         <span style={{ fontFamily: "inherit", fontSize: 18, fontWeight: 900, color: "#FFFFFF" }}>concat.</span>
         <nav style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
-          {[["Shop","/shop"],["Stores","/stores"],["About Us","/our-story"],["Contact","/support"]].map(([name, href]) => (
+          {[["Shop","/shop"],["Stores","/stores"],["About Us","/about-us"],["Contact","/support"]].map(([name, href]) => (
             <Link key={name} href={href}
               style={{ fontSize: 12, fontWeight: 700, color: BURG_MID, letterSpacing: 0.5, transition: "color 0.2s", textDecoration: "none" }}
               onMouseEnter={(e) => (e.currentTarget.style.color=BURG)}
@@ -592,6 +619,7 @@ export default function Home() {
       <TopSellingSection />
       <CarouselSection />
       <AdSection />
+      <IntroSection />
       <FinaleSection />
       <ScrollIndicator />
     </div>
