@@ -36,6 +36,12 @@ export default function Navbar() {
         return;
       }
 
+      // Check if this scroll was triggered by a link/button click
+      if ((window as any).__programmaticScrollUntil && Date.now() < (window as any).__programmaticScrollUntil) {
+        lastScrollPosRef.current = currentScrollPos;
+        return;
+      }
+
       const lastScrollPos = lastScrollPosRef.current;
 
       // Hide when scrolling down past a threshold, show when scrolling up
@@ -47,8 +53,23 @@ export default function Navbar() {
 
       lastScrollPosRef.current = currentScrollPos;
     };
+
+    const handleClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.closest("a") || target.closest("button") || target.closest("[role='button']")) {
+        // Set programmatic scroll lock for 1200ms
+        (window as any).__programmaticScrollUntil = Date.now() + 1200;
+        // Make sure it hides the navbar on click if they clicked to go down
+        setIsVisible(false);
+      }
+    };
+
     window.addEventListener("scroll", handleScroll, true);
-    return () => window.removeEventListener("scroll", handleScroll, true);
+    window.addEventListener("click", handleClick, true);
+    return () => {
+      window.removeEventListener("scroll", handleScroll, true);
+      window.removeEventListener("click", handleClick, true);
+    };
   }, []);
 
   const { cartItems, toggleCart } = useStore();
@@ -59,11 +80,11 @@ export default function Navbar() {
       <header
         style={{
           position: "fixed",
-          top: isVisible ? 14 : -70,
+          top: 14,
+          left: "50%",
+          transform: isVisible ? "translateX(-50%) translateY(0)" : "translateX(-50%) translateY(-100px)",
           opacity: isVisible ? 1 : 0,
           pointerEvents: isVisible ? "auto" : "none",
-          left: "50%",
-          transform: "translateX(-50%)",
           zIndex: 100,
           width: "calc(100% - 48px)",
           maxWidth: 960, // Slimmer and more compact
@@ -79,7 +100,7 @@ export default function Navbar() {
           boxShadow: "0 10px 40px rgba(0, 0, 0, 0.5)",
           backdropFilter: "blur(24px) saturate(200%)",
           WebkitBackdropFilter: "blur(24px) saturate(200%)",
-          transition: "all 0.4s cubic-bezier(0.25, 1, 0.3, 1)",
+          transition: "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
         }}
       >
         {/* Left: Logo */}
@@ -118,16 +139,19 @@ export default function Navbar() {
                 fontWeight: 700,
                 color: BURG,
                 borderRadius: 9999,
-                transition: "background 0.25s ease, color 0.25s ease",
+                transition: "background 0.25s ease, color 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
                 letterSpacing: 0.5,
                 whiteSpace: "nowrap",
                 textDecoration: "none",
+                transform: "translateY(0)",
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "rgba(0, 0, 0, 0.05)";
+                (e.currentTarget as HTMLElement).style.background = "rgba(255, 255, 255, 0.1)";
+                (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLElement).style.background = "transparent";
+                (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
               }}
             >
               {link.name}
