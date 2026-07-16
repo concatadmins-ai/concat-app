@@ -543,6 +543,9 @@ function GravityGridBackground() {
     let width = (canvas.width = container.clientWidth);
     let height = (canvas.height = container.clientHeight);
 
+    let easeMx = mouseRef.current.x;
+    let easeMy = mouseRef.current.y;
+
     const handleResize = () => {
       width = canvas.width = container.clientWidth;
       height = canvas.height = container.clientHeight;
@@ -556,7 +559,6 @@ function GravityGridBackground() {
         y: e.clientY - rect.top,
       };
     };
-
     const handleMouseLeave = () => {
       mouseRef.current = { x: -1000, y: -1000 };
     };
@@ -564,67 +566,91 @@ function GravityGridBackground() {
     container.addEventListener("mousemove", handleMouseMove);
     container.addEventListener("mouseleave", handleMouseLeave);
 
-    const spacing = 8; // Exactly matches global dot grid spacing
-    const dotRadius = 0.75; // Exactly matches global grid dot size
-    const baseRadius = 260; // Static gravity crater around the text area
-    const mouseRadius = 120; // Active gravity crater around mouse pointer
+    const STEP = 65; // Exactly matches global InteractiveGrid spacing
+
+    const warpPoint = (
+      x: number, y: number, mx: number, my: number,
+      threshold: number, maxPush: number, pow = 2.2
+    ) => {
+      const dx = x - mx;
+      const dy = y - my;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < threshold) {
+        const force = Math.pow((threshold - dist) / threshold, pow);
+        const push = force * maxPush;
+        const angle = Math.atan2(dy, dx);
+        return { x: Math.cos(angle) * push, y: Math.sin(angle) * push };
+      }
+      return { x: 0, y: 0 };
+    };
 
     const render = () => {
       ctx.clearRect(0, 0, width, height);
 
-      const cols = Math.ceil(width / spacing) + 1;
-      const rows = Math.ceil(height / spacing) + 1;
+      easeMx += (mouseRef.current.x - easeMx) * 0.075;
+      easeMy += (mouseRef.current.y - easeMy) * 0.075;
+
       const centerX = width / 2;
       const centerY = height / 2;
+      
+      // Heartbeat pulse for central crater
+      const pulse = Math.sin(Date.now() * 0.002) * 15;
+      const craterRadius = 480 + pulse; // Much larger crater to fully surround text
+      const craterPush = 130; // Much stronger push force
 
-      // Slow heartbeat pulse for the central gravity well
-      const pulse = Math.sin(Date.now() * 0.002) * 8;
-      const currentBaseRadius = baseRadius + pulse;
+      ctx.strokeStyle = "rgba(255,255,255,0.15)";
+      ctx.lineWidth = 1;
 
-      ctx.fillStyle = "rgba(255, 255, 255, 0.18)"; // Soft white grid dots matching global vibe
+      // ── Horizontal lines ──────────────────────────────────────────
+      ctx.beginPath();
+      for (let gy = STEP; gy < height; gy += STEP) {
+        let firstPoint = true;
+        for (let gx = 0; gx <= width + STEP / 2; gx += STEP / 2) {
+          // 1. Text Crater Warp
+          const textWarp = warpPoint(gx, gy, centerX, centerY, craterRadius, craterPush, 2.0);
+          
+          // 2. Mouse Warp
+          const mouseWarp = warpPoint(gx + textWarp.x, gy + textWarp.y, easeMx, easeMy, 150, 24);
 
-      const mouse = mouseRef.current;
+          const finalX = gx + textWarp.x + mouseWarp.x;
+          const finalY = gy + textWarp.y + mouseWarp.y;
 
-      for (let c = 0; c < cols; c++) {
-        for (let r = 0; r < rows; r++) {
-          const originalX = c * spacing - (spacing / 2);
-          const originalY = r * spacing - (spacing / 2);
-
-          let currentX = originalX;
-          let currentY = originalY;
-
-          // 1. Text gravity (crater at center)
-          const dxCenter = currentX - centerX;
-          const dyCenter = currentY - centerY;
-          const distCenter = Math.sqrt(dxCenter * dxCenter + dyCenter * dyCenter);
-
-          if (distCenter < currentBaseRadius) {
-            // Push dots outward from center to create a clear "crater"
-            const force = Math.pow(1 - distCenter / currentBaseRadius, 2.0);
-            const pushDistance = force * 60; // Pushes dots out by up to 60px
-            currentX += (dxCenter / (distCenter || 1)) * pushDistance;
-            currentY += (dyCenter / (distCenter || 1)) * pushDistance;
-          }
-
-          // 2. Mouse gravity (dynamic crater pushing away grid on hover)
-          if (mouse.x > -500 && mouse.y > -500) {
-            const dxMouse = currentX - mouse.x;
-            const dyMouse = currentY - mouse.y;
-            const distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
-
-            if (distMouse < mouseRadius) {
-              const forceMouse = Math.pow(1 - distMouse / mouseRadius, 1.5);
-              const pushMouse = forceMouse * 30;
-              currentX += (dxMouse / (distMouse || 1)) * pushMouse;
-              currentY += (dyMouse / (distMouse || 1)) * pushMouse;
-            }
-          }
-
-          // Draw grid dot
-          ctx.beginPath();
-          ctx.arc(currentX, currentY, dotRadius, 0, 2 * Math.PI);
-          ctx.fill();
+          if (firstPoint) { ctx.moveTo(finalX, finalY); firstPoint = false; }
+          else ctx.lineTo(finalX, finalY);
         }
+      }
+      ctx.stroke();
+
+      // ── Vertical lines ────────────────────────────────────────────
+      ctx.beginPath();
+      for (let gx = STEP; gx < width; gx += STEP) {
+        let firstPoint = true;
+        for (let gy = 0; gy <= height + STEP / 2; gy += STEP / 2) {
+          // 1. Text Crater Warp
+          const textWarp = warpPoint(gx, gy, centerX, centerY, craterRadius, craterPush, 2.0);
+          
+          // 2. Mouse Warp
+          const mouseWarp = warpPoint(gx + textWarp.x, gy + textWarp.y, easeMx, easeMy, 150, 24);
+
+          const finalX = gx + textWarp.x + mouseWarp.x;
+          const finalY = gy + textWarp.y + mouseWarp.y;
+
+          if (firstPoint) { ctx.moveTo(finalX, finalY); firstPoint = false; }
+          else ctx.lineTo(finalX, finalY);
+        }
+      }
+      ctx.stroke();
+
+      // Cursor spotlight matching InteractiveGrid
+      if (mouseRef.current.x > -500) {
+        const grd = ctx.createRadialGradient(easeMx, easeMy, 0, easeMx, easeMy, 100);
+        grd.addColorStop(0, "rgba(255,255,255,0.1)");
+        grd.addColorStop(0.5, "rgba(255,255,255,0.03)");
+        grd.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.fillStyle = grd;
+        ctx.beginPath();
+        ctx.arc(easeMx, easeMy, 100, 0, Math.PI * 2);
+        ctx.fill();
       }
 
       animationFrameId = requestAnimationFrame(render);
@@ -641,8 +667,10 @@ function GravityGridBackground() {
   }, []);
 
   return (
-    <div ref={containerRef} style={{ position: "absolute", inset: 0, zIndex: 0, overflow: "hidden" }}>
-      <canvas ref={canvasRef} style={{ display: "block", width: "100%", height: "100%" }} />
+    <div ref={containerRef} style={{ position: "absolute", inset: 0, zIndex: 0, overflow: "hidden", background: "#0A0A0A" }}>
+      {/* Underlying static dot texture matching global layout.tsx */}
+      <div className="screen-texture" style={{ position: "absolute", zIndex: 0 }} />
+      <canvas ref={canvasRef} style={{ position: "relative", zIndex: 1, display: "block", width: "100%", height: "100%" }} />
     </div>
   );
 }
