@@ -42,48 +42,7 @@ function LocalVideoCardBackground({ src, opacity = 1, scale = 1.05 }: { src: str
   );
 }
 
-function SequentialVideoBackground({ sources, opacity = 1, scale = 1.05 }: { sources: string[], opacity?: number, scale?: number }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
-  useEffect(() => {
-    const video = videoRefs.current[currentIndex];
-    if (video) {
-      video.currentTime = 0;
-      video.play().catch(e => console.log("Play failed", e));
-    }
-  }, [currentIndex]);
-
-  return (
-    <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", opacity, backgroundColor: "#111" }}>
-      {sources.map((src, i) => (
-        <video
-          key={src}
-          ref={el => { videoRefs.current[i] = el; }}
-          src={src}
-          muted
-          playsInline
-          preload="auto"
-          onEnded={() => {
-            setCurrentIndex((prev) => (prev + 1) % sources.length);
-          }}
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            width: "100%",
-            height: "100%",
-            transform: `translate(-50%, -50%) scale(${scale})`,
-            objectFit: "cover",
-            opacity: i === currentIndex ? 1 : 0,
-            zIndex: i === currentIndex ? 1 : 0,
-            transition: "opacity 0.1s linear"
-          }}
-        />
-      ))}
-    </div>
-  );
-}
 
 const FLOOR_IMAGES = [
   "/stock/hf_20260716_170918_8117694f-5cfb-4f2e-8081-6efa779dfc86.png",
@@ -176,7 +135,7 @@ function HeroSection() {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         style={{
-          width: "100%", height: "82vh", borderRadius: 36,
+          width: "100%", aspectRatio: "16/9", borderRadius: 36,
           background: CREAM,
           border: "1.5px solid rgba(0,0,0,0.1)",
           boxShadow: "0 30px 70px rgba(0,0,0,0.08)",
@@ -185,7 +144,7 @@ function HeroSection() {
         }}
       >
         <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
-          <SequentialVideoBackground sources={["/real_ads/first_section_part000.mp4", "/real_ads/first_section_part001.mp4", "/real_ads/first_section_part002.mp4"]} opacity={1} scale={1.05} />
+          <video src="/real_ads/first_section_web.mp4" autoPlay loop muted playsInline style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </div>
 
         {/* Dark vignette to bottom so buttons are readable over bright videos */}
@@ -635,7 +594,7 @@ function AdSection() {
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         style={{
-          width: "100%", height: "82vh", borderRadius: 36,
+          width: "100%", aspectRatio: "16/9", borderRadius: 36,
           background: CREAM,
           border: "1.5px solid rgba(0,0,0,0.1)",
           boxShadow: "0 30px 70px rgba(0,0,0,0.08)",
@@ -643,7 +602,7 @@ function AdSection() {
         }}
       >
         <div style={{ position: "absolute", inset: 0 }}>
-          <SequentialVideoBackground sources={["/real_ads/new_stores_part000.mp4", "/real_ads/new_stores_part001.mp4", "/real_ads/new_stores_part002.mp4"]} opacity={1} scale={1.05} />
+          <video src="/real_ads/new_stores_web.mp4" autoPlay loop muted playsInline style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </div>
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%)`, zIndex: 1 }} />
 
