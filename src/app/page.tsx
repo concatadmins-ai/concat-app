@@ -132,44 +132,8 @@ function ScrollIndicator({ visible }: { visible: boolean }) {
 // ─── SECTION 1 : HERO ─────────────────────────────────────────────
 function HeroSection() {
   return (
-    <section className="snap-section" style={{ position: "relative", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "175px 48px 32px", boxSizing: "border-box", overflow: "hidden" }}>
+    <section className="snap-section" style={{ position: "relative", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "135px 48px 32px", boxSizing: "border-box", overflow: "hidden" }}>
       
-      {/* Background Scrolling Title Text behind cards */}
-      <div style={{
-        position: "absolute",
-        top: "130px",
-        left: 0,
-        right: 0,
-        transform: "translateY(-50%)",
-        overflow: "hidden",
-        pointerEvents: "none",
-        zIndex: 1,
-        display: "flex",
-        whiteSpace: "nowrap"
-      }}>
-        <motion.div
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{ repeat: Infinity, ease: "linear", duration: 25 }}
-          style={{ display: "flex", whiteSpace: "nowrap", width: "fit-content" }}
-        >
-          {Array(4).fill("Discover New Brands — Beyond the Mass Market").map((text, idx) => (
-            <span key={idx} style={{
-              fontFamily: "inherit",
-              fontSize: "clamp(40px, 8.5vw, 105px)",
-              fontWeight: 955,
-              letterSpacing: "-0.04em",
-              color: "#111111",
-              opacity: 0.95,
-              textTransform: "uppercase",
-              paddingRight: "80px",
-              display: "inline-block"
-            }}>
-              {text} &nbsp;&nbsp;•&nbsp;&nbsp;
-            </span>
-          ))}
-        </motion.div>
-      </div>
-
       {/* Main Grid Content (left stack + main card) */}
       <div style={{
         position: "relative",
@@ -181,8 +145,8 @@ function HeroSection() {
         gap: 24,
         alignItems: "stretch",
         flex: 1,
-        height: "calc(100vh - 250px)",
-        maxHeight: 430
+        height: "calc(100vh - 210px)",
+        maxHeight: 480
       }}>
         
         {/* Left Column: ON THE FLOOR stack */}

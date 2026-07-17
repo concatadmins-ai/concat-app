@@ -98,13 +98,49 @@ export default function Navbar() {
 
   const { cartItems, toggleCart } = useStore();
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-
   return (
     <>
+      {/* Top Announcement Ticker */}
+      <div style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        height: 24,
+        background: "#4A0E17",
+        zIndex: 110,
+        display: "flex",
+        alignItems: "center",
+        overflow: "hidden",
+        borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+        pointerEvents: "none"
+      }}>
+        <motion.div
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ repeat: Infinity, ease: "linear", duration: 16 }}
+          style={{ display: "flex", whiteSpace: "nowrap", width: "fit-content" }}
+        >
+          {Array(8).fill("Discover New Brands — Beyond the Mass Market").map((text, idx) => (
+            <span key={idx} style={{
+              fontFamily: "inherit",
+              fontSize: 9,
+              fontWeight: 800,
+              letterSpacing: 1.5,
+              color: "#FFFFFF",
+              textTransform: "uppercase",
+              paddingRight: "80px",
+              display: "inline-block"
+            }}>
+              {text} &nbsp;&nbsp;•&nbsp;&nbsp;
+            </span>
+          ))}
+        </motion.div>
+      </div>
+
       <header
         style={{
           position: "fixed",
-          top: 14,
+          top: isVisible ? 38 : -80,
           left: "50%",
           transform: isVisible ? "translateX(-50%) translateY(0) scale(1)" : "translateX(-50%) translateY(-120%) scale(0.95)",
           opacity: isVisible ? 1 : 0,
