@@ -101,19 +101,20 @@ export default function InteractiveGrid() {
           const dy = finalY - mouseRef.current.y;
           const mouseDist = Math.sqrt(dx * dx + dy * dy);
 
-          const wMouse = warpPoint(finalX, finalY, mouseRef.current.x, mouseRef.current.y, 150, 24, 2.2);
+          // Threshold reduced by half (from 150 to 75)
+          const wMouse = warpPoint(finalX, finalY, mouseRef.current.x, mouseRef.current.y, 75, 14, 2.2);
           finalX += wMouse.x;
           finalY += wMouse.y;
 
-          // Electric pulsation effect (wiggles grid lines concentrically)
-          if (mouseDist < 450) {
-            const waveSpeed = 0.018;
-            const waveFreq = 0.08;
+          // Tight electric wiggle near crater
+          if (mouseDist < 120) {
+            const waveSpeed = 0.022;
+            const waveFreq = 0.14;
             const waveValue = Math.sin(mouseDist * waveFreq - Date.now() * waveSpeed);
-            const fade = Math.max(0, (450 - mouseDist) / 450);
+            const fade = Math.max(0, (120 - mouseDist) / 120);
             
-            const angle = Math.atan2(dy, dx) + Math.PI / 2; // perpendicular
-            const electricStrength = 3.5 * waveValue * fade;
+            const angle = Math.atan2(dy, dx) + Math.PI / 2;
+            const electricStrength = 1.8 * waveValue * fade;
             finalX += Math.cos(angle) * electricStrength;
             finalY += Math.sin(angle) * electricStrength;
           }
@@ -164,10 +165,10 @@ export default function InteractiveGrid() {
       if (mouseRef.current.x !== -1000) {
         const mx = mouseRef.current.x;
         const my = mouseRef.current.y;
+        const maxDist = 300; // Fades out completely past 300px
         
-        // Horizontal currents
+        // Horizontal currents radiating outward
         for (let gy = LINE_STEP; gy < height; gy += LINE_STEP) {
-          const currentX = (gy * 997 + Date.now() * 0.45) % (width + 600) - 300;
           let activePath = false;
           
           for (let gx = -LINE_STEP; gx <= width + LINE_STEP; gx += LINE_STEP / 2) {
@@ -175,11 +176,14 @@ export default function InteractiveGrid() {
             const dy = gy - my;
             const dist = Math.sqrt(dx * dx + dy * dy);
             
-            if (dist < 400 && Math.abs(gx - currentX) < 140) {
+            // Outward propagating sine wave
+            const waveVal = Math.sin(dist * 0.045 - Date.now() * 0.016);
+            
+            if (dist < maxDist && waveVal > 0.6) {
               const p = applyWarps(gx, gy);
-              const fade = Math.max(0, (400 - dist) / 400);
-              const currentFade = Math.max(0, (140 - Math.abs(gx - currentX)) / 140);
-              const opacity = fade * currentFade * 0.55;
+              const fade = Math.max(0, (maxDist - dist) / maxDist);
+              const waveFade = (waveVal - 0.6) / 0.4;
+              const opacity = fade * waveFade * 0.55;
               
               if (!activePath) {
                 ctx.beginPath();
@@ -189,8 +193,8 @@ export default function InteractiveGrid() {
                 ctx.lineTo(p.x, p.y);
               }
               
-              ctx.strokeStyle = `rgba(0, 75, 230, ${opacity})`;
-              ctx.lineWidth = 2;
+              ctx.strokeStyle = `rgba(15, 60, 220, ${opacity})`; // Dark lightning blue
+              ctx.lineWidth = 1.8;
               ctx.stroke();
               ctx.beginPath();
               ctx.moveTo(p.x, p.y);
@@ -200,9 +204,8 @@ export default function InteractiveGrid() {
           }
         }
 
-        // Vertical currents
+        // Vertical currents radiating outward
         for (let gx = LINE_STEP; gx < width; gx += LINE_STEP) {
-          const currentY = (gx * 997 + Date.now() * 0.45) % (height + 600) - 300;
           let activePath = false;
           
           for (let gy = -LINE_STEP; gy <= height + LINE_STEP; gy += LINE_STEP / 2) {
@@ -210,11 +213,14 @@ export default function InteractiveGrid() {
             const dy = gy - my;
             const dist = Math.sqrt(dx * dx + dy * dy);
             
-            if (dist < 400 && Math.abs(gy - currentY) < 140) {
+            // Outward propagating sine wave
+            const waveVal = Math.sin(dist * 0.045 - Date.now() * 0.016);
+            
+            if (dist < maxDist && waveVal > 0.6) {
               const p = applyWarps(gx, gy);
-              const fade = Math.max(0, (400 - dist) / 400);
-              const currentFade = Math.max(0, (140 - Math.abs(gy - currentY)) / 140);
-              const opacity = fade * currentFade * 0.55;
+              const fade = Math.max(0, (maxDist - dist) / maxDist);
+              const waveFade = (waveVal - 0.6) / 0.4;
+              const opacity = fade * waveFade * 0.55;
               
               if (!activePath) {
                 ctx.beginPath();
@@ -224,8 +230,8 @@ export default function InteractiveGrid() {
                 ctx.lineTo(p.x, p.y);
               }
               
-              ctx.strokeStyle = `rgba(0, 75, 230, ${opacity})`;
-              ctx.lineWidth = 2;
+              ctx.strokeStyle = `rgba(15, 60, 220, ${opacity})`; // Dark lightning blue
+              ctx.lineWidth = 1.8;
               ctx.stroke();
               ctx.beginPath();
               ctx.moveTo(p.x, p.y);
@@ -239,23 +245,23 @@ export default function InteractiveGrid() {
       // ── Cursor Spotlight ──────────────────────────────────────────
       if (mouseRef.current.x !== -1000) {
         // Outer glow (nice dark sapphire blue)
-        const grd = ctx.createRadialGradient(mouseRef.current.x, mouseRef.current.y, 0, mouseRef.current.x, mouseRef.current.y, 350);
-        grd.addColorStop(0, "rgba(0, 35, 120, 0.2)");
-        grd.addColorStop(0.5, "rgba(0, 25, 90, 0.07)");
+        const grd = ctx.createRadialGradient(mouseRef.current.x, mouseRef.current.y, 0, mouseRef.current.x, mouseRef.current.y, 300);
+        grd.addColorStop(0, "rgba(0, 25, 110, 0.2)");
+        grd.addColorStop(0.5, "rgba(0, 15, 80, 0.06)");
         grd.addColorStop(1, "rgba(0, 0, 0, 0)");
         
         ctx.fillStyle = grd;
         ctx.beginPath();
-        ctx.arc(mouseRef.current.x, mouseRef.current.y, 350, 0, Math.PI * 2);
+        ctx.arc(mouseRef.current.x, mouseRef.current.y, 300, 0, Math.PI * 2);
         ctx.fill();
 
         // Sharp electric inner core
-        const coreGrd = ctx.createRadialGradient(mouseRef.current.x, mouseRef.current.y, 0, mouseRef.current.x, mouseRef.current.y, 80);
-        coreGrd.addColorStop(0, "rgba(0, 60, 200, 0.25)");
-        coreGrd.addColorStop(1, "rgba(0, 60, 200, 0)");
+        const coreGrd = ctx.createRadialGradient(mouseRef.current.x, mouseRef.current.y, 0, mouseRef.current.x, mouseRef.current.y, 60);
+        coreGrd.addColorStop(0, "rgba(0, 50, 180, 0.22)");
+        coreGrd.addColorStop(1, "rgba(0, 50, 180, 0)");
         ctx.fillStyle = coreGrd;
         ctx.beginPath();
-        ctx.arc(mouseRef.current.x, mouseRef.current.y, 80, 0, Math.PI * 2);
+        ctx.arc(mouseRef.current.x, mouseRef.current.y, 60, 0, Math.PI * 2);
         ctx.fill();
       }
     };
