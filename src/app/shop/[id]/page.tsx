@@ -6,9 +6,9 @@ import { useParams } from "next/navigation";
 import { ChevronDown, Heart, ArrowLeft, ShoppingBag } from "lucide-react";
 import { useStore } from "@/store/useStore";
 
-const BURG  = "#FFFFFF";
-const BURG_LIGHT = "#AAAAAA";
-const CREAM = "#111111";
+const BURG  = "#111111";
+const BURG_LIGHT = "#777777";
+const CREAM = "#FFFFFF";
 
 const MOCK_PRODUCTS = [
   { id: 1,  name: "Velvet Evening Gown",   brand: "CONCAT", price: 1200, image: "/media__1784131496078.png",  desc: "A luxurious velvet evening gown crafted from Italian silk-velvet blend. Features a dramatic floor-length silhouette with subtle train." },
@@ -41,12 +41,12 @@ export default function ProductDetailPage() {
   };
 
   return (
-    <div className="page-scroll" style={{ padding: "110px 40px 60px" }}>
+    <div className="page-scroll" style={{ padding: "110px 40px 60px", background: "#FAFAFA", color: "#111111" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         {/* Back */}
-        <Link href="/shop" style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 10, fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase", color: "rgba(74,14,23,0.45)", marginBottom: 40, transition: "color 0.2s" }}
+        <Link href="/shop" style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 10, fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase", color: "rgba(0,0,0,0.55)", marginBottom: 40, transition: "color 0.2s" }}
           onMouseEnter={(e) => (e.currentTarget.style.color=BURG)}
-          onMouseLeave={(e) => (e.currentTarget.style.color="rgba(74,14,23,0.45)")}
+          onMouseLeave={(e) => (e.currentTarget.style.color="rgba(0,0,0,0.55)")}
         >
           <ArrowLeft size={15} /> Back to Shop
         </Link>
@@ -64,12 +64,12 @@ export default function ProductDetailPage() {
               {product.name}
             </h1>
             <p style={{ fontSize: 28, fontWeight: 800, color: BURG, margin: "0 0 32px" }}>${product.price.toLocaleString()}</p>
-            <p style={{ fontSize: 15, color: "rgba(74,14,23,0.6)", lineHeight: 1.75, margin: "0 0 40px" }}>{product.desc}</p>
+            <p style={{ fontSize: 15, color: "rgba(0,0,0,0.65)", lineHeight: 1.75, margin: "0 0 40px" }}>{product.desc}</p>
 
             {/* Sizes */}
             <div style={{ marginBottom: 32 }}>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 14 }}>
-                <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: "rgba(74,14,23,0.55)" }}>Select Size</span>
+                <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: "rgba(0,0,0,0.55)" }}>Select Size</span>
                 <button style={{ fontSize: 10, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: BURG_LIGHT, background: "none", border: "none", cursor: "pointer" }}>Size Guide</button>
               </div>
               <div style={{ display: "flex", gap: 8 }}>
@@ -77,7 +77,7 @@ export default function ProductDetailPage() {
                   <button key={size} onClick={() => setSelectedSize(size)}
                     style={{
                       flex: 1, padding: "14px 0", borderRadius: 12, border: "1.5px solid",
-                      borderColor: selectedSize === size ? BURG : "rgba(74,14,23,0.18)",
+                      borderColor: selectedSize === size ? BURG : "rgba(0,0,0,0.15)",
                       background: selectedSize === size ? BURG : "rgba(255,255,255,0.35)",
                       color: selectedSize === size ? CREAM : BURG,
                       fontSize: 13, fontWeight: 700, cursor: "pointer", transition: "all 0.2s ease",
@@ -94,7 +94,7 @@ export default function ProductDetailPage() {
               <button onClick={handleAdd} className="btn-primary" style={{ flex: 1, padding: "18px 0", justifyContent: "center", fontSize: 13 }}>
                 <ShoppingBag size={16} /> Add to Bag
               </button>
-              <button style={{ width: 56, height: 56, borderRadius: "50%", border: `1.5px solid rgba(74,14,23,0.18)`, background: "rgba(255,255,255,0.35)", color: BURG, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <button style={{ width: 56, height: 56, borderRadius: "50%", border: `1.5px solid rgba(0,0,0,0.15)`, background: "rgba(255,255,255,0.35)", color: BURG, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <Heart size={19} strokeWidth={2} />
               </button>
             </div>
@@ -105,7 +105,7 @@ export default function ProductDetailPage() {
               { key: "materials", label: "Materials & Care",   body: "Premium fabric blend. Dry clean recommended. Store in a cool, dry place away from direct sunlight." },
               { key: "shipping",  label: "Shipping & Returns", body: "Complimentary standard shipping on all orders. Express available at checkout. Free returns within 30 days." },
             ].map(({ key, label, body }) => (
-              <div key={key} style={{ borderTop: `1px solid rgba(74,14,23,0.1)` }}>
+              <div key={key} style={{ borderTop: `1px solid rgba(0,0,0,0.08)` }}>
                 <button onClick={() => setOpenAccordion(openAccordion === key ? null : key)}
                   style={{ width: "100%", padding: "18px 0", display: "flex", justifyContent: "space-between", alignItems: "center", background: "none", border: "none", color: BURG, fontSize: 12, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", cursor: "pointer" }}
                 >
@@ -113,11 +113,11 @@ export default function ProductDetailPage() {
                   <ChevronDown size={17} style={{ transform: openAccordion === key ? "rotate(180deg)" : "rotate(0)", transition: "transform 0.3s ease" }} />
                 </button>
                 {openAccordion === key && (
-                  <p style={{ fontSize: 14, color: "rgba(74,14,23,0.6)", lineHeight: 1.75, paddingBottom: 20, margin: 0 }}>{body}</p>
+                  <p style={{ fontSize: 14, color: "rgba(0,0,0,0.65)", lineHeight: 1.75, paddingBottom: 20, margin: 0 }}>{body}</p>
                 )}
               </div>
             ))}
-            <div style={{ borderTop: `1px solid rgba(74,14,23,0.1)` }} />
+            <div style={{ borderTop: `1px solid rgba(0,0,0,0.08)` }} />
           </div>
         </div>
       </div>

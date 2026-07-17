@@ -5,11 +5,11 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
 // ─── Design Tokens ────────────────────────────────────────────────
-const BURG      = "#FFFFFF";
-const BURG_MID  = "#CCCCCC";
-const BURG_LIGHT= "#AAAAAA";
-const CREAM     = "#111111";
-const CREAM_DARK= "#333333";
+const BURG      = "#111111";
+const BURG_MID  = "#555555";
+const BURG_LIGHT= "#777777";
+const CREAM     = "#FFFFFF";
+const CREAM_DARK= "#F5F5F5";
 
 // ─── MEDIA MAPPINGS ───────────────────────────────────────────────
 const HERO_VIDEOS = [
@@ -126,9 +126,9 @@ function HeroSection() {
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         style={{
           width: "100%", height: "82vh", borderRadius: 36,
-          background: "#111",
-          border: "1.5px solid rgba(74,14,23,0.15)",
-          boxShadow: "0 30px 70px rgba(74,14,23,0.12)",
+          background: CREAM,
+          border: "1.5px solid rgba(0,0,0,0.1)",
+          boxShadow: "0 30px 70px rgba(0,0,0,0.08)",
           position: "relative", display: "flex", flexDirection: "column", justifyContent: "flex-end",
           padding: 48, boxSizing: "border-box", overflow: "hidden", zIndex: 5,
         }}
@@ -139,7 +139,7 @@ function HeroSection() {
             src={HERO_VIDEOS[vidIndex]}
             autoPlay muted playsInline
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.5 }}
+            animate={{ opacity: 0.65 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.5 }}
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
@@ -147,14 +147,14 @@ function HeroSection() {
         </AnimatePresence>
 
         {/* Vignette to bottom so buttons are readable */}
-        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 55%)` }} />
+        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(255,255,255,0.8) 0%, transparent 55%)` }} />
 
         {/* CONCAT wordmark watermark */}
         <div style={{
           position: "absolute", top: "50%", left: "50%",
           transform: "translate(-50%,-50%)",
           fontFamily: "inherit", fontSize: "clamp(60px,12vw,170px)",
-          fontWeight: 900, letterSpacing: -6, color: "rgba(255,255,255,0.08)",
+          fontWeight: 900, letterSpacing: -6, color: "rgba(0,0,0,0.05)",
           pointerEvents: "none", userSelect: "none", whiteSpace: "nowrap", zIndex: 1,
         }}>
           CONCAT
@@ -227,7 +227,7 @@ function AccordionSection() {
                     onMouseLeave={() => setHovered(null)}
                   >
                     <video src={card.src} autoPlay loop muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-                    <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.1) 55%, transparent 100%)`, zIndex: 1 }} />
+                    <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.1) 55%, transparent 100%)`, zIndex: 1 }} />
 
                     <div style={{
                       position: "absolute", left: 24, bottom: 24, right: 24, zIndex: 2, pointerEvents: "none",
@@ -236,12 +236,12 @@ function AccordionSection() {
                     }}>
                       <h3 style={{
                         fontFamily: "inherit", fontSize: "clamp(16px, 1.8vw, 21px)", fontWeight: 900,
-                        color: CREAM, margin: 0, letterSpacing: -0.5, lineHeight: 1.1, textTransform: "uppercase",
+                        color: BURG, margin: 0, letterSpacing: -0.5, lineHeight: 1.1, textTransform: "uppercase",
                         overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"
                       }}>
                         {card.brand}
                       </h3>
-                      <p style={{ margin: "10px 0 0", fontSize: 13, color: "#AAAAAA", maxWidth: 220, lineHeight: 1.4 }}>
+                      <p style={{ margin: "10px 0 0", fontSize: 13, color: "#555555", maxWidth: 220, lineHeight: 1.4 }}>
                         {card.desc}
                       </p>
                     </div>
@@ -285,7 +285,7 @@ function AccordionSection() {
                     onMouseLeave={() => setHovered(null)}
                   >
                     <video src={card.src} autoPlay loop muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-                    <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.1) 55%, transparent 100%)`, zIndex: 1 }} />
+                    <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.1) 55%, transparent 100%)`, zIndex: 1 }} />
 
                     <div style={{
                       position: "absolute", left: 24, bottom: 24, right: 24, zIndex: 2, pointerEvents: "none",
@@ -294,12 +294,12 @@ function AccordionSection() {
                     }}>
                       <h3 style={{
                         fontFamily: "inherit", fontSize: "clamp(16px, 1.8vw, 21px)", fontWeight: 900,
-                        color: CREAM, margin: 0, letterSpacing: -0.5, lineHeight: 1.1, textTransform: "uppercase",
+                        color: BURG, margin: 0, letterSpacing: -0.5, lineHeight: 1.1, textTransform: "uppercase",
                         overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"
                       }}>
                         {card.brand}
                       </h3>
-                      <p style={{ margin: "10px 0 0", fontSize: 13, color: "#AAAAAA", maxWidth: 220, lineHeight: 1.4 }}>
+                      <p style={{ margin: "10px 0 0", fontSize: 13, color: "#555555", maxWidth: 220, lineHeight: 1.4 }}>
                         {card.desc}
                       </p>
                     </div>
@@ -412,16 +412,16 @@ function CarouselSection() {
                 className="carousel-card"
                 onMouseEnter={() => { stateRef.current.hoveredIdx = idx; }}
                 onMouseLeave={() => { stateRef.current.hoveredIdx = -1; }}
-                style={{ backgroundColor: "#111111" }}
+                style={{ backgroundColor: "#FFFFFF" }}
               >
                 <div style={{ position: "absolute", inset: 0, backgroundImage: `url('${card.img}')`, backgroundSize: "cover", backgroundPosition: "center" }} />
-                <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.08) 50%, transparent 100%)` }} />
+                <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.08) 50%, transparent 100%)` }} />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 55%)", pointerEvents: "none" }} />
                 <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "20px 18px" }}>
-                  <div className="card-title" style={{ fontSize: 14, fontWeight: 800, color: BURG, textTransform: "uppercase", letterSpacing: 0.5, lineHeight: 1.2, textShadow: "0 2px 8px rgba(0,0,0,0.5)", transition: "font-size 0.5s ease" }}>
+                  <div className="card-title" style={{ fontSize: 14, fontWeight: 800, color: BURG, textTransform: "uppercase", letterSpacing: 0.5, lineHeight: 1.2, textShadow: "0 2px 8px rgba(255,255,255,0.5)", transition: "font-size 0.5s ease" }}>
                     {card.title}
                   </div>
-                  <Link href={card.href} className="visit-btn" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", padding: 0, background: BURG, color: CREAM, border: "1px solid rgba(255,255,255,0.3)", borderRadius: 9999, fontFamily: "inherit", fontSize: 9, fontWeight: 700, letterSpacing: 3, cursor: "pointer", opacity: 0, height: 0, marginTop: 0, overflow: "hidden", transition: "all 0.4s ease", boxSizing: "border-box" }}>
+                  <Link href={card.href} className="visit-btn" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", padding: 0, background: BURG, color: CREAM, border: "1px solid rgba(0,0,0,0.15)", borderRadius: 9999, fontFamily: "inherit", fontSize: 9, fontWeight: 700, letterSpacing: 3, cursor: "pointer", opacity: 0, height: 0, marginTop: 0, overflow: "hidden", transition: "all 0.4s ease", boxSizing: "border-box" }}>
                     {card.btnText}
                   </Link>
                 </div>
@@ -564,9 +564,9 @@ function AdSection() {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         style={{
           width: "100%", height: "82vh", borderRadius: 36,
-          background: "#111",
-          border: "1.5px solid rgba(74,14,23,0.15)",
-          boxShadow: "0 30px 70px rgba(74,14,23,0.12)",
+          background: CREAM,
+          border: "1.5px solid rgba(0,0,0,0.1)",
+          boxShadow: "0 30px 70px rgba(0,0,0,0.08)",
           position: "relative", overflow: "hidden"
         }}
       >
@@ -582,7 +582,7 @@ function AdSection() {
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
           />
         </AnimatePresence>
-        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%)` }} />
+        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(255,255,255,0.85) 0%, transparent 60%)` }} />
 
         {/* Campaign Info - Subheading removed, size reduced */}
         <div style={{ position: "absolute", left: 48, bottom: 48, zIndex: 5 }}>
@@ -591,10 +591,10 @@ function AdSection() {
 
         {/* Arrow Controls */}
         <div style={{ position: "absolute", right: 48, bottom: 48, zIndex: 5, display: "flex", gap: 16 }}>
-          <button onClick={prevAd} style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.3)", color: "#FFF", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(10px)" }}>
+          <button onClick={prevAd} style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.3)", color: "#000", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(10px)" }}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
           </button>
-          <button onClick={nextAd} style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.3)", color: "#FFF", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(10px)" }}>
+          <button onClick={nextAd} style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.3)", color: "#000", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(10px)" }}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
           </button>
         </div>
@@ -625,19 +625,19 @@ function IntroSection() {
           {/* We keep a subtle glow attached to the text so the crater doesn't feel entirely empty, but it won't block the grid */}
           <div style={{
             position: "absolute", inset: 0, zIndex: -1, pointerEvents: "none",
-            background: "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(74,14,23,0.3) 0%, rgba(74,14,23,0.05) 40%, transparent 100%)",
+            background: "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.02) 40%, transparent 100%)",
           }} />
 
           <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 5, textTransform: "uppercase", color: BURG_LIGHT, marginBottom: 28, opacity: 0.8 }}>
             Why CONCAT exists
           </div>
 
-          <h2 style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 900, color: "#FFFFFF", margin: "0 0 28px", letterSpacing: -1.5, lineHeight: 1.05 }}>
+          <h2 style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 900, color: BURG, margin: "0 0 28px", letterSpacing: -1.5, lineHeight: 1.05 }}>
             Beyond the algorithm.<br/>
             <span style={{ color: BURG_LIGHT }}>Beyond the mass market.</span>
           </h2>
 
-          <p style={{ fontSize: "clamp(16px, 1.8vw, 19px)", fontWeight: 400, color: "rgba(255,255,255,0.72)", margin: "0 0 44px", lineHeight: 1.75, maxWidth: 640, marginLeft: "auto", marginRight: "auto" }}>
+          <p style={{ fontSize: "clamp(16px, 1.8vw, 19px)", fontWeight: 400, color: "rgba(0,0,0,0.72)", margin: "0 0 44px", lineHeight: 1.75, maxWidth: 640, marginLeft: "auto", marginRight: "auto" }}>
             You are not limited to the same commercial brands you see everywhere. There's an entire world of independent labels — crafting superior styles and fabrics, at the exact same price, for every age, taste, and niche.
             <br/><br/>
             We built CONCAT so you never have to rely on luck to discover them.
@@ -645,14 +645,14 @@ function IntroSection() {
 
           <Link href="/about-us" style={{
             display: "inline-flex", alignItems: "center", gap: 10,
-            background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.18)",
-            padding: "14px 30px", borderRadius: 9999, color: "#FFFFFF",
+            background: "rgba(0,0,0,0.04)", border: "1px solid rgba(0,0,0,0.12)",
+            padding: "14px 30px", borderRadius: 9999, color: BURG,
             fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.5,
             textDecoration: "none", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
             backdropFilter: "blur(12px)"
           }}
-          onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(255,255,255,0.16)"; el.style.transform = "scale(1.05) translateY(-2px)"; el.style.boxShadow = "0 12px 30px rgba(0,0,0,0.4)"; }}
-          onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(255,255,255,0.07)"; el.style.transform = "scale(1)"; el.style.boxShadow = "none"; }}
+          onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(0,0,0,0.08)"; el.style.transform = "scale(1.05) translateY(-2px)"; el.style.boxShadow = "0 12px 30px rgba(0,0,0,0.1)"; }}
+          onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(0,0,0,0.04)"; el.style.transform = "scale(1)"; el.style.boxShadow = "none"; }}
           >
             Our Story
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -680,7 +680,7 @@ function FinaleSection() {
             concat
             <span style={{ color: BURG_LIGHT }}>.</span>
           </div>
-          <div style={{ marginTop: 20, fontSize: 11, fontWeight: 700, letterSpacing: 5, textTransform: "uppercase", color: "rgba(255,255,255,0.45)" }}>
+          <div style={{ marginTop: 20, fontSize: 11, fontWeight: 700, letterSpacing: 5, textTransform: "uppercase", color: "rgba(0,0,0,0.45)" }}>
             Aggregating the aesthetic underground
           </div>
         </div>
@@ -688,11 +688,11 @@ function FinaleSection() {
       <footer style={{
         borderRadius: 22, padding: "22px 32px",
         display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 14,
-        background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)",
+        background: "rgba(0,0,0,0.03)", border: "1px solid rgba(0,0,0,0.08)",
         backdropFilter: "blur(30px)", WebkitBackdropFilter: "blur(30px)",
-        boxShadow: "0 10px 40px rgba(0,0,0,0.5)", zIndex: 10
+        boxShadow: "0 10px 40px rgba(0,0,0,0.05)", zIndex: 10
       }}>
-        <span style={{ fontFamily: "inherit", fontSize: 18, fontWeight: 900, color: "#FFFFFF" }}>concat.</span>
+        <span style={{ fontFamily: "inherit", fontSize: 18, fontWeight: 900, color: BURG }}>concat.</span>
         <nav style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
           {[["Shop","/shop"],["Stores","/stores"],["About Us","/about-us"],["Contact","/support"]].map(([name, href]) => (
             <Link key={name} href={href}
@@ -704,7 +704,7 @@ function FinaleSection() {
             </Link>
           ))}
         </nav>
-        <span style={{ fontSize: 11, fontWeight: 400, color: "rgba(255,255,255,0.6)" }}>© 2026 CONCAT</span>
+        <span style={{ fontSize: 11, fontWeight: 400, color: "rgba(0,0,0,0.55)" }}>© 2026 CONCAT</span>
       </footer>
       </motion.div>
     </section>

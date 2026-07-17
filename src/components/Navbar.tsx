@@ -15,8 +15,8 @@ const NAV_LINKS = [
   { name: "Careers",   href: "/careers" },
 ];
 
-const BURG = "#FFFFFF";
-const CREAM = "#111111";
+const BURG = "#111111";
+const CREAM = "#FFFFFF";
 
 export default function Navbar() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -170,7 +170,7 @@ export default function Navbar() {
                 transform: "translateY(0)",
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "rgba(255, 255, 255, 0.1)";
+                (e.currentTarget as HTMLElement).style.background = "rgba(0, 0, 0, 0.05)";
                 (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
               }}
               onMouseLeave={(e) => {
@@ -240,13 +240,13 @@ export default function Navbar() {
             onMouseEnter={(e) => {
               const el = e.currentTarget as HTMLElement;
               el.style.transform = "scale(1.03)";
-              el.style.background = "#000000";
-              el.style.color = "#FFFFFF";
-              el.style.border = "1px solid rgba(255,255,255,0.3)";
+              el.style.background = "#FFFFFF";
+              el.style.color = "#000000";
+              el.style.border = "1px solid rgba(0,0,0,0.15)";
               const span = el.querySelector("span");
               if (span) {
-                span.style.background = "#FFFFFF";
-                span.style.color = "#000000";
+                span.style.background = "#000000";
+                span.style.color = "#FFFFFF";
               }
             }}
             onMouseLeave={(e) => {

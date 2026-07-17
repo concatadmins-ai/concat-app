@@ -112,7 +112,7 @@ export default function InteractiveGrid() {
       };
 
       // ── Draw Dots ─────────────────────────────────────────────────
-      ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
+      ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
       ctx.beginPath();
       for (let cy = -DOT_STEP; cy < height + DOT_STEP; cy += DOT_STEP) {
         for (let cx = -DOT_STEP; cx < width + DOT_STEP; cx += DOT_STEP) {
@@ -124,7 +124,7 @@ export default function InteractiveGrid() {
       ctx.fill();
 
       // ── Draw Lines ────────────────────────────────────────────────
-      ctx.strokeStyle = "rgba(255,255,255,0.15)";
+      ctx.strokeStyle = "rgba(0, 0, 0, 0.08)";
       ctx.lineWidth = 1;
 
       ctx.beginPath();
@@ -152,9 +152,9 @@ export default function InteractiveGrid() {
       // ── Cursor Spotlight ──────────────────────────────────────────
       if (mouseRef.current.x !== -1000) {
         const grd = ctx.createRadialGradient(easeMx, easeMy, 0, easeMx, easeMy, 250);
-        grd.addColorStop(0, "rgba(255,255,255,0.15)");
-        grd.addColorStop(0.5, "rgba(255,255,255,0.05)");
-        grd.addColorStop(1, "rgba(255,255,255,0)");
+        grd.addColorStop(0, "rgba(0,0,0,0.15)");
+        grd.addColorStop(0.5, "rgba(0,0,0,0.05)");
+        grd.addColorStop(1, "rgba(0,0,0,0)");
         
         ctx.fillStyle = grd;
         ctx.beginPath();

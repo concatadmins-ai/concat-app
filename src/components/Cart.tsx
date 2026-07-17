@@ -24,7 +24,7 @@ export default function Cart() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeCart}
-            style={{ position: "fixed", inset: 0, background: "rgba(74,14,23,0.25)", zIndex: 90, backdropFilter: "blur(6px)" }}
+            style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.15)", zIndex: 90, backdropFilter: "blur(6px)" }}
           />
 
           {/* Drawer */}
@@ -35,10 +35,10 @@ export default function Cart() {
             transition={{ type: "tween", duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             style={{
               position: "fixed", top: 0, right: 0, bottom: 0, width: "100%", maxWidth: 430,
-              background: "rgba(249,247,241,0.85)",
+              background: "rgba(17,17,17,0.85)",
               backdropFilter: "blur(40px) saturate(180%)",
-              borderLeft: "1px solid rgba(255,255,255,0.6)",
-              boxShadow: "-20px 0 60px rgba(74,14,23,0.15)",
+              borderLeft: "1px solid rgba(255,255,255,0.15)",
+              boxShadow: "-20px 0 60px rgba(0,0,0,0.3)",
               padding: 40, boxSizing: "border-box",
               display: "flex", flexDirection: "column",
               color: BURG, zIndex: 100,
@@ -66,21 +66,21 @@ export default function Cart() {
                 </div>
               ) : (
                 cartItems.map((item) => (
-                  <div key={`${item.id}-${item.size}`} style={{ display: "flex", gap: 14, paddingBottom: 20, borderBottom: "1px solid rgba(74,14,23,0.08)" }}>
-                    <div style={{ width: 68, height: 86, borderRadius: 10, overflow: "hidden", flexShrink: 0, border: "1px solid rgba(74,14,23,0.1)" }}>
+                  <div key={`${item.id}-${item.size}`} style={{ display: "flex", gap: 14, paddingBottom: 20, borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+                    <div style={{ width: 68, height: 86, borderRadius: 10, overflow: "hidden", flexShrink: 0, border: "1px solid rgba(255,255,255,0.1)" }}>
                       <img src={item.image} alt={item.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                     </div>
                     <div style={{ flex: 1 }}>
                       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 2 }}>
                         <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: BURG }}>{item.brand}</p>
-                        <button onClick={() => removeFromCart(item.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(74,14,23,0.4)" }}>
-                          <X size={15} />
+                        <button onClick={() => removeFromCart(item.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.4)" }}>
+                           <X size={15} />
                         </button>
                       </div>
-                      <p style={{ margin: "0 0 3px", fontSize: 14, color: "rgba(74,14,23,0.75)", fontWeight: 500 }}>{item.name}</p>
-                      <p style={{ margin: "0 0 12px", fontSize: 10, color: "rgba(74,14,23,0.4)", textTransform: "uppercase", letterSpacing: 1 }}>Size: {item.size}</p>
+                      <p style={{ margin: "0 0 3px", fontSize: 14, color: "rgba(255,255,255,0.75)", fontWeight: 500 }}>{item.name}</p>
+                      <p style={{ margin: "0 0 12px", fontSize: 10, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: 1 }}>Size: {item.size}</p>
                       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: 10, border: "1px solid rgba(74,14,23,0.15)", borderRadius: 9999, padding: "6px 14px" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 10, border: "1px solid rgba(255,255,255,0.15)", borderRadius: 9999, padding: "6px 14px" }}>
                           <button onClick={() => updateQuantity(item.id, item.quantity - 1)} style={{ background: "none", border: "none", cursor: "pointer", color: BURG, display: "flex" }}>
                             <Minus size={13} />
                           </button>
@@ -105,7 +105,7 @@ export default function Cart() {
                   <span>${subtotal.toLocaleString()}</span>
                 </div>
                 <Link href="/checkout" onClick={closeCart} style={{ width: "100%" }}>
-                  <button className="btn-primary" style={{ width: "100%", fontSize: 13, letterSpacing: 2, justifyContent: "center", padding: "18px 0" }}>
+                  <button className="btn-primary" style={{ width: "100%", fontSize: 13, letterSpacing: 2, justifyContent: "center", padding: "18px 0", background: "#FFFFFF", color: "#111111", border: "1px solid rgba(255,255,255,0.2)" }}>
                     Proceed to Checkout
                   </button>
                 </Link>

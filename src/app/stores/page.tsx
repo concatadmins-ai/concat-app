@@ -6,9 +6,9 @@ import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 
 // Design Tokens (matching the homepage/about-us aesthetics)
-const BURG = "#FFFFFF";
-const BURG_LIGHT = "#AAAAAA";
-const CREAM = "#111111";
+const BURG = "#111111";
+const BURG_LIGHT = "#777777";
+const CREAM = "#FFFFFF";
 
 const BRANDS = [
   { id: "A", brand: "May Character", category: "Modern Casuals", tagline: "Techwear", src: "/stock/hf_20260716_170814_196b8582-4782-4688-84cd-1cc5042c639b.mp4", desc: "Cyberpunk and functional techwear engineered for the modern nomad. Merging tactical gear utility with futuristic streetwear silhouettes." },
@@ -25,9 +25,9 @@ export default function BrandsPage() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
   return (
-    <div className="page-scroll" style={{ background: "#0A0A0A", minHeight: "100vh", height: "100vh", overflowY: "auto", overflowX: "hidden", color: "#FFFFFF", paddingBottom: 100 }}>
+    <div className="page-scroll" style={{ background: "#FAFAFA", minHeight: "100vh", height: "100vh", overflowY: "auto", overflowX: "hidden", color: "#111111", paddingBottom: 100 }}>
       {/* Decorative background grid elements */}
-      <div style={{ position: "fixed", inset: 0, opacity: 0.05, pointerEvents: "none", zIndex: 1, backgroundImage: "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
+      <div style={{ position: "fixed", inset: 0, opacity: 0.03, pointerEvents: "none", zIndex: 1, backgroundImage: "linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
 
       <div style={{ position: "relative", zIndex: 5, maxWidth: 1300, margin: "0 auto", padding: "130px 40px 40px" }}>
         
@@ -37,7 +37,7 @@ export default function BrandsPage() {
           <h1 style={{ fontFamily: "inherit", fontSize: "clamp(48px, 8vw, 100px)", fontWeight: 950, color: BURG, margin: "10px 0 20px", letterSpacing: -4, lineHeight: 0.85, textTransform: "uppercase" }}>
             independent<br/>partners
           </h1>
-          <p style={{ fontSize: 16, color: "rgba(255,255,255,0.6)", maxWidth: 500, lineHeight: 1.5, margin: 0 }}>
+          <p style={{ fontSize: 16, color: "rgba(0,0,0,0.6)", maxWidth: 500, lineHeight: 1.5, margin: 0 }}>
             Discover the independent brands disrupting the status quo. Curated styles, unique fabrics, and zero mass production.
           </p>
         </div>
@@ -56,12 +56,12 @@ export default function BrandsPage() {
                   borderRadius: 24,
                   overflow: "hidden",
                   aspectRatio: "3/4",
-                  background: "#121212",
-                  border: "1px solid rgba(255, 255, 255, 0.15)",
+                  background: "#FFFFFF",
+                  border: "1px solid rgba(0, 0, 0, 0.15)",
                   transition: "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s",
                   transform: isHovered ? "translateY(-8px) scale(1.02)" : "translateY(0) scale(1)",
-                  boxShadow: isHovered ? "0 20px 40px rgba(0,0,0,0.6)" : "none",
-                  borderColor: isHovered ? "rgba(255, 255, 255, 0.4)" : "rgba(255, 255, 255, 0.15)"
+                  boxShadow: isHovered ? "0 20px 40px rgba(0,0,0,0.12)" : "none",
+                  borderColor: isHovered ? "rgba(0, 0, 0, 0.35)" : "rgba(0, 0, 0, 0.12)"
                 }}
               >
                 {/* Loop Video in background */}
@@ -77,7 +77,7 @@ export default function BrandsPage() {
                     width: "100%",
                     height: "100%",
                     objectFit: "cover",
-                    opacity: isHovered ? 0.65 : 0.35,
+                    opacity: isHovered ? 0.75 : 0.45,
                     transition: "opacity 0.5s"
                   }}
                 />
@@ -86,7 +86,7 @@ export default function BrandsPage() {
                 <div style={{
                   position: "absolute",
                   inset: 0,
-                  background: "linear-gradient(to top, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.4) 60%, transparent 100%)",
+                  background: "linear-gradient(to top, rgba(250,250,250,0.95) 0%, rgba(250,250,250,0.4) 60%, transparent 100%)",
                   zIndex: 2
                 }} />
 
@@ -107,9 +107,9 @@ export default function BrandsPage() {
                       fontWeight: 800,
                       letterSpacing: 2.5,
                       textTransform: "uppercase",
-                      color: BURG_LIGHT,
-                      background: "rgba(255, 255, 255, 0.08)",
-                      border: "1px solid rgba(255, 255, 255, 0.15)",
+                      color: "#FFFFFF",
+                      background: "rgba(0, 0, 0, 0.85)",
+                      border: "1px solid rgba(0, 0, 0, 0.9)",
                       padding: "6px 12px",
                       borderRadius: 9999,
                       backdropFilter: "blur(8px)"
@@ -121,7 +121,7 @@ export default function BrandsPage() {
                   {/* Bottom Brand Info */}
                   <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                     <div>
-                      <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.5)" }}>{item.tagline}</span>
+                      <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: "rgba(0,0,0,0.5)" }}>{item.tagline}</span>
                       <h2 style={{ fontSize: 26, fontWeight: 900, textTransform: "uppercase", margin: "2px 0 0", color: BURG, letterSpacing: -0.5 }}>
                         {item.brand}
                       </h2>
@@ -129,7 +129,7 @@ export default function BrandsPage() {
 
                     <p style={{
                       fontSize: 12,
-                      color: "rgba(255,255,255,0.65)",
+                      color: "rgba(0,0,0,0.75)",
                       lineHeight: 1.45,
                       margin: 0,
                       opacity: isHovered ? 1 : 0,
@@ -145,8 +145,8 @@ export default function BrandsPage() {
                       alignItems: "center",
                       justifyContent: "center",
                       textDecoration: "none",
-                      color: CREAM,
-                      background: BURG,
+                      color: "#FFFFFF",
+                      background: "#111111",
                       fontWeight: 800,
                       fontSize: 10,
                       letterSpacing: 2,

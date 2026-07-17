@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Heart } from "lucide-react";
 
-const BURG  = "#FFFFFF";
-const BURG_LIGHT = "#AAAAAA";
-const CREAM = "#111111";
+const BURG  = "#111111";
+const BURG_LIGHT = "#777777";
+const CREAM = "#FFFFFF";
 
 const CATEGORIES = ["All", "Modern Casuals", "Semi Formals", "Footwear", "Accessories", "Eyewear", "Formals"];
 
@@ -29,11 +29,11 @@ export default function ShopPage() {
   const [selectedCat, setSelectedCat] = useState("All");
 
   return (
-    <div className="page-scroll" style={{ padding: "110px 40px 60px" }}>
+    <div className="page-scroll" style={{ padding: "110px 40px 60px", background: "#FAFAFA", color: "#111111" }}>
       <div style={{ maxWidth: 1400, margin: "0 auto" }}>
         {/* Header */}
         <div style={{ marginBottom: 48 }}>
-          <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: "rgba(74,14,23,0.4)", margin: "0 0 10px" }}>
+          <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: "rgba(0,0,0,0.45)", margin: "0 0 10px" }}>
             The Collection
           </p>
           <h1 style={{ fontFamily: "inherit", fontSize: "clamp(36px,5vw,72px)", fontWeight: 900, letterSpacing: -3, color: BURG, margin: 0, lineHeight: 1 }}>
