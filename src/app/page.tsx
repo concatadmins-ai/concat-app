@@ -280,10 +280,7 @@ function HeroSection() {
           <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 35%)`, zIndex: 1 }} />
 
           {/* Top Row Badges */}
-          <div style={{ position: "relative", zIndex: 5, display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-            <div style={{ padding: "6px 14px", background: "rgba(255, 255, 255, 0.15)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderRadius: 999, border: "1px solid rgba(255, 255, 255, 0.2)" }}>
-              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: 2, color: CREAM, textTransform: "uppercase" }}>CONCAT.</span>
-            </div>
+          <div style={{ position: "relative", zIndex: 5, display: "flex", justifyContent: "flex-end", alignItems: "center", width: "100%" }}>
             <div style={{ display: "flex", gap: 8, alignItems: "center", padding: "6px 14px", background: "rgba(255, 255, 255, 0.15)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderRadius: 999, border: "1px solid rgba(255, 255, 255, 0.2)" }}>
               <motion.div animate={{ opacity: [1, 0.3, 1] }} transition={{ repeat: Infinity, duration: 1.5 }} style={{ width: 6, height: 6, borderRadius: "50%", background: "#ff3333" }} />
               <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 2, color: CREAM, textTransform: "uppercase" }}>LIVE</span>
@@ -294,10 +291,10 @@ function HeroSection() {
           <div style={{ position: "relative", zIndex: 5, display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%", marginBottom: 12 }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               <div>
-                <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255, 255, 255, 0.65)", marginBottom: 6 }}>
+                <div style={{ fontSize: 10, fontWeight: 900, letterSpacing: 3, textTransform: "uppercase", color: "#FFFFFF", marginBottom: 6 }}>
                   THE MALL FOR INDEPENDENT LABELS
                 </div>
-                <h2 style={{ margin: 0, fontSize: "clamp(28px, 4.5vw, 48px)", fontWeight: 955, color: CREAM, textTransform: "uppercase", letterSpacing: "-0.04em", lineHeight: 1.05 }}>
+                <h2 style={{ margin: 0, fontSize: "clamp(28px, 4.5vw, 48px)", fontWeight: 955, WebkitTextStroke: "1.5px #FFFFFF", WebkitTextFillColor: "transparent", textTransform: "uppercase", letterSpacing: "-0.04em", lineHeight: 1.05 }}>
                   40+ STORES.<br />
                   7 FLOORS.<br />
                   ZERO MASS MARKET.
