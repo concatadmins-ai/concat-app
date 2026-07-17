@@ -81,13 +81,13 @@ const CAROUSEL_CARDS = [
 ];
 
 const BRAND_CARDS = [
-  { id: "B", brand: "BLUEORNG", tagline: "Streetwear", image: "/stock/hf_20260716_170918_8117694f-5cfb-4f2e-8081-6efa779dfc86.png", desc: "Aesthetic streetwear inspired by modern youth culture and bold expressions." },
-  { id: "C", brand: "5FEET11", tagline: "Linen & Casuals", image: "/modern_casuals_1784145387264.png", desc: "Premium fabrics and relaxed fits engineered for everyday elegance." },
-  { id: "D", brand: "BOMBAY SHIRT CO.", tagline: "Bespoke Shirts", image: "/formals_1784145500501.png", desc: "Custom-made luxury shirting designed by you, tailored for comfort." },
-  { id: "E", brand: "SAND MARSHAL", tagline: "Eyewear", image: "/eyewear_1784145482095.png", desc: "Visionary designer eyewear crafted to shield your sight and define your style." },
-  { id: "F", brand: "MISO BY SONIA", tagline: "Artisanal Jewelry", image: "/accessories_1784145426818.png", desc: "Handcrafted statement jewelry pieces made to last and elevate your identity." },
-  { id: "G", brand: "GULLY LABS", tagline: "Footwear", image: "/footwear_1784145445750.png", desc: "Sneakers that tell a story. Blending heritage craftsmanship with street sensibilities." },
-  { id: "H", brand: "VASTRAMAY", tagline: "Traditionals", image: "/stock/0F9ED44A-2AC9-47C2-A83B-FC3E884FCA9E.png", desc: "Ethnic fusion wear redefining modern Indian drapery and style." },
+  { id: "B", brand: "BLUEORNG", tagline: "Streetwear", videoSrc: "/real_ads/blueorng-advertisment.mp4", image: "/stock/hf_20260716_170918_8117694f-5cfb-4f2e-8081-6efa779dfc86.png", desc: "Aesthetic streetwear inspired by modern youth culture and bold expressions." },
+  { id: "C", brand: "5FEET11", tagline: "Linen & Casuals", videoSrc: "/real_ads/5feet11-advertisment.mp4", image: "/modern_casuals_1784145387264.png", desc: "Premium fabrics and relaxed fits engineered for everyday elegance." },
+  { id: "D", brand: "BOMBAY SHIRT CO.", tagline: "Bespoke Shirts", videoSrc: "/real_ads/bombay_shirt_company-advertisment.mp4", image: "/formals_1784145500501.png", desc: "Custom-made luxury shirting designed by you, tailored for comfort." },
+  { id: "E", brand: "SAND MARSHAL", tagline: "Eyewear", videoSrc: "/real_ads/samandmarshall-advertisment.mp4", image: "/eyewear_1784145482095.png", desc: "Visionary designer eyewear crafted to shield your sight and define your style." },
+  { id: "F", brand: "MISO BY SONIA", tagline: "Artisanal Jewelry", videoSrc: "/real_ads/misobysonia-advertisment.mp4", image: "/accessories_1784145426818.png", desc: "Handcrafted statement jewelry pieces made to last and elevate your identity." },
+  { id: "G", brand: "GULLY LABS", tagline: "Footwear", videoSrc: "/real_ads/gully_labs-advertisment.mp4", image: "/footwear_1784145445750.png", desc: "Sneakers that tell a story. Blending heritage craftsmanship with street sensibilities." },
+  { id: "H", brand: "VASTRAMAY", tagline: "Traditionals", videoSrc: "/real_ads/vastramay-advertisment.mp4", image: "/stock/0F9ED44A-2AC9-47C2-A83B-FC3E884FCA9E.png", desc: "Ethnic fusion wear redefining modern Indian drapery and style." },
 ];
 
 const TOP_PRODUCTS = [
@@ -134,26 +134,40 @@ function HeroSection() {
   return (
     <section className="snap-section" style={{ position: "relative", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "105px 48px 40px", boxSizing: "border-box", overflow: "hidden" }}>
       
-      {/* Huge Background Text Layer behind cards */}
+      {/* Background Scrolling Title Text behind cards */}
       <div style={{
         position: "absolute",
         top: "40%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        width: "100%",
-        textAlign: "center",
-        fontFamily: "inherit",
-        fontSize: "clamp(64px, 11vw, 150px)",
-        fontWeight: 955,
-        letterSpacing: "-0.04em",
-        color: "#111111",
-        opacity: 0.95,
+        left: 0,
+        right: 0,
+        transform: "translateY(-50%)",
+        overflow: "hidden",
         pointerEvents: "none",
         zIndex: 1,
-        whiteSpace: "nowrap",
-        lineHeight: 1
+        display: "flex",
+        whiteSpace: "nowrap"
       }}>
-        FALL &apos;26 — AESTHETIC
+        <motion.div
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ repeat: Infinity, ease: "linear", duration: 25 }}
+          style={{ display: "flex", whiteSpace: "nowrap", width: "fit-content" }}
+        >
+          {Array(4).fill("FALL '26 — AESTHETIC").map((text, idx) => (
+            <span key={idx} style={{
+              fontFamily: "inherit",
+              fontSize: "clamp(64px, 11vw, 150px)",
+              fontWeight: 955,
+              letterSpacing: "-0.04em",
+              color: "#111111",
+              opacity: 0.95,
+              textTransform: "uppercase",
+              paddingRight: "80px",
+              display: "inline-block"
+            }}>
+              {text} &nbsp;—&nbsp;
+            </span>
+          ))}
+        </motion.div>
       </div>
 
       {/* Main Grid Content (left stack + main card) */}
@@ -192,9 +206,9 @@ function HeroSection() {
           {/* Card list */}
           <div style={{ display: "flex", flexDirection: "column", gap: 14, flex: 1 }}>
             {[
-              { name: "BLUEORNG", img: "/stock/hf_20260716_170918_8117694f-5cfb-4f2e-8081-6efa779dfc86.png" },
-              { name: "GULLY LABS", img: "/stock/hf_20260716_170924_df9ce8ea-ffec-4ce5-9372-6967b3068aa4.png" },
-              { name: "5FEET11", img: "/stock/hf_20260716_170930_fb120077-9502-4f6c-8cc4-c3b84fd5bd22.png" }
+              { name: "BLUEORNG", video: "/real_ads/blueorng-advertisment.mp4", img: "/stock/hf_20260716_170918_8117694f-5cfb-4f2e-8081-6efa779dfc86.png" },
+              { name: "GULLY LABS", video: "/real_ads/gully_labs-advertisment.mp4", img: "/stock/hf_20260716_170924_df9ce8ea-ffec-4ce5-9372-6967b3068aa4.png" },
+              { name: "5FEET11", video: "/real_ads/5feet11-advertisment.mp4", img: "/stock/hf_20260716_170930_fb120077-9502-4f6c-8cc4-c3b84fd5bd22.png" }
             ].map((item, idx) => (
               <div
                 key={idx}
@@ -208,9 +222,13 @@ function HeroSection() {
                   background: CREAM
                 }}
               >
-                <img
-                  src={item.img}
-                  alt={item.name}
+                <video
+                  src={item.video}
+                  poster={item.img}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
                   style={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute", inset: 0 }}
                 />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%)", zIndex: 1 }} />
@@ -414,10 +432,14 @@ function AccordionSection() {
                 onMouseEnter={() => setHovered(card.id)}
                 onMouseLeave={() => setHovered(null)}
               >
-                {/* Background Image with Hover Scale */}
-                <img
-                  src={card.image}
-                  alt={card.brand}
+                {/* Background Video with Hover Scale */}
+                <video
+                  src={card.videoSrc}
+                  poster={card.image}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
                   style={{
                     width: "100%",
                     height: "100%",
