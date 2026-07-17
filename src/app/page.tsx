@@ -289,7 +289,7 @@ function AccordionSection() {
                     <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.25) 55%, transparent 100%)`, zIndex: 1 }} />
 
                     <div style={{
-                      position: "absolute", left: 24, bottom: 24, right: 80, zIndex: 2, pointerEvents: "none",
+                      position: "absolute", left: 24, bottom: 24, right: 24, zIndex: 2, pointerEvents: "none",
                       transition: "opacity 0.4s ease, transform 0.45s ease",
                       opacity, transform: `translateY(${translateY}px)`,
                     }}>
@@ -311,9 +311,9 @@ function AccordionSection() {
                       padding: "8px 18px", borderRadius: 9999, background: CREAM, color: BURG,
                       fontFamily: "inherit", fontSize: 10, fontWeight: 800, letterSpacing: 1.5,
                       textTransform: "uppercase", boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
-                      position: "absolute", bottom: 24, right: 24, zIndex: 10,
+                      position: "absolute", top: 24, right: 24, zIndex: 10,
                       opacity: isHov ? 1 : 0,
-                      transform: isHov ? "translateY(0) scale(1)" : "translateY(8px) scale(0.95)",
+                      transform: isHov ? "translateY(0) scale(1)" : "translateY(-8px) scale(0.95)",
                       transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
                       pointerEvents: "none"
                     }}>
@@ -386,7 +386,7 @@ function AccordionSection() {
                     <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.25) 55%, transparent 100%)`, zIndex: 1 }} />
 
                     <div style={{
-                      position: "absolute", left: 24, bottom: 24, right: 80, zIndex: 2, pointerEvents: "none",
+                      position: "absolute", left: 24, bottom: 24, right: 24, zIndex: 2, pointerEvents: "none",
                       transition: "opacity 0.4s ease, transform 0.45s ease",
                       opacity, transform: `translateY(${translateY}px)`,
                     }}>
@@ -408,9 +408,9 @@ function AccordionSection() {
                       padding: "8px 18px", borderRadius: 9999, background: CREAM, color: BURG,
                       fontFamily: "inherit", fontSize: 10, fontWeight: 800, letterSpacing: 1.5,
                       textTransform: "uppercase", boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
-                      position: "absolute", bottom: 24, right: 24, zIndex: 10,
+                      position: "absolute", top: 24, right: 24, zIndex: 10,
                       opacity: isHov ? 1 : 0,
-                      transform: isHov ? "translateY(0) scale(1)" : "translateY(8px) scale(0.95)",
+                      transform: isHov ? "translateY(0) scale(1)" : "translateY(-8px) scale(0.95)",
                       transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
                       pointerEvents: "none"
                     }}>
