@@ -900,26 +900,20 @@ function CombinedAboutStoresSection() {
           </div>
         </div>
 
-        {/* Right Side: About Us Info Panel */}
+        {/* Right Side: About Us Info Panel (Transparent for Gravity grid effects) */}
         <div id="intro-gravity-text" style={{
           flex: 0.9,
-          borderRadius: 28,
-          background: "rgba(255, 255, 255, 0.7)",
-          border: "1.5px solid rgba(0, 0, 0, 0.08)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
           padding: 40,
           boxSizing: "border-box",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          position: "relative",
-          boxShadow: "0 10px 40px rgba(0,0,0,0.04)"
+          position: "relative"
         }}>
           {/* subtle decoration background glow */}
           <div style={{
             position: "absolute", inset: 0, zIndex: -1, pointerEvents: "none",
-            background: "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,0,0,0.02) 0%, transparent 100%)",
+            background: "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.02) 40%, transparent 100%)",
           }} />
 
           <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: BURG_LIGHT, marginBottom: 18, opacity: 0.8 }}>
