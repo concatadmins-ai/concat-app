@@ -118,12 +118,11 @@ export default function Navbar() {
           justifyContent: "space-between",
           padding: "6px 20px", // Reduced padding
           borderRadius: 9999,
-          // Premium Apple Liquid Glass Design - Always dark transparent for white text
-          background: "rgba(255, 255, 255, 0.05)",
-          border: "1px solid rgba(255, 255, 255, 0.15)",
-          boxShadow: "0 10px 40px rgba(0, 0, 0, 0.5)",
-          backdropFilter: "blur(24px) saturate(200%)",
-          WebkitBackdropFilter: "blur(24px) saturate(200%)",
+          background: "rgba(255, 255, 255, 0.8)",
+          border: "1px solid rgba(0, 0, 0, 0.08)",
+          boxShadow: "0 8px 32px rgba(0, 0, 0, 0.06)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
           transition: "transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1)",
         }}
       >

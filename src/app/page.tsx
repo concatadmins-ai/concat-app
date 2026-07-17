@@ -81,14 +81,13 @@ const CAROUSEL_CARDS = [
 ];
 
 const BRAND_CARDS = [
-  { id: "A", brand: "", tagline: "", src: "", desc: "", isBlank: true },
-  { id: "B", brand: "Blueorng", tagline: "Streetwear", src: "/real_ads/blueorng-advertisment.mp4", desc: "Aesthetic streetwear inspired by modern youth culture and bold expressions." },
-  { id: "C", brand: "5feet11", tagline: "Linen & Casuals", src: "/real_ads/5feet11-advertisment.mp4", desc: "Premium fabrics and relaxed fits engineered for everyday elegance." },
-  { id: "D", brand: "The Bombay Shirt Company", tagline: "Bespoke Shirts", src: "/real_ads/bombay_shirt_company-advertisment.mp4", desc: "Custom-made luxury shirting designed by you, tailored for comfort." },
-  { id: "E", brand: "Sand Marshal", tagline: "Eyewear", src: "/real_ads/samandmarshall-advertisment.mp4", desc: "Visionary designer eyewear crafted to shield your sight and define your style." },
-  { id: "F", brand: "Miso by Sonia", tagline: "Artisanal Jewelry", src: "/real_ads/misobysonia-advertisment.mp4", desc: "Handcrafted statement jewelry pieces made to last and elevate your identity." },
-  { id: "G", brand: "Gully Labs", tagline: "Footwear", src: "/real_ads/gully_labs-advertisment.mp4", desc: "Sneakers that tell a story. Blending heritage craftsmanship with street sensibilities." },
-  { id: "H", brand: "Vastramay", tagline: "Traditionals", src: "/real_ads/vastramay-advertisment.mp4", desc: "Ethnic fusion wear redefining modern Indian drapery and style." },
+  { id: "B", brand: "BLUEORNG", tagline: "Streetwear", image: "/stock/hf_20260716_170918_8117694f-5cfb-4f2e-8081-6efa779dfc86.png", desc: "Aesthetic streetwear inspired by modern youth culture and bold expressions." },
+  { id: "C", brand: "5FEET11", tagline: "Linen & Casuals", image: "/modern_casuals_1784145387264.png", desc: "Premium fabrics and relaxed fits engineered for everyday elegance." },
+  { id: "D", brand: "BOMBAY SHIRT CO.", tagline: "Bespoke Shirts", image: "/formals_1784145500501.png", desc: "Custom-made luxury shirting designed by you, tailored for comfort." },
+  { id: "E", brand: "SAND MARSHAL", tagline: "Eyewear", image: "/eyewear_1784145482095.png", desc: "Visionary designer eyewear crafted to shield your sight and define your style." },
+  { id: "F", brand: "MISO BY SONIA", tagline: "Artisanal Jewelry", image: "/accessories_1784145426818.png", desc: "Handcrafted statement jewelry pieces made to last and elevate your identity." },
+  { id: "G", brand: "GULLY LABS", tagline: "Footwear", image: "/footwear_1784145445750.png", desc: "Sneakers that tell a story. Blending heritage craftsmanship with street sensibilities." },
+  { id: "H", brand: "VASTRAMAY", tagline: "Traditionals", image: "/stock/0F9ED44A-2AC9-47C2-A83B-FC3E884FCA9E.png", desc: "Ethnic fusion wear redefining modern Indian drapery and style." },
 ];
 
 const TOP_PRODUCTS = [
@@ -133,89 +132,236 @@ function ScrollIndicator({ visible }: { visible: boolean }) {
 // ─── SECTION 1 : HERO ─────────────────────────────────────────────
 function HeroSection() {
   return (
-    <section className="snap-section" style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center", padding: "100px 36px 36px", boxSizing: "border-box", overflow: "hidden" }}>
+    <section className="snap-section" style={{ position: "relative", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "105px 48px 40px", boxSizing: "border-box", overflow: "hidden" }}>
       
-      {/* Background Scrolling Watermark */}
-      <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", zIndex: 1, display: "flex", alignItems: "center" }}>
+      {/* Huge Background Text Layer behind cards */}
+      <div style={{
+        position: "absolute",
+        top: "40%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: "100%",
+        textAlign: "center",
+        fontFamily: "inherit",
+        fontSize: "clamp(64px, 11vw, 150px)",
+        fontWeight: 955,
+        letterSpacing: "-0.04em",
+        color: "#111111",
+        opacity: 0.95,
+        pointerEvents: "none",
+        zIndex: 1,
+        whiteSpace: "nowrap",
+        lineHeight: 1
+      }}>
+        FALL &apos;26 — AESTHETIC
+      </div>
+
+      {/* Main Grid Content (left stack + main card) */}
+      <div style={{
+        position: "relative",
+        zIndex: 5,
+        width: "100%",
+        maxWidth: 1240,
+        margin: "0 auto",
+        display: "flex",
+        gap: 24,
+        alignItems: "stretch",
+        flex: 1,
+        height: "calc(100vh - 210px)",
+        maxHeight: 600
+      }}>
+        
+        {/* Left Column: ON THE FLOOR stack */}
+        <div style={{
+          width: "20%",
+          minWidth: 170,
+          maxWidth: 220,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          height: "100%"
+        }}>
+          {/* Header */}
+          <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8, paddingLeft: 4 }}>
+            <span style={{ color: "#E05560", fontSize: 11, fontWeight: 900 }}>«</span>
+            <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: 2, color: BURG_LIGHT, textTransform: "uppercase" }}>
+              ON THE FLOOR
+            </span>
+          </div>
+
+          {/* Card list */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 14, flex: 1 }}>
+            {[
+              { name: "BLUEORNG", img: "/stock/hf_20260716_170918_8117694f-5cfb-4f2e-8081-6efa779dfc86.png" },
+              { name: "GULLY LABS", img: "/stock/hf_20260716_170924_df9ce8ea-ffec-4ce5-9372-6967b3068aa4.png" },
+              { name: "5FEET11", img: "/stock/hf_20260716_170930_fb120077-9502-4f6c-8cc4-c3b84fd5bd22.png" }
+            ].map((item, idx) => (
+              <div
+                key={idx}
+                style={{
+                  flex: 1,
+                  borderRadius: 20,
+                  overflow: "hidden",
+                  position: "relative",
+                  border: "1.5px solid rgba(0, 0, 0, 0.1)",
+                  boxShadow: "0 8px 24px rgba(0, 0, 0, 0.05)",
+                  background: CREAM
+                }}
+              >
+                <img
+                  src={item.img}
+                  alt={item.name}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute", inset: 0 }}
+                />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%)", zIndex: 1 }} />
+                <span style={{
+                  position: "absolute",
+                  bottom: 14,
+                  left: 16,
+                  zIndex: 2,
+                  fontSize: 10,
+                  fontWeight: 800,
+                  color: CREAM,
+                  letterSpacing: 1.5,
+                  textTransform: "uppercase"
+                }}>
+                  {item.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right Area: Main Video Card */}
         <motion.div 
-          initial={{ x: "0%" }}
-          animate={{ x: "-50%" }}
-          transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-          style={{ display: "flex", whiteSpace: "nowrap" }}
+          initial={{ opacity: 0, y: 30, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          style={{
+            flex: 1,
+            borderRadius: 28,
+            border: "1.5px solid rgba(0, 0, 0, 0.1)",
+            boxShadow: "0 30px 80px rgba(0, 0, 0, 0.08)",
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            padding: 40,
+            boxSizing: "border-box",
+            overflow: "hidden",
+            background: CREAM
+          }}
         >
-          <span style={{ fontSize: "28vw", fontWeight: 950, color: "rgba(0, 0, 0, 0.04)", textTransform: "uppercase", letterSpacing: "-0.04em", paddingRight: "10vw" }}>
-            CONCAT CONCAT
-          </span>
-          <span style={{ fontSize: "28vw", fontWeight: 950, color: "rgba(0, 0, 0, 0.04)", textTransform: "uppercase", letterSpacing: "-0.04em", paddingRight: "10vw" }}>
-            CONCAT CONCAT
-          </span>
+          {/* Background Video */}
+          <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+            <video src="/real_ads/first_section_web.mp4" autoPlay loop muted playsInline style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          </div>
+
+          {/* Vignette Gradients */}
+          <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 55%)`, zIndex: 1 }} />
+          <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 35%)`, zIndex: 1 }} />
+
+          {/* Top Row Badges */}
+          <div style={{ position: "relative", zIndex: 5, display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+            <div style={{ padding: "6px 14px", background: "rgba(255, 255, 255, 0.15)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderRadius: 999, border: "1px solid rgba(255, 255, 255, 0.2)" }}>
+              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: 2, color: CREAM, textTransform: "uppercase" }}>CONCAT.</span>
+            </div>
+            <div style={{ display: "flex", gap: 8, alignItems: "center", padding: "6px 14px", background: "rgba(255, 255, 255, 0.15)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderRadius: 999, border: "1px solid rgba(255, 255, 255, 0.2)" }}>
+              <motion.div animate={{ opacity: [1, 0.3, 1] }} transition={{ repeat: Infinity, duration: 1.5 }} style={{ width: 6, height: 6, borderRadius: "50%", background: "#ff3333" }} />
+              <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 2, color: CREAM, textTransform: "uppercase" }}>LIVE</span>
+            </div>
+          </div>
+
+          {/* Text & Button overlays */}
+          <div style={{ position: "relative", zIndex: 5, display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%", marginBottom: 12 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              <div>
+                <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255, 255, 255, 0.65)", marginBottom: 6 }}>
+                  THE MALL FOR INDEPENDENT LABELS
+                </div>
+                <h2 style={{ margin: 0, fontSize: "clamp(28px, 4.5vw, 48px)", fontWeight: 955, color: CREAM, textTransform: "uppercase", letterSpacing: "-0.04em", lineHeight: 1.05 }}>
+                  40+ STORES.<br />
+                  7 FLOORS.<br />
+                  ZERO MASS MARKET.
+                </h2>
+              </div>
+              
+              <div style={{ display: "flex", gap: 12, marginTop: 8 }}>
+                <Link href="/floors" style={{
+                  background: CREAM, color: BURG, padding: "12px 28px", borderRadius: 9999,
+                  fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.5,
+                  textDecoration: "none", transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)"
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.transform = "translateY(-2px)")}
+                onMouseLeave={(e) => (e.currentTarget.style.transform = "translateY(0)")}
+                >
+                  View Floors
+                </Link>
+                <Link href="/stores" style={{
+                  background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.25)", color: CREAM,
+                  padding: "12px 28px", borderRadius: 9999, fontSize: 11, fontWeight: 700,
+                  textTransform: "uppercase", letterSpacing: 1.5, textDecoration: "none", backdropFilter: "blur(8px)",
+                  WebkitBackdropFilter: "blur(8px)", transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)"
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.transform = "translateY(-2px)")}
+                onMouseLeave={(e) => (e.currentTarget.style.transform = "translateY(0)")}
+                >
+                  View Stores
+                </Link>
+              </div>
+            </div>
+
+            {/* Bottom Right Circle Button */}
+            <Link href="/shop" style={{ 
+              display: "inline-flex", alignItems: "center", justifyContent: "center", 
+              width: 56, height: 56, borderRadius: "50%", background: CREAM, color: BURG,
+              boxShadow: "0 8px 24px rgba(0,0,0,0.2)", transition: "transform 0.4s cubic-bezier(0.16,1,0.3,1)",
+              textDecoration: "none"
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.1) rotate(15deg)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1) rotate(0deg)"; }}
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </Link>
+          </div>
+
+          {/* Bottom Scrolling Ticker */}
+          <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 32, background: "#000000", display: "flex", alignItems: "center", overflow: "hidden", zIndex: 10 }}>
+            <motion.div
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{ repeat: Infinity, ease: "linear", duration: 25 }}
+              style={{ display: "flex", whiteSpace: "nowrap", width: "fit-content" }}
+            >
+              {Array(2).fill([
+                "BLUEORNG", "GULLY LABS", "MISO BY SONIA", "VASTRAMAY", 
+                "SAND MARSHAL", "THE BOMBAY SHIRT COMPANY", "5FEET11", "NEW DROPS"
+              ]).flat().map((item, idx) => (
+                <span key={idx} style={{ fontSize: 9, fontWeight: 800, color: "#FFFFFF", letterSpacing: 1.5, textTransform: "uppercase", display: "inline-flex", alignItems: "center", paddingRight: 32 }}>
+                  <span style={{ marginRight: 16, opacity: 0.5 }}>•</span> {item}
+                </span>
+              ))}
+            </motion.div>
+          </div>
         </motion.div>
       </div>
 
-      <motion.div 
-        initial={{ opacity: 0, y: 40, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-        style={{
-          width: "100%", maxWidth: "1000px", aspectRatio: "16/9", borderRadius: 36,
-          background: CREAM,
-          border: "1.5px solid rgba(0,0,0,0.1)",
-          boxShadow: "0 40px 100px rgba(0,0,0,0.15)",
-          position: "relative", display: "flex", flexDirection: "column", justifyContent: "space-between",
-          padding: 40, boxSizing: "border-box", overflow: "hidden", zIndex: 5,
-        }}
-      >
-        <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
-          <video src="/real_ads/first_section_web.mp4" autoPlay loop muted playsInline style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-        </div>
+      {/* Footer bar */}
+      <div style={{
+        width: "100%", maxWidth: 1240, margin: "16px auto 0",
+        display: "flex", justifyContent: "space-between", alignItems: "center",
+        zIndex: 5, pointerEvents: "none"
+      }}>
+        <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: 2, color: BURG_LIGHT, textTransform: "uppercase" }}>
+          WHERE BRANDS MEET CULTURE
+        </span>
+        <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: 2, color: BURG_LIGHT, textTransform: "uppercase" }}>
+          40+ STORES &nbsp; / &nbsp; 7 FLOORS &nbsp; / &nbsp; NEW STORES WEEKLY
+        </span>
+      </div>
 
-        {/* Dynamic vignette */}
-        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%)`, zIndex: 1 }} />
-        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 30%)`, zIndex: 1 }} />
-
-        {/* Top bar inside panel */}
-        <div style={{ position: "relative", zIndex: 5, display: "flex", justifyContent: "space-between", alignItems: "flex-start", width: "100%" }}>
-          <div style={{ padding: "6px 14px", background: "rgba(255,255,255,0.15)", backdropFilter: "blur(12px)", borderRadius: 999, border: "1px solid rgba(255,255,255,0.2)" }}>
-            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: 2, color: CREAM, textTransform: "uppercase" }}>CONCAT.</span>
-          </div>
-          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-            <motion.div animate={{ opacity: [1, 0.3, 1] }} transition={{ repeat: Infinity, duration: 1.5 }} style={{ width: 6, height: 6, borderRadius: "50%", background: "#ff3333" }} />
-            <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 2, color: CREAM, textTransform: "uppercase" }}>LIVE</span>
-          </div>
-        </div>
-
-        {/* Inner Content overlay */}
-        <div style={{ position: "relative", zIndex: 5, display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%" }}>
-          
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <div>
-              <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.7)", marginBottom: 4 }}>
-                Aesthetic Directives
-              </div>
-              <h2 style={{ margin: 0, fontSize: "clamp(24px, 4vw, 42px)", fontWeight: 900, color: CREAM, textTransform: "uppercase", letterSpacing: -1.5, lineHeight: 1 }}>
-                FALL '26
-              </h2>
-            </div>
-            
-            <div style={{ display: "flex", gap: 12 }}>
-              <Link href="/floors" className="hero-btn" style={{ color: CREAM }}>View Floors</Link>
-              <Link href="/stores" className="hero-btn" style={{ color: CREAM }}>View Stores</Link>
-            </div>
-          </div>
-
-          <Link href="/shop" style={{ 
-            display: "inline-flex", alignItems: "center", justifyContent: "center", 
-            width: 64, height: 64, borderRadius: "50%", background: CREAM, color: BURG,
-            boxShadow: "0 10px 30px rgba(0,0,0,0.3)", transition: "transform 0.4s cubic-bezier(0.16,1,0.3,1)",
-            textDecoration: "none"
-          }}
-          onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.15) rotate(15deg)"; }}
-          onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1) rotate(0deg)"; }}
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </Link>
-        </div>
-      </motion.div>
     </section>
   );
 }
@@ -224,214 +370,132 @@ function HeroSection() {
 function AccordionSection() {
   const [hovered, setHovered] = useState<string | null>(null);
 
-  const row1Cards = BRAND_CARDS.slice(0, 4);
-  const row2Cards = BRAND_CARDS.slice(4, 8);
-
-  const isRow1Hovered = row1Cards.some((c) => c.id === hovered);
-  const isRow2Hovered = row2Cards.some((c) => c.id === hovered);
-
   return (
-    <>
-      {/* SCREEN 1: Featured Stores (First 4) */}
-      <section id="featured-1" className="snap-section" style={{ padding: "80px 36px 20px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          style={{ width: "100%", display: "flex", flexDirection: "column", position: "relative" }}
-        >
-          <div style={{ marginBottom: 16, paddingLeft: 12 }}>
-            <h2 style={{ margin: 0, fontFamily: "inherit", fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 950, letterSpacing: -1.5, color: BURG, lineHeight: 1, textTransform: "uppercase" }}>
-              featured stores
-            </h2>
-          </div>
-          
-          <div style={{ position: "relative", width: "100%", maxWidth: 1200, margin: "0 auto" }}>
-            <div style={{ display: "flex", gap: 20, height: "74vh", maxHeight: "660px", width: "100%" }}>
-              {row1Cards.map((card) => {
-                const isHov = hovered === card.id;
-                const flexVal = 1;
-                const opacity = 1;
-                const translateY = 0;
+    <section id="featured-stores" className="snap-section" style={{ padding: "80px 48px 40px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        style={{ width: "100%", display: "flex", flexDirection: "column", position: "relative", maxWidth: 1240, margin: "0 auto" }}
+      >
+        {/* Title Bar */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 20, paddingLeft: 4, paddingRight: 4 }}>
+          <h2 style={{ margin: 0, fontFamily: "inherit", fontSize: "clamp(26px, 3.5vw, 40px)", fontWeight: 955, letterSpacing: -1.5, color: BURG, lineHeight: 1, textTransform: "uppercase" }}>
+            featured stores
+          </h2>
+          <span style={{ fontSize: 9, fontWeight: 800, color: BURG_LIGHT, letterSpacing: 1.5, textTransform: "uppercase", paddingBottom: 4 }}>
+            07 INDEPENDENT LABELS &nbsp;•&nbsp; HOVER TO EXPLORE
+          </span>
+        </div>
+        
+        {/* Row of 7 Cards */}
+        <div style={{ display: "flex", gap: 14, height: "70vh", maxHeight: "600px", width: "100%" }}>
+          {BRAND_CARDS.map((card) => {
+            const isHov = hovered === card.id;
+            return (
+              <Link
+                key={card.id}
+                href="/shop"
+                style={{ 
+                  flex: hovered === card.id ? 1.6 : hovered !== null ? 0.85 : 1,
+                  height: "100%",
+                  borderRadius: 24,
+                  overflow: "hidden",
+                  position: "relative",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "flex-end",
+                  border: "1.5px solid rgba(0, 0, 0, 0.1)",
+                  boxShadow: isHov ? "0 20px 50px rgba(0,0,0,0.12)" : "0 8px 24px rgba(0,0,0,0.04)",
+                  textDecoration: "none",
+                  transition: "flex 0.8s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease"
+                }}
+                onMouseEnter={() => setHovered(card.id)}
+                onMouseLeave={() => setHovered(null)}
+              >
+                {/* Background Image with Hover Scale */}
+                <img
+                  src={card.image}
+                  alt={card.brand}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    position: "absolute",
+                    inset: 0,
+                    transform: isHov ? "scale(1.05)" : "scale(1)",
+                    transition: "transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)"
+                  }}
+                />
 
-                if (card.isBlank) {
-                  return (
-                    <div
-                      key={card.id}
-                      className="expand-card"
-                      style={{ 
-                        flex: 1,
-                        height: "100%",
-                        borderRadius: 24,
-                        background: "rgba(255, 255, 255, 0.05)",
-                        border: "1.5px solid rgba(0, 0, 0, 0.08)",
-                        backdropFilter: "blur(20px)",
-                      }}
-                      onMouseEnter={() => setHovered(card.id)}
-                      onMouseLeave={() => setHovered(null)}
-                    />
-                  );
-                }
+                {/* Vignette Gradient */}
+                <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)`, zIndex: 1 }} />
 
-                return (
-                  <Link
-                    key={card.id}
-                    href="/shop"
-                    className="expand-card"
-                    style={{ 
-                      flex: 1,
-                      height: "100%",
-                      borderRadius: 24,
-                      overflow: "hidden",
-                      position: "relative"
-                    }}
-                    onMouseEnter={() => setHovered(card.id)}
-                    onMouseLeave={() => setHovered(null)}
-                  >
-                    <LocalVideoCardBackground src={card.src} opacity={1} scale={(card as any).scale || 1.05} />
-                    <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.25) 55%, transparent 100%)`, zIndex: 1 }} />
+                {/* Top-Right Arrow Button (Shows on all, rotates and highlights on hover) */}
+                <div style={{
+                  width: 38,
+                  height: 38,
+                  borderRadius: "50%",
+                  background: "#FFFFFF",
+                  color: "#111111",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  position: "absolute",
+                  top: 20,
+                  right: 20,
+                  zIndex: 10,
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                  transform: isHov ? "scale(1.1) rotate(-45deg)" : "scale(1) rotate(0deg)",
+                  transition: "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s"
+                }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </div>
 
-                    <div style={{
-                      position: "absolute", left: 24, bottom: 24, right: 24, zIndex: 2, pointerEvents: "none",
-                      transition: "opacity 0.4s ease, transform 0.45s ease",
-                      opacity, transform: `translateY(${translateY}px)`,
-                    }}>
-                      <h3 style={{
-                        fontFamily: "inherit", fontSize: "clamp(16px, 1.8vw, 21px)", fontWeight: 900,
-                        color: CREAM, margin: 0, letterSpacing: -0.5, lineHeight: 1.1, textTransform: "uppercase",
-                        overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"
-                      }}>
-                        {card.brand}
-                      </h3>
-                      <p style={{ margin: "10px 0 0", fontSize: 13, color: "rgba(255,255,255,0.7)", maxWidth: 220, lineHeight: 1.4 }}>
-                        {card.desc}
-                      </p>
-                    </div>
-
-                    {/* Visit Store Pill Button */}
-                    <div style={{
-                      display: "inline-flex", alignItems: "center", gap: 8,
-                      padding: "8px 18px", borderRadius: 9999, background: CREAM, color: BURG,
-                      fontFamily: "inherit", fontSize: 10, fontWeight: 800, letterSpacing: 1.5,
-                      textTransform: "uppercase", boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
-                      position: "absolute", top: 24, right: 24, zIndex: 10,
-                      opacity: isHov ? 1 : 0,
-                      transform: isHov ? "translateY(0) scale(1)" : "translateY(-8px) scale(0.95)",
-                      transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
-                      pointerEvents: "none"
-                    }}>
-                      <span>visit store</span>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"/>
-                        <polyline points="12 5 19 12 12 19"/>
-                      </svg>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* SCREEN 2: Featured Stores (Next 4) */}
-      <section id="featured-2" className="snap-section" style={{ padding: "40px 36px 20px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          style={{ width: "100%", display: "flex", flexDirection: "column", position: "relative" }}
-        >
-          <div style={{ position: "relative", width: "100%", maxWidth: 1200, margin: "0 auto" }}>
-            <div style={{ display: "flex", gap: 20, height: "74vh", maxHeight: "660px", width: "100%" }}>
-              {row2Cards.map((card) => {
-                const isHov = hovered === card.id;
-                const flexVal = 1;
-                const opacity = 1;
-                const translateY = 0;
-
-                if (card.isBlank) {
-                  return (
-                    <div
-                      key={card.id}
-                      className="expand-card"
-                      style={{ 
-                        flex: 1,
-                        height: "100%",
-                        borderRadius: 24,
-                        background: "rgba(255, 255, 255, 0.05)",
-                        border: "1.5px solid rgba(0, 0, 0, 0.08)",
-                        backdropFilter: "blur(20px)",
-                      }}
-                      onMouseEnter={() => setHovered(card.id)}
-                      onMouseLeave={() => setHovered(null)}
-                    />
-                  );
-                }
-
-                return (
-                  <Link
-                    key={card.id}
-                    href="/shop"
-                    className="expand-card"
-                    style={{ 
-                      flex: 1,
-                      height: "100%",
-                      borderRadius: 24,
-                      overflow: "hidden",
-                      position: "relative"
-                    }}
-                    onMouseEnter={() => setHovered(card.id)}
-                    onMouseLeave={() => setHovered(null)}
-                  >
-                    <LocalVideoCardBackground src={card.src} opacity={1} scale={(card as any).scale || 1.05} />
-                    <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.25) 55%, transparent 100%)`, zIndex: 1 }} />
-
-                    <div style={{
-                      position: "absolute", left: 24, bottom: 24, right: 24, zIndex: 2, pointerEvents: "none",
-                      transition: "opacity 0.4s ease, transform 0.45s ease",
-                      opacity, transform: `translateY(${translateY}px)`,
-                    }}>
-                      <h3 style={{
-                        fontFamily: "inherit", fontSize: "clamp(16px, 1.8vw, 21px)", fontWeight: 900,
-                        color: CREAM, margin: 0, letterSpacing: -0.5, lineHeight: 1.1, textTransform: "uppercase",
-                        overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"
-                      }}>
-                        {card.brand}
-                      </h3>
-                      <p style={{ margin: "10px 0 0", fontSize: 13, color: "rgba(255,255,255,0.7)", maxWidth: 220, lineHeight: 1.4 }}>
-                        {card.desc}
-                      </p>
-                    </div>
-
-                    {/* Visit Store Pill Button */}
-                    <div style={{
-                      display: "inline-flex", alignItems: "center", gap: 8,
-                      padding: "8px 18px", borderRadius: 9999, background: CREAM, color: BURG,
-                      fontFamily: "inherit", fontSize: 10, fontWeight: 800, letterSpacing: 1.5,
-                      textTransform: "uppercase", boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
-                      position: "absolute", top: 24, right: 24, zIndex: 10,
-                      opacity: isHov ? 1 : 0,
-                      transform: isHov ? "translateY(0) scale(1)" : "translateY(-8px) scale(0.95)",
-                      transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
-                      pointerEvents: "none"
-                    }}>
-                      <span>visit store</span>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"/>
-                        <polyline points="12 5 19 12 12 19"/>
-                      </svg>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        </motion.div>
-      </section>
-    </>
+                {/* Card Labels bottom-left */}
+                <div style={{
+                  position: "absolute",
+                  left: 20,
+                  bottom: 24,
+                  right: 20,
+                  zIndex: 2,
+                  pointerEvents: "none",
+                  transform: isHov ? "translateY(-4px)" : "translateY(0)",
+                  transition: "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)"
+                }}>
+                  <span style={{
+                    fontSize: 9,
+                    fontWeight: 700,
+                    color: "rgba(255, 255, 255, 0.65)",
+                    letterSpacing: 1.5,
+                    textTransform: "uppercase",
+                    display: "block"
+                  }}>
+                    {card.tagline}
+                  </span>
+                  <h3 style={{
+                    fontFamily: "inherit",
+                    fontSize: "clamp(15px, 1.6vw, 18px)",
+                    fontWeight: 900,
+                    color: CREAM,
+                    margin: "4px 0 0",
+                    letterSpacing: -0.5,
+                    lineHeight: 1.1,
+                    textTransform: "uppercase"
+                  }}>
+                    {card.brand}
+                  </h3>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </motion.div>
+    </section>
   );
 }
 
