@@ -398,42 +398,25 @@ function AccordionSection() {
                 onMouseEnter={() => setHovered(card.id)}
                 onMouseLeave={() => setHovered(null)}
               >
-                {/* Dynamic Media with Hover Scale & GPU acceleration */}
-                {isHov ? (
-                  <video
-                    src={card.videoSrc}
-                    poster={card.image}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      position: "absolute",
-                      inset: 0,
-                      willChange: "transform",
-                      transform: "scale(1.05) translateZ(0)",
-                      transition: "transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)"
-                    }}
-                  />
-                ) : (
-                  <img
-                    src={card.image}
-                    alt={card.brand}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      position: "absolute",
-                      inset: 0,
-                      willChange: "transform",
-                      transform: "scale(1) translateZ(0)",
-                      transition: "transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)"
-                    }}
-                  />
-                )}
+                {/* Background Video playing simultaneously on all cards */}
+                <video
+                  src={card.videoSrc}
+                  poster={card.image}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    position: "absolute",
+                    inset: 0,
+                    willChange: "transform",
+                    transform: isHov ? "scale(1.05) translateZ(0)" : "scale(1) translateZ(0)",
+                    transition: "transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)"
+                  }}
+                />
 
                 {/* Vignette Gradient */}
                 <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)`, zIndex: 1 }} />
