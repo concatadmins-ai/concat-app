@@ -247,9 +247,9 @@ function AccordionSection() {
             <div style={{ display: "flex", gap: 20, height: "74vh", maxHeight: "660px", width: "100%" }}>
               {row1Cards.map((card) => {
                 const isHov = hovered === card.id;
-                const flexVal = isRow1Hovered ? (isHov ? 5 : 1) : 1;
-                const opacity = hovered ? (isHov ? 1 : 0) : 1;
-                const translateY = hovered && !isHov ? 16 : 0;
+                const flexVal = 1;
+                const opacity = 1;
+                const translateY = 0;
 
                 if (card.isBlank) {
                   return (
@@ -257,9 +257,8 @@ function AccordionSection() {
                       key={card.id}
                       className="expand-card"
                       style={{ 
-                        flex: flexVal,
+                        flex: 1,
                         height: "100%",
-                        transition: "flex 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
                         borderRadius: 24,
                         background: "rgba(255, 255, 255, 0.05)",
                         border: "1.5px solid rgba(0, 0, 0, 0.08)",
@@ -277,20 +276,20 @@ function AccordionSection() {
                     href="/shop"
                     className="expand-card"
                     style={{ 
-                      flex: flexVal,
+                      flex: 1,
                       height: "100%",
-                      transition: "flex 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
                       borderRadius: 24,
-                      overflow: "hidden"
+                      overflow: "hidden",
+                      position: "relative"
                     }}
                     onMouseEnter={() => setHovered(card.id)}
                     onMouseLeave={() => setHovered(null)}
                   >
                     <LocalVideoCardBackground src={card.src} opacity={1} scale={(card as any).scale || 1.05} />
-                    <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 55%, transparent 100%)`, zIndex: 1 }} />
+                    <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.25) 55%, transparent 100%)`, zIndex: 1 }} />
 
                     <div style={{
-                      position: "absolute", left: 24, bottom: 24, right: 24, zIndex: 2, pointerEvents: "none",
+                      position: "absolute", left: 24, bottom: 24, right: 80, zIndex: 2, pointerEvents: "none",
                       transition: "opacity 0.4s ease, transform 0.45s ease",
                       opacity, transform: `translateY(${translateY}px)`,
                     }}>
@@ -304,6 +303,25 @@ function AccordionSection() {
                       <p style={{ margin: "10px 0 0", fontSize: 13, color: "rgba(255,255,255,0.7)", maxWidth: 220, lineHeight: 1.4 }}>
                         {card.desc}
                       </p>
+                    </div>
+
+                    {/* Visit Store Pill Button */}
+                    <div style={{
+                      display: "inline-flex", alignItems: "center", gap: 8,
+                      padding: "8px 18px", borderRadius: 9999, background: CREAM, color: BURG,
+                      fontFamily: "inherit", fontSize: 10, fontWeight: 800, letterSpacing: 1.5,
+                      textTransform: "uppercase", boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
+                      position: "absolute", bottom: 24, right: 24, zIndex: 10,
+                      opacity: isHov ? 1 : 0,
+                      transform: isHov ? "translateY(0) scale(1)" : "translateY(8px) scale(0.95)",
+                      transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+                      pointerEvents: "none"
+                    }}>
+                      <span>visit store</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                        <polyline points="12 5 19 12 12 19"/>
+                      </svg>
                     </div>
                   </Link>
                 );
@@ -326,9 +344,9 @@ function AccordionSection() {
             <div style={{ display: "flex", gap: 20, height: "74vh", maxHeight: "660px", width: "100%" }}>
               {row2Cards.map((card) => {
                 const isHov = hovered === card.id;
-                const flexVal = isRow2Hovered ? (isHov ? 5 : 1) : 1;
-                const opacity = hovered ? (isHov ? 1 : 0) : 1;
-                const translateY = hovered && !isHov ? 16 : 0;
+                const flexVal = 1;
+                const opacity = 1;
+                const translateY = 0;
 
                 if (card.isBlank) {
                   return (
@@ -336,9 +354,8 @@ function AccordionSection() {
                       key={card.id}
                       className="expand-card"
                       style={{ 
-                        flex: flexVal,
+                        flex: 1,
                         height: "100%",
-                        transition: "flex 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
                         borderRadius: 24,
                         background: "rgba(255, 255, 255, 0.05)",
                         border: "1.5px solid rgba(0, 0, 0, 0.08)",
@@ -356,20 +373,20 @@ function AccordionSection() {
                     href="/shop"
                     className="expand-card"
                     style={{ 
-                      flex: flexVal,
+                      flex: 1,
                       height: "100%",
-                      transition: "flex 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
                       borderRadius: 24,
-                      overflow: "hidden"
+                      overflow: "hidden",
+                      position: "relative"
                     }}
                     onMouseEnter={() => setHovered(card.id)}
                     onMouseLeave={() => setHovered(null)}
                   >
                     <LocalVideoCardBackground src={card.src} opacity={1} scale={(card as any).scale || 1.05} />
-                    <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 55%, transparent 100%)`, zIndex: 1 }} />
+                    <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.25) 55%, transparent 100%)`, zIndex: 1 }} />
 
                     <div style={{
-                      position: "absolute", left: 24, bottom: 24, right: 24, zIndex: 2, pointerEvents: "none",
+                      position: "absolute", left: 24, bottom: 24, right: 80, zIndex: 2, pointerEvents: "none",
                       transition: "opacity 0.4s ease, transform 0.45s ease",
                       opacity, transform: `translateY(${translateY}px)`,
                     }}>
@@ -383,6 +400,25 @@ function AccordionSection() {
                       <p style={{ margin: "10px 0 0", fontSize: 13, color: "rgba(255,255,255,0.7)", maxWidth: 220, lineHeight: 1.4 }}>
                         {card.desc}
                       </p>
+                    </div>
+
+                    {/* Visit Store Pill Button */}
+                    <div style={{
+                      display: "inline-flex", alignItems: "center", gap: 8,
+                      padding: "8px 18px", borderRadius: 9999, background: CREAM, color: BURG,
+                      fontFamily: "inherit", fontSize: 10, fontWeight: 800, letterSpacing: 1.5,
+                      textTransform: "uppercase", boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
+                      position: "absolute", bottom: 24, right: 24, zIndex: 10,
+                      opacity: isHov ? 1 : 0,
+                      transform: isHov ? "translateY(0) scale(1)" : "translateY(8px) scale(0.95)",
+                      transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+                      pointerEvents: "none"
+                    }}>
+                      <span>visit store</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                        <polyline points="12 5 19 12 12 19"/>
+                      </svg>
                     </div>
                   </Link>
                 );
