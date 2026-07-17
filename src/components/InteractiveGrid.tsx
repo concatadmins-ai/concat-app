@@ -161,83 +161,58 @@ export default function InteractiveGrid() {
       }
       ctx.stroke();
 
-      // ── Draw Electric Currents ────────────────────────────────────
+      // ── Draw Electric Currents (Radiating Sun Rays) ───────────────
       if (mouseRef.current.x !== -1000) {
         const mx = mouseRef.current.x;
         const my = mouseRef.current.y;
-        const maxDist = 300; // Fades out completely past 300px
+        const numRays = 16;
+        const maxDist = 300; // Rays fade out past 300px
         
-        // Horizontal currents radiating outward
-        for (let gy = LINE_STEP; gy < height; gy += LINE_STEP) {
-          let activePath = false;
+        ctx.lineWidth = 1.6;
+        
+        for (let j = 0; j < numRays; j++) {
+          // Angle of the ray with a slow wiggling path
+          const angle = (j / numRays) * Math.PI * 2 + Math.sin(Date.now() * 0.0003 + j) * 0.08;
           
-          for (let gx = -LINE_STEP; gx <= width + LINE_STEP; gx += LINE_STEP / 2) {
-            const dx = gx - mx;
-            const dy = gy - my;
-            const dist = Math.sqrt(dx * dx + dy * dy);
+          // Phase of the pulse for this ray (offset by index to make them shoot at different times)
+          const rayOffset = j * 85;
+          const pulseCenter = ((Date.now() * 0.07) + rayOffset) % maxDist; // Slow propagation speed (0.07)
+          
+          const rStart = Math.max(10, pulseCenter - 50);
+          const rEnd = Math.min(maxDist - 20, pulseCenter + 50);
+          
+          if (rEnd > rStart) {
+            const fade = Math.max(0, (maxDist - pulseCenter) / maxDist);
+            const opacity = fade * 0.5; // Fades as it moves out
             
-            // Outward propagating sine wave
-            const waveVal = Math.sin(dist * 0.045 - Date.now() * 0.016);
+            // Draw a jagged line segment for the electric current
+            const steps = 4;
+            const perpAngle = angle + Math.PI / 2;
             
-            if (dist < maxDist && waveVal > 0.6) {
-              const p = applyWarps(gx, gy);
-              const fade = Math.max(0, (maxDist - dist) / maxDist);
-              const waveFade = (waveVal - 0.6) / 0.4;
-              const opacity = fade * waveFade * 0.55;
+            ctx.beginPath();
+            const startX = mx + Math.cos(angle) * rStart;
+            const startY = my + Math.sin(angle) * rStart;
+            ctx.moveTo(startX, startY);
+            
+            for (let k = 1; k <= steps; k++) {
+              const r = rStart + (rEnd - rStart) * (k / steps);
+              const bx = mx + Math.cos(angle) * r;
+              const by = my + Math.sin(angle) * r;
               
-              if (!activePath) {
-                ctx.beginPath();
-                ctx.moveTo(p.x, p.y);
-                activePath = true;
-              } else {
-                ctx.lineTo(p.x, p.y);
+              // Jagged lightning flicker offset
+              let offsetX = 0;
+              let offsetY = 0;
+              if (k < steps) {
+                const wiggle = (Math.random() - 0.5) * 6 * fade;
+                offsetX = Math.cos(perpAngle) * wiggle;
+                offsetY = Math.sin(perpAngle) * wiggle;
               }
               
-              ctx.strokeStyle = `rgba(15, 60, 220, ${opacity})`; // Dark lightning blue
-              ctx.lineWidth = 1.8;
-              ctx.stroke();
-              ctx.beginPath();
-              ctx.moveTo(p.x, p.y);
-            } else {
-              activePath = false;
+              ctx.lineTo(bx + offsetX, by + offsetY);
             }
-          }
-        }
-
-        // Vertical currents radiating outward
-        for (let gx = LINE_STEP; gx < width; gx += LINE_STEP) {
-          let activePath = false;
-          
-          for (let gy = -LINE_STEP; gy <= height + LINE_STEP; gy += LINE_STEP / 2) {
-            const dx = gx - mx;
-            const dy = gy - my;
-            const dist = Math.sqrt(dx * dx + dy * dy);
             
-            // Outward propagating sine wave
-            const waveVal = Math.sin(dist * 0.045 - Date.now() * 0.016);
-            
-            if (dist < maxDist && waveVal > 0.6) {
-              const p = applyWarps(gx, gy);
-              const fade = Math.max(0, (maxDist - dist) / maxDist);
-              const waveFade = (waveVal - 0.6) / 0.4;
-              const opacity = fade * waveFade * 0.55;
-              
-              if (!activePath) {
-                ctx.beginPath();
-                ctx.moveTo(p.x, p.y);
-                activePath = true;
-              } else {
-                ctx.lineTo(p.x, p.y);
-              }
-              
-              ctx.strokeStyle = `rgba(15, 60, 220, ${opacity})`; // Dark lightning blue
-              ctx.lineWidth = 1.8;
-              ctx.stroke();
-              ctx.beginPath();
-              ctx.moveTo(p.x, p.y);
-            } else {
-              activePath = false;
-            }
+            ctx.strokeStyle = `rgba(10, 50, 210, ${opacity})`; // Nice dark lightning blue
+            ctx.stroke();
           }
         }
       }
