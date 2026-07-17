@@ -697,11 +697,16 @@ function TopSellingSection() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        style={{ maxWidth: 1200, width: "100%", margin: "0 auto", position: "relative", transform: "translateY(-48px)" }}
+        style={{ maxWidth: 1240, width: "100%", margin: "0 auto", position: "relative", transform: "translateY(-48px)" }}
       >
-        {/* Heading Left Aligned & Cleared, Subheading removed, size reduced */}
-        <div style={{ marginBottom: 28, paddingLeft: 12 }}>
-          <h2 style={{ margin: 0, fontFamily: "inherit", fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 950, letterSpacing: -1.5, color: BURG, textTransform: "uppercase" }}>hot right now</h2>
+        {/* Title Bar */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 24, paddingLeft: 12, paddingRight: 12 }}>
+          <h2 style={{ margin: 0, fontFamily: "inherit", fontSize: "clamp(26px, 3.5vw, 40px)", fontWeight: 955, letterSpacing: -1.5, color: BURG, lineHeight: 1, textTransform: "uppercase" }}>
+            hot right now
+          </h2>
+          <span style={{ fontSize: 9, fontWeight: 800, color: BURG_LIGHT, letterSpacing: 1.5, textTransform: "uppercase", paddingBottom: 4 }}>
+            TOP SELLERS THIS WEEK &nbsp;•&nbsp; RANKED LIVE
+          </span>
         </div>
 
         {/* Horizontal scroll container with relative positioning for side buttons and CSS mask fade edges */}
@@ -716,19 +721,62 @@ function TopSellingSection() {
               WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)"
             }}
           >
-            {TOP_PRODUCTS.map((prod) => (
+            {TOP_PRODUCTS.map((prod, idx) => (
               <Link href={`/shop`} key={prod.id} style={{ textDecoration: "none", flexShrink: 0 }}>
-                <div className="glass-card" style={{ width: 260, borderRadius: 24, overflow: "hidden", cursor: "pointer", transition: "transform 0.3s ease, box-shadow 0.3s ease" }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)"; }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; }}
+                <div 
+                  style={{ 
+                    width: 260, 
+                    borderRadius: 24, 
+                    overflow: "hidden", 
+                    cursor: "pointer", 
+                    background: "#FFFFFF",
+                    border: "1.5px solid rgba(0, 0, 0, 0.08)",
+                    boxShadow: "0 8px 30px rgba(0, 0, 0, 0.03)",
+                    display: "flex",
+                    flexDirection: "column",
+                    position: "relative",
+                    transition: "transform 0.3s ease, box-shadow 0.3s ease" 
+                  }}
+                  onMouseEnter={(e) => { 
+                    (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)";
+                    (e.currentTarget as HTMLElement).style.boxShadow = "0 16px 40px rgba(0, 0, 0, 0.08)";
+                  }}
+                  onMouseLeave={(e) => { 
+                    (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+                    (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 30px rgba(0, 0, 0, 0.03)";
+                  }}
                 >
-                  <div style={{ position: "relative", aspectRatio: "3/4" }}>
+                  <div style={{ position: "relative", aspectRatio: "3/4", overflow: "hidden" }}>
                     <img src={prod.image} alt={prod.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }} />
+                    
+                    {/* Massive white ranking number overlay */}
+                    <span style={{
+                      position: "absolute",
+                      top: 12,
+                      left: 16,
+                      fontSize: 84,
+                      fontWeight: 900,
+                      color: "#FFFFFF",
+                      lineHeight: 0.8,
+                      letterSpacing: "-0.05em",
+                      pointerEvents: "none",
+                      zIndex: 2,
+                      textShadow: "0 4px 20px rgba(0,0,0,0.18)"
+                    }}>
+                      {idx + 1}
+                    </span>
                   </div>
-                  <div style={{ padding: "18px 20px" }}>
-                    <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase", color: BURG_LIGHT, margin: "0 0 4px" }}>{prod.brand}</p>
-                    <h3 style={{ fontSize: 14, fontWeight: 700, color: BURG, margin: "0 0 8px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{prod.name}</h3>
-                    <p style={{ fontSize: 15, fontWeight: 800, color: BURG, margin: 0 }}>${prod.price}</p>
+
+                  <div style={{ padding: "18px 20px", display: "flex", flexDirection: "column", gap: 4, background: "#FFFFFF" }}>
+                    <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: 1.5, textTransform: "uppercase", color: "rgba(0, 0, 0, 0.4)" }}>
+                      {prod.brand}
+                    </span>
+                    <h3 style={{ fontSize: 13, fontWeight: 700, color: "#111111", margin: 0, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      {prod.name}
+                    </h3>
+                    <span style={{ fontSize: 13, fontWeight: 800, color: "#111111", marginTop: 2 }}>
+                      ${prod.price}
+                    </span>
                   </div>
                 </div>
               </Link>
@@ -741,14 +789,13 @@ function TopSellingSection() {
             style={{ 
               position: "absolute", left: -24, top: "50%", transform: "translateY(-50%)",
               width: 48, height: 48, borderRadius: "50%", 
-              background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.18)", 
-              color: BURG, display: "flex", alignItems: "center", justifyContent: "center", 
+              background: "#FFFFFF", border: "1px solid rgba(0, 0, 0, 0.08)", 
+              color: "#111111", display: "flex", alignItems: "center", justifyContent: "center", 
               cursor: "pointer", transition: "all 0.3s ease", zIndex: 40,
-              backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
-              boxShadow: "0 8px 32px rgba(0,0,0,0.4)"
+              boxShadow: "0 4px 12px rgba(0,0,0,0.06)"
             }} 
-            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.18)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1.08)"; }} 
-            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1)"; }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "#F9F9F9"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1.08)"; }} 
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "#FFFFFF"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1)"; }}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
           </button>
@@ -757,14 +804,13 @@ function TopSellingSection() {
             style={{ 
               position: "absolute", right: -24, top: "50%", transform: "translateY(-50%)",
               width: 48, height: 48, borderRadius: "50%", 
-              background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.18)", 
-              color: BURG, display: "flex", alignItems: "center", justifyContent: "center", 
+              background: "#FFFFFF", border: "1px solid rgba(0, 0, 0, 0.08)", 
+              color: "#111111", display: "flex", alignItems: "center", justifyContent: "center", 
               cursor: "pointer", transition: "all 0.3s ease", zIndex: 40,
-              backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
-              boxShadow: "0 8px 32px rgba(0,0,0,0.4)"
+              boxShadow: "0 4px 12px rgba(0,0,0,0.06)"
             }} 
-            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.18)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1.08)"; }} 
-            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1)"; }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "#F9F9F9"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1.08)"; }} 
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "#FFFFFF"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1)"; }}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
           </button>
