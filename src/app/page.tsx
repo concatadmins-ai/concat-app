@@ -199,7 +199,7 @@ function HeroSection() {
           <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8, paddingLeft: 4 }}>
             <span style={{ color: "#E05560", fontSize: 11, fontWeight: 900 }}>«</span>
             <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: 2, color: BURG_LIGHT, textTransform: "uppercase" }}>
-              in the hear
+              in the heat
             </span>
           </div>
 
@@ -374,9 +374,6 @@ function HeroSection() {
       }}>
         <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: 2, color: BURG_LIGHT, textTransform: "uppercase" }}>
           WHERE BRANDS MEET CULTURE
-        </span>
-        <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: 2, color: BURG_LIGHT, textTransform: "uppercase" }}>
-          40+ STORES &nbsp; / &nbsp; 7 FLOORS &nbsp; / &nbsp; NEW STORES WEEKLY
         </span>
       </div>
 
