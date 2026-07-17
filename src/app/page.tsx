@@ -12,17 +12,65 @@ const CREAM     = "#FFFFFF";
 const CREAM_DARK= "#F5F5F5";
 
 // ─── MEDIA MAPPINGS ───────────────────────────────────────────────
-const HERO_VIDEOS = [
-  "/stock/hf_20260716_170443_38e6b78a-8799-4829-87bb-c502c0f8ad3c.mp4",
-  "/stock/hf_20260716_170450_33c114d8-c778-4116-97c7-597d3dbe2fe6.mp4",
-  "/stock/hf_20260716_170805_2c160018-e4cb-4818-b7c1-47a638851a3c.mp4"
+const HERO_VIMEO_IDS = [
+  "1210710495", // blueorng
+  "1210710493", // gullylabs
+  "1210710494"  // 5feet11
 ];
 
-const AD_VIDEOS = [
-  "/stock/hf_20260716_171513_5af86a4c-089c-4647-877a-f2cbaad005e1.mp4",
-  "/stock/hf_20260716_171520_383ed21e-fc31-4734-ba9d-1f6ea8b47cb3.mp4",
-  "/stock/hf_20260716_171527_0efa8741-01ae-4e05-a543-d48dc971abf5.mp4"
+const AD_VIMEO_IDS = [
+  "1210710492", // Bombay shirt / Vastramay
+  "1210710565", // misobysonia
+  "1210710629"  // samandmarshall
 ];
+
+function VimeoBackground({ videoId, opacity = 1 }: { videoId: string; opacity?: number }) {
+  if (!videoId) return null;
+  return (
+    <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", opacity, transition: "opacity 1s ease" }}>
+      <iframe
+        src={`https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&autopause=0&muted=1&background=1`}
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          width: "100vw",
+          height: "56.25vw",
+          minHeight: "100vh",
+          minWidth: "177.77vh",
+          transform: "translate(-50%, -50%) scale(1.15)",
+          border: "none",
+          zIndex: 0
+        }}
+        allow="autoplay; fullscreen"
+      />
+    </div>
+  );
+}
+
+function VimeoCardBackground({ videoId, opacity = 1 }: { videoId: string; opacity?: number }) {
+  if (!videoId) return null;
+  return (
+    <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", opacity, transition: "opacity 0.6s ease" }}>
+      <iframe
+        src={`https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&autopause=0&muted=1&background=1`}
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          width: "177.77vh",
+          height: "100vh",
+          minWidth: "100%",
+          minHeight: "100%",
+          transform: "translate(-50%, -50%) scale(1.35)",
+          border: "none",
+          zIndex: 0
+        }}
+        allow="autoplay; fullscreen"
+      />
+    </div>
+  );
+}
 
 const FLOOR_IMAGES = [
   "/stock/hf_20260716_170918_8117694f-5cfb-4f2e-8081-6efa779dfc86.png",
@@ -61,14 +109,14 @@ const CAROUSEL_CARDS = [
 ];
 
 const BRAND_CARDS = [
-  { id: "A", brand: "", tagline: "", src: "", desc: "", isBlank: true },
-  { id: "B", brand: "Main Character", tagline: "Streetwear", src: "/real_ads/blueorng-advertisment.mp4", desc: "Aesthetic streetwear inspired by modern youth culture and bold expressions." },
-  { id: "C", brand: "5feet11", tagline: "Linen & Casuals", src: "/real_ads/5feet11-advertisment.mp4", desc: "Premium fabrics and relaxed fits engineered for everyday elegance." },
-  { id: "D", brand: "The Bombay Shirt Company", tagline: "Bespoke Shirts", src: "/real_ads/bombay_shirt_company-advertisment.mp4", desc: "Custom-made luxury shirting designed by you, tailored for comfort." },
-  { id: "E", brand: "Sand Marshal", tagline: "Eyewear", src: "/real_ads/samandmarshall-advertisment.mp4", desc: "Visionary designer eyewear crafted to shield your sight and define your style." },
-  { id: "F", brand: "Miso by Sonia", tagline: "Artisanal Jewelry", src: "/real_ads/misobysonia-advertisment.mp4", desc: "Handcrafted statement jewelry pieces made to last and elevate your identity." },
-  { id: "G", brand: "Gully Labs", tagline: "Footwear", src: "/real_ads/gully_labs-advertisment.mp4", desc: "Sneakers that tell a story. Blending heritage craftsmanship with street sensibilities." },
-  { id: "H", brand: "Vastramay", tagline: "Traditionals", src: "/real_ads/vastramay-advertisment.mp4", desc: "Ethnic fusion wear redefining modern Indian drapery and style." },
+  { id: "A", brand: "", tagline: "", vimeoId: "", desc: "", isBlank: true },
+  { id: "B", brand: "Main Character", tagline: "Streetwear", vimeoId: "1210710495", desc: "Aesthetic streetwear inspired by modern youth culture and bold expressions." },
+  { id: "C", brand: "5feet11", tagline: "Linen & Casuals", vimeoId: "1210710494", desc: "Premium fabrics and relaxed fits engineered for everyday elegance." },
+  { id: "D", brand: "The Bombay Shirt Company", tagline: "Bespoke Shirts", vimeoId: "1210710492", desc: "Custom-made luxury shirting designed by you, tailored for comfort." },
+  { id: "E", brand: "Sand Marshal", tagline: "Eyewear", vimeoId: "1210710629", desc: "Visionary designer eyewear crafted to shield your sight and define your style." },
+  { id: "F", brand: "Miso by Sonia", tagline: "Artisanal Jewelry", vimeoId: "1210710565", desc: "Handcrafted statement jewelry pieces made to last and elevate your identity." },
+  { id: "G", brand: "Gully Labs", tagline: "Footwear", vimeoId: "1210710493", desc: "Sneakers that tell a story. Blending heritage craftsmanship with street sensibilities." },
+  { id: "H", brand: "Vastramay", tagline: "Traditionals", vimeoId: "1210710492", desc: "Ethnic fusion wear redefining modern Indian drapery and style." },
 ];
 
 const TOP_PRODUCTS = [
@@ -113,7 +161,7 @@ function HeroSection() {
   useEffect(() => {
     // Rotate hero videos every 10 seconds
     const interval = setInterval(() => {
-      setVidIndex((prev) => (prev + 1) % HERO_VIDEOS.length);
+      setVidIndex((prev) => (prev + 1) % HERO_VIMEO_IDS.length);
     }, 10000);
     return () => clearInterval(interval);
   }, []);
@@ -134,20 +182,20 @@ function HeroSection() {
         }}
       >
         <AnimatePresence mode="wait">
-          <motion.video
+          <motion.div
             key={vidIndex}
-            src={HERO_VIDEOS[vidIndex]}
-            autoPlay muted playsInline
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.65 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1.5 }}
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-          />
+            transition={{ duration: 1 }}
+            style={{ position: "absolute", inset: 0, zIndex: 0 }}
+          >
+            <VimeoBackground videoId={HERO_VIMEO_IDS[vidIndex]} opacity={0.65} />
+          </motion.div>
         </AnimatePresence>
 
         {/* Vignette to bottom so buttons are readable */}
-        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(255,255,255,0.8) 0%, transparent 55%)` }} />
+        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(255,255,255,0.8) 0%, transparent 55%)`, zIndex: 1 }} />
 
         {/* CONCAT wordmark watermark */}
         <div style={{
@@ -246,7 +294,7 @@ function AccordionSection() {
                     onMouseEnter={() => setHovered(card.id)}
                     onMouseLeave={() => setHovered(null)}
                   >
-                    <video src={card.src} autoPlay loop muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                    <VimeoCardBackground videoId={card.vimeoId} opacity={isHov ? 0.65 : 0.35} />
                     <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.1) 55%, transparent 100%)`, zIndex: 1 }} />
 
                     <div style={{
@@ -324,7 +372,7 @@ function AccordionSection() {
                     onMouseEnter={() => setHovered(card.id)}
                     onMouseLeave={() => setHovered(null)}
                   >
-                    <video src={card.src} autoPlay loop muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                    <VimeoCardBackground videoId={card.vimeoId} opacity={isHov ? 0.65 : 0.35} />
                     <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.1) 55%, transparent 100%)`, zIndex: 1 }} />
 
                     <div style={{
@@ -588,11 +636,11 @@ function AdSection() {
   const [vidIndex, setVidIndex] = useState(0);
 
   const nextAd = () => {
-    setVidIndex((prev) => (prev + 1) % AD_VIDEOS.length);
+    setVidIndex((prev) => (prev + 1) % AD_VIMEO_IDS.length);
   };
 
   const prevAd = () => {
-    setVidIndex((prev) => (prev - 1 + AD_VIDEOS.length) % AD_VIDEOS.length);
+    setVidIndex((prev) => (prev - 1 + AD_VIMEO_IDS.length) % AD_VIMEO_IDS.length);
   };
 
   return (
@@ -611,18 +659,18 @@ function AdSection() {
         }}
       >
         <AnimatePresence mode="wait">
-          <motion.video
+          <motion.div
             key={vidIndex}
-            src={AD_VIDEOS[vidIndex]}
-            autoPlay loop muted playsInline
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.6 }}
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-          />
+            style={{ position: "absolute", inset: 0 }}
+          >
+            <VimeoBackground videoId={AD_VIMEO_IDS[vidIndex]} opacity={0.8} />
+          </motion.div>
         </AnimatePresence>
-        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(255,255,255,0.85) 0%, transparent 60%)` }} />
+        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(255,255,255,0.85) 0%, transparent 60%)`, zIndex: 1 }} />
 
         {/* Campaign Info - Subheading removed, size reduced */}
         <div style={{ position: "absolute", left: 48, bottom: 48, zIndex: 5 }}>
