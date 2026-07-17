@@ -71,13 +71,13 @@ const PRODUCT_IMAGES = [
 
 // ─── DATA ─────────────────────────────────────────────────────────
 const CAROUSEL_CARDS = [
-  { title: "BLUEORNG",                 btnText: "visit modern casuals floor", src: "/real_ads/blueorng-advertisment.mp4", href: "/floors" },
-  { title: "5FEET11",                  btnText: "visit semi formals floor",   src: "/real_ads/5feet11-advertisment.mp4", href: "/floors" },
-  { title: "MISO BY SONIA",            btnText: "visit accessories floor",    src: "/real_ads/misobysonia-advertisment.mp4", href: "/floors" },
-  { title: "GULLY LABS",               btnText: "visit footwear floor",       src: "/real_ads/gully_labs-advertisment.mp4", href: "/floors" },
-  { title: "THE BOMBAY SHIRT COMPANY", btnText: "visit formals floor",        src: "/real_ads/bombay_shirt_company-advertisment.mp4", href: "/floors" },
-  { title: "SAM AND MARSHALL",         btnText: "visit eyewear floor",        src: "/real_ads/samandmarshall-advertisment.mp4", href: "/floors" },
-  { title: "VASTRAMAY",                btnText: "visit traditionals floor",   src: "/real_ads/vastramay-advertisment.mp4", href: "/floors" },
+  { title: "CASUALS",      btnText: "visit casuals floor",      src: "/real_ads/casual_carousel.mp4",        href: "/floors" },
+  { title: "SEMI FORMALS",  btnText: "visit semi formals floor",  src: "/real_ads/semi-formals-carousel.mp4",  href: "/floors" },
+  { title: "ACCESSORIES",   btnText: "visit accessories floor",   src: "/real_ads/accersories-carousel.mp4",   href: "/floors" },
+  { title: "FOOTWEAR",      btnText: "visit footwear floor",      src: "/real_ads/footwear-carousel.mp4",      href: "/floors" },
+  { title: "FORMALS",       btnText: "visit formals floor",       src: "/real_ads/formals-carousel.mp4",       href: "/floors" },
+  { title: "EYEWEAR",       btnText: "visit eyewear floor",       src: "/real_ads/eyewear-carousel.mp4",       href: "/floors" },
+  { title: "ETHNIC",        btnText: "visit ethnic floor",        src: "/real_ads/ethnic-carousel.mp4",        href: "/floors" },
 ];
 
 const BRAND_CARDS = [
@@ -452,12 +452,12 @@ function CarouselSection() {
 
         if (hoverActive !== -1) {
           if (isHov) {
-            if (btn) { btn.style.opacity="1"; btn.style.height="34px"; btn.style.padding="8px 22px"; btn.style.marginTop="14px"; }
+            if (btn) { btn.style.opacity="1"; btn.style.transform="scale(1)"; }
           } else {
-            if (btn) { btn.style.opacity="0"; btn.style.height="0"; btn.style.padding="0"; btn.style.marginTop="0"; }
+            if (btn) { btn.style.opacity="0"; btn.style.transform="scale(0.8)"; }
           }
         } else {
-          if (btn) { btn.style.opacity="0"; btn.style.height="0"; btn.style.padding="0"; btn.style.marginTop="0"; }
+          if (btn) { btn.style.opacity="0"; btn.style.transform="scale(0.8)"; }
         }
       }
       animRef.current = requestAnimationFrame(tick);
@@ -510,11 +510,24 @@ function CarouselSection() {
                 <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)`, zIndex: 1 }} />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 55%)", pointerEvents: "none", zIndex: 1 }} />
                 <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "20px 18px", zIndex: 2 }}>
-                  <div className="card-title" style={{ fontSize: 14, fontWeight: 800, color: CREAM, textTransform: "uppercase", letterSpacing: 0.5, lineHeight: 1.2, textShadow: "0 2px 8px rgba(0,0,0,0.5)", transition: "font-size 0.5s ease" }}>
+                  <div className="card-title" style={{ fontSize: 14, fontWeight: 800, color: CREAM, textTransform: "uppercase", letterSpacing: 0.5, lineHeight: 1.2, textShadow: "0 2px 8px rgba(0,0,0,0.5)", transition: "font-size 0.5s ease", paddingRight: 50 }}>
                     {card.title}
                   </div>
-                  <Link href={card.href} className="visit-btn" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", padding: 0, background: BURG, color: CREAM, border: "1px solid rgba(0,0,0,0.15)", borderRadius: 9999, fontFamily: "inherit", fontSize: 9, fontWeight: 700, letterSpacing: 3, cursor: "pointer", opacity: 0, height: 0, marginTop: 0, overflow: "hidden", transition: "all 0.4s ease", boxSizing: "border-box" }}>
-                    {card.btnText}
+                  <Link 
+                    href={card.href} 
+                    className="visit-btn" 
+                    style={{ 
+                      position: "absolute", bottom: 10, right: 10, zIndex: 10,
+                      display: "inline-flex", alignItems: "center", justifyContent: "center", 
+                      width: 40, height: 40, borderRadius: "50%", background: CREAM, color: BURG,
+                      boxShadow: "0 8px 24px rgba(0,0,0,0.3)", cursor: "pointer",
+                      opacity: 0, transform: "scale(0.8)", transition: "opacity 0.4s ease, transform 0.4s ease",
+                      textDecoration: "none"
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.1) rotate(15deg)"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1) rotate(0deg)"; }}
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                   </Link>
                 </div>
               </div>
