@@ -649,17 +649,47 @@ function AdSection() {
           background: CREAM,
           border: "1.5px solid rgba(0,0,0,0.1)",
           boxShadow: "0 30px 70px rgba(0,0,0,0.08)",
-          position: "relative", overflow: "hidden"
+          position: "relative", display: "flex", flexDirection: "column", justifyContent: "space-between",
+          padding: 40, boxSizing: "border-box", overflow: "hidden"
         }}
       >
         <div style={{ position: "absolute", inset: 0 }}>
           <video src="/real_ads/new_stores_web.mp4" autoPlay loop muted playsInline style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </div>
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%)`, zIndex: 1 }} />
+        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 30%)`, zIndex: 1 }} />
 
-        {/* Campaign Info - Subheading removed, size reduced */}
-        <div style={{ position: "absolute", left: 48, bottom: 48, zIndex: 5 }}>
-          <h3 style={{ fontFamily: "inherit", fontSize: "clamp(18px, 2.5vw, 28px)", fontWeight: 950, color: CREAM, margin: 0, textTransform: "uppercase", letterSpacing: -0.5 }}>NEW STORES</h3>
+        {/* Top bar inside panel */}
+        <div style={{ position: "relative", zIndex: 5, display: "flex", justifyContent: "space-between", alignItems: "flex-start", width: "100%" }}>
+          <div style={{ padding: "6px 14px", background: "rgba(255,255,255,0.15)", backdropFilter: "blur(12px)", borderRadius: 999, border: "1px solid rgba(255,255,255,0.2)" }}>
+            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: 2, color: CREAM, textTransform: "uppercase" }}>CONCAT.</span>
+          </div>
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <motion.div animate={{ opacity: [1, 0.3, 1] }} transition={{ repeat: Infinity, duration: 1.5 }} style={{ width: 6, height: 6, borderRadius: "50%", background: "#ff3333" }} />
+            <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 2, color: CREAM, textTransform: "uppercase" }}>LIVE</span>
+          </div>
+        </div>
+
+        {/* Inner Content overlay */}
+        <div style={{ position: "relative", zIndex: 5, display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%" }}>
+          <div>
+            <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.7)", marginBottom: 4 }}>
+              Aesthetic Directives
+            </div>
+            <h3 style={{ fontFamily: "inherit", fontSize: "clamp(18px, 2.5vw, 28px)", fontWeight: 950, color: CREAM, margin: 0, textTransform: "uppercase", letterSpacing: -0.5 }}>NEW STORES</h3>
+          </div>
+
+          <Link href="/stores" style={{ 
+            display: "inline-flex", alignItems: "center", justifyContent: "center", 
+            width: 64, height: 64, borderRadius: "50%", background: CREAM, color: BURG,
+            boxShadow: "0 10px 30px rgba(0,0,0,0.3)", transition: "transform 0.4s cubic-bezier(0.16,1,0.3,1)",
+            textDecoration: "none"
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.15) rotate(15deg)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1) rotate(0deg)"; }}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </Link>
         </div>
       </motion.div>
     </section>
