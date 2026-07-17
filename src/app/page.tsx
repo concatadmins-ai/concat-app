@@ -194,8 +194,8 @@ function HeroSection() {
             </div>
             
             <div style={{ display: "flex", gap: 12 }}>
-              <Link href="/floors" className="hero-btn">View Floors</Link>
-              <Link href="/stores" className="hero-btn">View Stores</Link>
+              <Link href="/floors" className="hero-btn" style={{ color: CREAM }}>View Floors</Link>
+              <Link href="/stores" className="hero-btn" style={{ color: CREAM }}>View Stores</Link>
             </div>
           </div>
 
