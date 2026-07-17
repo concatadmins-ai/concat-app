@@ -294,7 +294,7 @@ function HeroSection() {
                 <div style={{ fontSize: 10, fontWeight: 900, letterSpacing: 3, textTransform: "uppercase", color: "#FFFFFF", marginBottom: 6 }}>
                   THE MALL FOR INDEPENDENT LABELS
                 </div>
-                <h2 style={{ margin: 0, fontSize: "clamp(28px, 4.5vw, 48px)", fontWeight: 955, WebkitTextStroke: "1.5px #FFFFFF", WebkitTextFillColor: "transparent", textTransform: "uppercase", letterSpacing: "-0.04em", lineHeight: 1.05 }}>
+                <h2 style={{ margin: 0, fontSize: "clamp(28px, 4.5vw, 48px)", fontWeight: 955, WebkitTextStroke: "1.2px #FFFFFF", WebkitTextFillColor: "transparent", textTransform: "uppercase", letterSpacing: "-0.04em", lineHeight: 1.25 }}>
                   40+ STORES.<br />
                   7 FLOORS.<br />
                   ZERO MASS MARKET.
