@@ -160,12 +160,88 @@ export default function InteractiveGrid() {
       }
       ctx.stroke();
 
+      // ── Draw Electric Currents ────────────────────────────────────
+      if (mouseRef.current.x !== -1000) {
+        const mx = mouseRef.current.x;
+        const my = mouseRef.current.y;
+        
+        // Horizontal currents
+        for (let gy = LINE_STEP; gy < height; gy += LINE_STEP) {
+          const currentX = (gy * 997 + Date.now() * 0.45) % (width + 600) - 300;
+          let activePath = false;
+          
+          for (let gx = -LINE_STEP; gx <= width + LINE_STEP; gx += LINE_STEP / 2) {
+            const dx = gx - mx;
+            const dy = gy - my;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            
+            if (dist < 400 && Math.abs(gx - currentX) < 140) {
+              const p = applyWarps(gx, gy);
+              const fade = Math.max(0, (400 - dist) / 400);
+              const currentFade = Math.max(0, (140 - Math.abs(gx - currentX)) / 140);
+              const opacity = fade * currentFade * 0.55;
+              
+              if (!activePath) {
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                activePath = true;
+              } else {
+                ctx.lineTo(p.x, p.y);
+              }
+              
+              ctx.strokeStyle = `rgba(0, 75, 230, ${opacity})`;
+              ctx.lineWidth = 2;
+              ctx.stroke();
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+            } else {
+              activePath = false;
+            }
+          }
+        }
+
+        // Vertical currents
+        for (let gx = LINE_STEP; gx < width; gx += LINE_STEP) {
+          const currentY = (gx * 997 + Date.now() * 0.45) % (height + 600) - 300;
+          let activePath = false;
+          
+          for (let gy = -LINE_STEP; gy <= height + LINE_STEP; gy += LINE_STEP / 2) {
+            const dx = gx - mx;
+            const dy = gy - my;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            
+            if (dist < 400 && Math.abs(gy - currentY) < 140) {
+              const p = applyWarps(gx, gy);
+              const fade = Math.max(0, (400 - dist) / 400);
+              const currentFade = Math.max(0, (140 - Math.abs(gy - currentY)) / 140);
+              const opacity = fade * currentFade * 0.55;
+              
+              if (!activePath) {
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                activePath = true;
+              } else {
+                ctx.lineTo(p.x, p.y);
+              }
+              
+              ctx.strokeStyle = `rgba(0, 75, 230, ${opacity})`;
+              ctx.lineWidth = 2;
+              ctx.stroke();
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+            } else {
+              activePath = false;
+            }
+          }
+        }
+      }
+
       // ── Cursor Spotlight ──────────────────────────────────────────
       if (mouseRef.current.x !== -1000) {
-        // Outer glow
+        // Outer glow (nice dark sapphire blue)
         const grd = ctx.createRadialGradient(mouseRef.current.x, mouseRef.current.y, 0, mouseRef.current.x, mouseRef.current.y, 350);
-        grd.addColorStop(0, "rgba(0, 180, 255, 0.25)");
-        grd.addColorStop(0.4, "rgba(0, 120, 255, 0.08)");
+        grd.addColorStop(0, "rgba(0, 35, 120, 0.2)");
+        grd.addColorStop(0.5, "rgba(0, 25, 90, 0.07)");
         grd.addColorStop(1, "rgba(0, 0, 0, 0)");
         
         ctx.fillStyle = grd;
@@ -175,8 +251,8 @@ export default function InteractiveGrid() {
 
         // Sharp electric inner core
         const coreGrd = ctx.createRadialGradient(mouseRef.current.x, mouseRef.current.y, 0, mouseRef.current.x, mouseRef.current.y, 80);
-        coreGrd.addColorStop(0, "rgba(0, 220, 255, 0.3)");
-        coreGrd.addColorStop(1, "rgba(0, 220, 255, 0)");
+        coreGrd.addColorStop(0, "rgba(0, 60, 200, 0.25)");
+        coreGrd.addColorStop(1, "rgba(0, 60, 200, 0)");
         ctx.fillStyle = coreGrd;
         ctx.beginPath();
         ctx.arc(mouseRef.current.x, mouseRef.current.y, 80, 0, Math.PI * 2);
