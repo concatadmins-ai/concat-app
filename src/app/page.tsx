@@ -809,7 +809,18 @@ function TopSellingSection() {
               cursor: "pointer", transition: "all 0.3s ease", zIndex: 40,
               boxShadow: "0 4px 12px rgba(0,0,0,0.06)"
             }} 
-        // ─── SECTION 5 : COMBINED ABOUT & NEW STORES (SIDE BY SIDE) ────────
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "#F9F9F9"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1.08)"; }} 
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "#FFFFFF"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1)"; }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
+// ─── SECTION 5 : COMBINED ABOUT & NEW STORES (SIDE BY SIDE) ────────
 function CombinedAboutStoresSection() {
   return (
     <section className="snap-section" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "100px 48px 40px", boxSizing: "border-box" }}>
