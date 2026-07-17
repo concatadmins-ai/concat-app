@@ -809,127 +809,133 @@ function TopSellingSection() {
               cursor: "pointer", transition: "all 0.3s ease", zIndex: 40,
               boxShadow: "0 4px 12px rgba(0,0,0,0.06)"
             }} 
-            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "#F9F9F9"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1.08)"; }} 
-            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "#FFFFFF"; (e.currentTarget as HTMLElement).style.transform = "translateY(-50%) scale(1)"; }}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
-        </div>
-      </motion.div>
-    </section>
-  );
-}
-
-// ─── SECTION 5 : AD CAMPAIGN PANEL ───────────────────────────────
-function AdSection() {
+        // ─── SECTION 5 : COMBINED ABOUT & NEW STORES (SIDE BY SIDE) ────────
+function CombinedAboutStoresSection() {
   return (
-    <section className="snap-section" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "100px 36px 36px", boxSizing: "border-box" }}>
+    <section className="snap-section" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "100px 48px 40px", boxSizing: "border-box" }}>
       <motion.div 
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        style={{
-          width: "100%", maxWidth: "1000px", aspectRatio: "16/9", borderRadius: 36,
-          background: CREAM,
-          border: "1.5px solid rgba(0,0,0,0.1)",
-          boxShadow: "0 30px 70px rgba(0,0,0,0.08)",
-          position: "relative", display: "flex", flexDirection: "column", justifyContent: "space-between",
-          padding: 40, boxSizing: "border-box", overflow: "hidden"
-        }}
-      >
-        <div style={{ position: "absolute", inset: 0 }}>
-          <video src="/real_ads/new_stores_web.mp4" autoPlay loop muted playsInline style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-        </div>
-        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%)`, zIndex: 1 }} />
-        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 30%)`, zIndex: 1 }} />
-
-        {/* Top bar inside panel */}
-        <div style={{ position: "relative", zIndex: 5, display: "flex", justifyContent: "space-between", alignItems: "flex-start", width: "100%" }}>
-          <div style={{ padding: "6px 14px", background: "rgba(255,255,255,0.15)", backdropFilter: "blur(12px)", borderRadius: 999, border: "1px solid rgba(255,255,255,0.2)" }}>
-            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: 2, color: CREAM, textTransform: "uppercase" }}>CONCAT.</span>
-          </div>
-          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-            <motion.div animate={{ opacity: [1, 0.3, 1] }} transition={{ repeat: Infinity, duration: 1.5 }} style={{ width: 6, height: 6, borderRadius: "50%", background: "#ff3333" }} />
-            <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 2, color: CREAM, textTransform: "uppercase" }}>LIVE</span>
-          </div>
-        </div>
-
-        {/* Inner Content overlay */}
-        <div style={{ position: "relative", zIndex: 5, display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%" }}>
-          <div>
-            <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.7)", marginBottom: 4 }}>
-              Aesthetic Directives
-            </div>
-            <h3 style={{ fontFamily: "inherit", fontSize: "clamp(18px, 2.5vw, 28px)", fontWeight: 950, color: CREAM, margin: 0, textTransform: "uppercase", letterSpacing: -0.5 }}>NEW STORES</h3>
-          </div>
-
-          <Link href="/stores" style={{ 
-            display: "inline-flex", alignItems: "center", justifyContent: "center", 
-            width: 64, height: 64, borderRadius: "50%", background: CREAM, color: BURG,
-            boxShadow: "0 10px 30px rgba(0,0,0,0.3)", transition: "transform 0.4s cubic-bezier(0.16,1,0.3,1)",
-            textDecoration: "none"
-          }}
-          onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.15) rotate(15deg)"; }}
-          onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1) rotate(0deg)"; }}
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </Link>
-        </div>
-      </motion.div>
-    </section>
-  );
-}
-
-// ─── SECTION 5.5 : INTRO TO CONCAT ────────────────────────────────
-function IntroSection() {
-  return (
-    <section className="snap-section" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "80px 36px", boxSizing: "border-box", position: "relative", zIndex: 10 }}>
-
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        style={{ maxWidth: 820, textAlign: "center", position: "relative", zIndex: 2 }}
+        style={{
+          width: "100%",
+          maxWidth: 1240,
+          margin: "0 auto",
+          display: "flex",
+          gap: 32,
+          alignItems: "stretch",
+          height: "calc(100vh - 180px)",
+          maxHeight: 520
+        }}
       >
-        {/* We give this container an ID so the global InteractiveGrid knows where to form the massive gravity crater */}
-        <div id="intro-gravity-text" style={{
-          padding: "clamp(48px, 7vw, 72px) clamp(32px, 6vw, 64px)",
+        {/* Left Side: Campaign Ad Video Card */}
+        <div style={{
+          flex: 1.1,
+          borderRadius: 28,
+          border: "1.5px solid rgba(0, 0, 0, 0.1)",
+          boxShadow: "0 20px 50px rgba(0, 0, 0, 0.05)",
           position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          padding: 36,
+          boxSizing: "border-box",
           overflow: "hidden",
-          borderRadius: 40,
+          background: CREAM
         }}>
-          {/* We keep a subtle glow attached to the text so the crater doesn't feel entirely empty, but it won't block the grid */}
+          <div style={{ position: "absolute", inset: 0 }}>
+            <video src="/real_ads/new_stores_web.mp4" autoPlay loop muted playsInline style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          </div>
+          <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%)`, zIndex: 1 }} />
+          <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 30%)`, zIndex: 1 }} />
+
+          {/* Top Badges */}
+          <div style={{ position: "relative", zIndex: 5, display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+            <div style={{ padding: "6px 14px", background: "rgba(255, 255, 255, 0.15)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderRadius: 999, border: "1px solid rgba(255, 255, 255, 0.2)" }}>
+              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: 2, color: CREAM, textTransform: "uppercase" }}>CONCAT.</span>
+            </div>
+            <div style={{ display: "flex", gap: 8, alignItems: "center", padding: "6px 14px", background: "rgba(255, 255, 255, 0.15)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderRadius: 999, border: "1px solid rgba(255, 255, 255, 0.2)" }}>
+              <motion.div animate={{ opacity: [1, 0.3, 1] }} transition={{ repeat: Infinity, duration: 1.5 }} style={{ width: 6, height: 6, borderRadius: "50%", background: "#ff3333" }} />
+              <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 2, color: CREAM, textTransform: "uppercase" }}>LIVE</span>
+            </div>
+          </div>
+
+          {/* Bottom Info */}
+          <div style={{ position: "relative", zIndex: 5, display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%" }}>
+            <div>
+              <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255, 255, 255, 0.7)", marginBottom: 4 }}>
+                Aesthetic Directives
+              </div>
+              <h3 style={{ fontFamily: "inherit", fontSize: "clamp(18px, 2.5vw, 28px)", fontWeight: 950, color: CREAM, margin: 0, textTransform: "uppercase", letterSpacing: -0.5 }}>
+                NEW STORES
+              </h3>
+            </div>
+
+            <Link href="/stores" style={{ 
+              display: "inline-flex", alignItems: "center", justifyContent: "center", 
+              width: 56, height: 56, borderRadius: "50%", background: CREAM, color: BURG,
+              boxShadow: "0 8px 24px rgba(0,0,0,0.2)", transition: "transform 0.4s cubic-bezier(0.16,1,0.3,1)",
+              textDecoration: "none"
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.1) rotate(15deg)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1) rotate(0deg)"; }}
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </Link>
+          </div>
+        </div>
+
+        {/* Right Side: About Us Info Panel */}
+        <div id="intro-gravity-text" style={{
+          flex: 0.9,
+          borderRadius: 28,
+          background: "rgba(255, 255, 255, 0.7)",
+          border: "1.5px solid rgba(0, 0, 0, 0.08)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          padding: 40,
+          boxSizing: "border-box",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          position: "relative",
+          boxShadow: "0 10px 40px rgba(0,0,0,0.04)"
+        }}>
+          {/* subtle decoration background glow */}
           <div style={{
             position: "absolute", inset: 0, zIndex: -1, pointerEvents: "none",
-            background: "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.02) 40%, transparent 100%)",
+            background: "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,0,0,0.02) 0%, transparent 100%)",
           }} />
 
-          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 5, textTransform: "uppercase", color: BURG_LIGHT, marginBottom: 28, opacity: 0.8 }}>
+          <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: BURG_LIGHT, marginBottom: 18, opacity: 0.8 }}>
             Why CONCAT exists
           </div>
 
-          <h2 style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 900, color: BURG, margin: "0 0 28px", letterSpacing: -1.5, lineHeight: 1.05 }}>
+          <h2 style={{ fontSize: "clamp(24px, 3.2vw, 42px)", fontWeight: 900, color: BURG, margin: "0 0 20px", letterSpacing: -1.2, lineHeight: 1.1 }}>
             Beyond the algorithm.<br/>
             <span style={{ color: BURG_LIGHT }}>Beyond the mass market.</span>
           </h2>
 
-          <p style={{ fontSize: "clamp(16px, 1.8vw, 19px)", fontWeight: 400, color: "rgba(0,0,0,0.72)", margin: "0 0 44px", lineHeight: 1.75, maxWidth: 640, marginLeft: "auto", marginRight: "auto" }}>
+          <p style={{ fontSize: "clamp(13px, 1.4vw, 15px)", fontWeight: 400, color: "rgba(0,0,0,0.72)", margin: "0 0 28px", lineHeight: 1.6 }}>
             You are not limited to the same commercial brands you see everywhere. There's an entire world of independent labels — crafting superior styles and fabrics, at the exact same price, for every age, taste, and niche.
             <br/><br/>
             We built CONCAT so you never have to rely on luck to discover them.
           </p>
 
           <Link href="/about-us" style={{
+            alignSelf: "flex-start",
             display: "inline-flex", alignItems: "center", gap: 10,
             background: "rgba(0,0,0,0.04)", border: "1px solid rgba(0,0,0,0.12)",
-            padding: "14px 30px", borderRadius: 9999, color: BURG,
-            fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.5,
+            padding: "12px 28px", borderRadius: 9999, color: BURG,
+            fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.5,
             textDecoration: "none", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
-            backdropFilter: "blur(12px)"
+            backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)"
           }}
-          onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(0,0,0,0.08)"; el.style.transform = "scale(1.05) translateY(-2px)"; el.style.boxShadow = "0 12px 30px rgba(0,0,0,0.1)"; }}
+          onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(0,0,0,0.08)"; el.style.transform = "scale(1.05) translateY(-2px)"; el.style.boxShadow = "0 8px 24px rgba(0,0,0,0.08)"; }}
           onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(0,0,0,0.04)"; el.style.transform = "scale(1)"; el.style.boxShadow = "none"; }}
           >
             Our Story
@@ -1012,8 +1018,7 @@ export default function Home() {
       <AccordionSection />
       <TopSellingSection />
       <CarouselSection />
-      <AdSection />
-      <IntroSection />
+      <CombinedAboutStoresSection />
       <FinaleSection />
       <ScrollIndicator visible={showScroll} />
     </div>
