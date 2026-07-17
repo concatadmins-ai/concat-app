@@ -499,9 +499,11 @@ function CarouselSection() {
                 className="carousel-card"
                 onMouseEnter={() => { stateRef.current.hoveredIdx = idx; }}
                 onMouseLeave={() => { stateRef.current.hoveredIdx = -1; }}
-                style={{ backgroundColor: "#FFFFFF" }}
+                style={{ backgroundColor: "#111111" }}
               >
-                {/* Video removed from carousel as requested */}
+                <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+                  <video src={card.src} loop muted playsInline style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                </div>
                 <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)`, zIndex: 1 }} />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 55%)", pointerEvents: "none", zIndex: 1 }} />
                 <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "20px 18px", zIndex: 2 }}>
