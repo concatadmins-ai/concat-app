@@ -370,7 +370,7 @@ function HeroSection() {
         zIndex: 5, pointerEvents: "none"
       }}>
         <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: 2, color: BURG_LIGHT, textTransform: "uppercase" }}>
-          WHERE BRANDS MEET CULTURE
+          WHERE PEOPLE REALISE THEY HAVE MORE OPTIONS
         </span>
       </div>
 
