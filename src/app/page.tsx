@@ -199,7 +199,7 @@ function HeroSection() {
           <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8, paddingLeft: 4 }}>
             <span style={{ color: "#E05560", fontSize: 11, fontWeight: 900 }}>«</span>
             <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: 2, color: BURG_LIGHT, textTransform: "uppercase" }}>
-              ON THE FLOOR
+              in the hear
             </span>
           </div>
 
