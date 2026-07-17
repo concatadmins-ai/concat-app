@@ -146,9 +146,9 @@ export default function InteractiveGrid() {
       // ── Cursor Spotlight ──────────────────────────────────────────
       if (mouseRef.current.x !== -1000) {
         const grd = ctx.createRadialGradient(mouseRef.current.x, mouseRef.current.y, 0, mouseRef.current.x, mouseRef.current.y, 250);
-        grd.addColorStop(0, "rgba(0,0,0,0.15)");
-        grd.addColorStop(0.5, "rgba(0,0,0,0.05)");
-        grd.addColorStop(1, "rgba(0,0,0,0)");
+        grd.addColorStop(0, "rgba(74, 14, 23, 0.18)");
+        grd.addColorStop(0.5, "rgba(74, 14, 23, 0.06)");
+        grd.addColorStop(1, "rgba(74, 14, 23, 0)");
         
         ctx.fillStyle = grd;
         ctx.beginPath();
