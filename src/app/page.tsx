@@ -24,50 +24,84 @@ const AD_VIMEO_IDS = [
   "1210710629"  // samandmarshall
 ];
 
-function VimeoBackground({ videoId, opacity = 1 }: { videoId: string; opacity?: number }) {
+function VimeoBackground({ videoId, opacity = 1, eager = false }: { videoId: string; opacity?: number; eager?: boolean }) {
+  const [isIntersecting, setIntersecting] = useState(eager);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (eager) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIntersecting(true);
+        observer.disconnect();
+      }
+    }, { rootMargin: "400px" });
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [eager]);
+
   if (!videoId) return null;
   return (
-    <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", opacity, transition: "opacity 1s ease" }}>
-      <iframe
-        src={`https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&autopause=0&muted=1&background=1`}
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          width: "100vw",
-          height: "56.25vw",
-          minHeight: "100vh",
-          minWidth: "177.77vh",
-          transform: "translate(-50%, -50%) scale(1.15)",
-          border: "none",
-          zIndex: 0
-        }}
-        allow="autoplay; fullscreen"
-      />
+    <div ref={ref} style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", opacity, transition: "opacity 1s ease", backgroundColor: "#111" }}>
+      {isIntersecting && (
+        <iframe
+          src={`https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&autopause=0&muted=1&background=1&quality=1080p`}
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            width: "100vw",
+            height: "56.25vw",
+            minHeight: "100vh",
+            minWidth: "177.77vh",
+            transform: "translate(-50%, -50%) scale(1.15)",
+            border: "none",
+            zIndex: 0
+          }}
+          allow="autoplay; fullscreen"
+        />
+      )}
     </div>
   );
 }
 
-function VimeoCardBackground({ videoId, opacity = 1 }: { videoId: string; opacity?: number }) {
+function VimeoCardBackground({ videoId, opacity = 1, eager = false }: { videoId: string; opacity?: number; eager?: boolean }) {
+  const [isIntersecting, setIntersecting] = useState(eager);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (eager) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIntersecting(true);
+        observer.disconnect();
+      }
+    }, { rootMargin: "400px" });
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [eager]);
+
   if (!videoId) return null;
   return (
-    <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", opacity, transition: "opacity 0.6s ease" }}>
-      <iframe
-        src={`https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&autopause=0&muted=1&background=1`}
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          width: "177.77vh",
-          height: "100vh",
-          minWidth: "100%",
-          minHeight: "100%",
-          transform: "translate(-50%, -50%) scale(1.35)",
-          border: "none",
-          zIndex: 0
-        }}
-        allow="autoplay; fullscreen"
-      />
+    <div ref={ref} style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", opacity, transition: "opacity 0.6s ease", backgroundColor: "#111" }}>
+      {isIntersecting && (
+        <iframe
+          src={`https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&autopause=0&muted=1&background=1&quality=1080p`}
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            width: "177.77vh",
+            height: "100vh",
+            minWidth: "100%",
+            minHeight: "100%",
+            transform: "translate(-50%, -50%) scale(1.35)",
+            border: "none",
+            zIndex: 0
+          }}
+          allow="autoplay; fullscreen"
+        />
+      )}
     </div>
   );
 }
@@ -190,19 +224,19 @@ function HeroSection() {
             transition={{ duration: 1 }}
             style={{ position: "absolute", inset: 0, zIndex: 0 }}
           >
-            <VimeoBackground videoId={HERO_VIMEO_IDS[vidIndex]} opacity={0.65} />
+            <VimeoBackground videoId={HERO_VIMEO_IDS[vidIndex]} opacity={1} eager={true} />
           </motion.div>
         </AnimatePresence>
 
-        {/* Vignette to bottom so buttons are readable */}
-        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(255,255,255,0.8) 0%, transparent 55%)`, zIndex: 1 }} />
+        {/* Dark vignette to bottom so buttons are readable over bright videos */}
+        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 45%)`, zIndex: 1 }} />
 
         {/* CONCAT wordmark watermark */}
         <div style={{
           position: "absolute", top: "50%", left: "50%",
           transform: "translate(-50%,-50%)",
           fontFamily: "inherit", fontSize: "clamp(60px,12vw,170px)",
-          fontWeight: 900, letterSpacing: -6, color: "rgba(0,0,0,0.05)",
+          fontWeight: 900, letterSpacing: -6, color: "rgba(255,255,255,0.15)",
           pointerEvents: "none", userSelect: "none", whiteSpace: "nowrap", zIndex: 1,
         }}>
           CONCAT
@@ -289,13 +323,14 @@ function AccordionSection() {
                       flex: flexVal,
                       height: "100%",
                       transition: "flex 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
-                      borderRadius: 24
+                      borderRadius: 24,
+                      overflow: "hidden"
                     }}
                     onMouseEnter={() => setHovered(card.id)}
                     onMouseLeave={() => setHovered(null)}
                   >
-                    <VimeoCardBackground videoId={card.vimeoId} opacity={isHov ? 0.65 : 0.35} />
-                    <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.1) 55%, transparent 100%)`, zIndex: 1 }} />
+                    <VimeoCardBackground videoId={card.vimeoId} opacity={1} />
+                    <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 55%, transparent 100%)`, zIndex: 1 }} />
 
                     <div style={{
                       position: "absolute", left: 24, bottom: 24, right: 24, zIndex: 2, pointerEvents: "none",
@@ -304,12 +339,12 @@ function AccordionSection() {
                     }}>
                       <h3 style={{
                         fontFamily: "inherit", fontSize: "clamp(16px, 1.8vw, 21px)", fontWeight: 900,
-                        color: BURG, margin: 0, letterSpacing: -0.5, lineHeight: 1.1, textTransform: "uppercase",
+                        color: CREAM, margin: 0, letterSpacing: -0.5, lineHeight: 1.1, textTransform: "uppercase",
                         overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"
                       }}>
                         {card.brand}
                       </h3>
-                      <p style={{ margin: "10px 0 0", fontSize: 13, color: "#555555", maxWidth: 220, lineHeight: 1.4 }}>
+                      <p style={{ margin: "10px 0 0", fontSize: 13, color: "rgba(255,255,255,0.7)", maxWidth: 220, lineHeight: 1.4 }}>
                         {card.desc}
                       </p>
                     </div>
@@ -367,13 +402,14 @@ function AccordionSection() {
                       flex: flexVal,
                       height: "100%",
                       transition: "flex 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
-                      borderRadius: 24
+                      borderRadius: 24,
+                      overflow: "hidden"
                     }}
                     onMouseEnter={() => setHovered(card.id)}
                     onMouseLeave={() => setHovered(null)}
                   >
-                    <VimeoCardBackground videoId={card.vimeoId} opacity={isHov ? 0.65 : 0.35} />
-                    <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.1) 55%, transparent 100%)`, zIndex: 1 }} />
+                    <VimeoCardBackground videoId={card.vimeoId} opacity={1} />
+                    <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 55%, transparent 100%)`, zIndex: 1 }} />
 
                     <div style={{
                       position: "absolute", left: 24, bottom: 24, right: 24, zIndex: 2, pointerEvents: "none",
@@ -382,12 +418,12 @@ function AccordionSection() {
                     }}>
                       <h3 style={{
                         fontFamily: "inherit", fontSize: "clamp(16px, 1.8vw, 21px)", fontWeight: 900,
-                        color: BURG, margin: 0, letterSpacing: -0.5, lineHeight: 1.1, textTransform: "uppercase",
+                        color: CREAM, margin: 0, letterSpacing: -0.5, lineHeight: 1.1, textTransform: "uppercase",
                         overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"
                       }}>
                         {card.brand}
                       </h3>
-                      <p style={{ margin: "10px 0 0", fontSize: 13, color: "#555555", maxWidth: 220, lineHeight: 1.4 }}>
+                      <p style={{ margin: "10px 0 0", fontSize: 13, color: "rgba(255,255,255,0.7)", maxWidth: 220, lineHeight: 1.4 }}>
                         {card.desc}
                       </p>
                     </div>
@@ -502,11 +538,11 @@ function CarouselSection() {
                 onMouseLeave={() => { stateRef.current.hoveredIdx = -1; }}
                 style={{ backgroundColor: "#FFFFFF" }}
               >
-                <VimeoCardBackground videoId={card.vimeoId} opacity={0.8} />
-                <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.08) 50%, transparent 100%)`, zIndex: 1 }} />
-                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 55%)", pointerEvents: "none", zIndex: 1 }} />
+                <VimeoCardBackground videoId={card.vimeoId} opacity={1} />
+                <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)`, zIndex: 1 }} />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 55%)", pointerEvents: "none", zIndex: 1 }} />
                 <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "20px 18px", zIndex: 2 }}>
-                  <div className="card-title" style={{ fontSize: 14, fontWeight: 800, color: BURG, textTransform: "uppercase", letterSpacing: 0.5, lineHeight: 1.2, textShadow: "0 2px 8px rgba(255,255,255,0.5)", transition: "font-size 0.5s ease" }}>
+                  <div className="card-title" style={{ fontSize: 14, fontWeight: 800, color: CREAM, textTransform: "uppercase", letterSpacing: 0.5, lineHeight: 1.2, textShadow: "0 2px 8px rgba(0,0,0,0.5)", transition: "font-size 0.5s ease" }}>
                     {card.title}
                   </div>
                   <Link href={card.href} className="visit-btn" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", padding: 0, background: BURG, color: CREAM, border: "1px solid rgba(0,0,0,0.15)", borderRadius: 9999, fontFamily: "inherit", fontSize: 9, fontWeight: 700, letterSpacing: 3, cursor: "pointer", opacity: 0, height: 0, marginTop: 0, overflow: "hidden", transition: "all 0.4s ease", boxSizing: "border-box" }}>
@@ -667,14 +703,14 @@ function AdSection() {
             transition={{ duration: 0.6 }}
             style={{ position: "absolute", inset: 0 }}
           >
-            <VimeoBackground videoId={AD_VIMEO_IDS[vidIndex]} opacity={0.8} />
+            <VimeoBackground videoId={AD_VIMEO_IDS[vidIndex]} opacity={1} />
           </motion.div>
         </AnimatePresence>
-        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(255,255,255,0.85) 0%, transparent 60%)`, zIndex: 1 }} />
+        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%)`, zIndex: 1 }} />
 
         {/* Campaign Info - Subheading removed, size reduced */}
         <div style={{ position: "absolute", left: 48, bottom: 48, zIndex: 5 }}>
-          <h3 style={{ fontFamily: "inherit", fontSize: "clamp(18px, 2.5vw, 28px)", fontWeight: 950, color: BURG, margin: 0, textTransform: "uppercase", letterSpacing: -0.5 }}>LATEST CAMPAIGN</h3>
+          <h3 style={{ fontFamily: "inherit", fontSize: "clamp(18px, 2.5vw, 28px)", fontWeight: 950, color: CREAM, margin: 0, textTransform: "uppercase", letterSpacing: -0.5 }}>LATEST CAMPAIGN</h3>
         </div>
 
         {/* Arrow Controls */}

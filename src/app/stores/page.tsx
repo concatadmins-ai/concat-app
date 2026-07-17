@@ -19,26 +19,43 @@ const BRANDS = [
   { id: "H", brand: "Vastramay", category: "Traditionals", tagline: "Modern Traditionals", vimeoId: "1210710492", desc: "Ethnic fusion wear redefining modern Indian drapery and style." },
 ];
 
-function VimeoCardBackground({ videoId, opacity = 1 }: { videoId: string; opacity?: number }) {
+function VimeoCardBackground({ videoId, opacity = 1, eager = false }: { videoId: string; opacity?: number; eager?: boolean }) {
+  const [isIntersecting, setIntersecting] = useState(eager);
+  const ref = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (eager) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIntersecting(true);
+        observer.disconnect();
+      }
+    }, { rootMargin: "400px" });
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [eager]);
+
   if (!videoId) return null;
   return (
-    <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", opacity, transition: "opacity 0.6s ease" }}>
-      <iframe
-        src={`https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&autopause=0&muted=1&background=1`}
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          width: "177.77vh",
-          height: "100vh",
-          minWidth: "100%",
-          minHeight: "100%",
-          transform: "translate(-50%, -50%) scale(1.35)",
-          border: "none",
-          zIndex: 0
-        }}
-        allow="autoplay; fullscreen"
-      />
+    <div ref={ref} style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", opacity, transition: "opacity 0.6s ease", backgroundColor: "#111" }}>
+      {isIntersecting && (
+        <iframe
+          src={`https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&autopause=0&muted=1&background=1&quality=1080p`}
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            width: "177.77vh",
+            height: "100vh",
+            minWidth: "100%",
+            minHeight: "100%",
+            transform: "translate(-50%, -50%) scale(1.35)",
+            border: "none",
+            zIndex: 0
+          }}
+          allow="autoplay; fullscreen"
+        />
+      )}
     </div>
   );
 }
@@ -108,13 +125,13 @@ export default function BrandsPage() {
                 }}
               >
                 {/* Vimeo embed in background */}
-                <VimeoCardBackground videoId={item.vimeoId} opacity={isHovered ? 0.78 : 0.4} />
+                <VimeoCardBackground videoId={item.vimeoId} opacity={1} />
 
                 {/* Glass Bottom Overlay Gradient */}
                 <div style={{
                   position: "absolute",
                   inset: 0,
-                  background: "linear-gradient(to top, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.3) 60%, transparent 100%)",
+                  background: "linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.3) 60%, transparent 100%)",
                   zIndex: 2
                 }} />
 
@@ -149,15 +166,15 @@ export default function BrandsPage() {
                   {/* Bottom Brand Info */}
                   <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                     <div>
-                      <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: "rgba(0,0,0,0.5)" }}>{item.tagline}</span>
-                      <h2 style={{ fontSize: 26, fontWeight: 900, textTransform: "uppercase", margin: "2px 0 0", color: BURG, letterSpacing: -0.5 }}>
+                      <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.7)" }}>{item.tagline}</span>
+                      <h2 style={{ fontSize: 26, fontWeight: 900, textTransform: "uppercase", margin: "2px 0 0", color: CREAM, letterSpacing: -0.5 }}>
                         {item.brand}
                       </h2>
                     </div>
 
                     <p style={{
                       fontSize: 12,
-                      color: "rgba(0,0,0,0.72)",
+                      color: "rgba(255,255,255,0.85)",
                       lineHeight: 1.45,
                       margin: 0,
                       opacity: isHovered ? 1 : 0,
