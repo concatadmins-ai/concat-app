@@ -2,8 +2,6 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import Navbar from "@/components/Navbar";
 
 // Design Tokens (matching the homepage/about-us aesthetics)
 const BURG = "#111111";
@@ -11,24 +9,22 @@ const BURG_LIGHT = "#777777";
 const CREAM = "#FFFFFF";
 
 const BRANDS = [
-  { id: "A", brand: "May Character", category: "Modern Casuals", tagline: "Techwear", src: "/stock/hf_20260716_170814_196b8582-4782-4688-84cd-1cc5042c639b.mp4", desc: "Cyberpunk and functional techwear engineered for the modern nomad. Merging tactical gear utility with futuristic streetwear silhouettes." },
-  { id: "B", brand: "Orange Blue",   category: "Modern Casuals", tagline: "Bold Essentials", src: "/stock/hf_20260716_170822_3222bd46-685c-40ec-8816-fbdf2b769010.mp4", desc: "Bold graphics, vibrant oversized fits, and hyper-minimalist streetwear essentials that refuse to blend into the crowd." },
-  { id: "C", brand: "6'11\"",        category: "Semi Formals", tagline: "Poplin & Linen", src: "/stock/hf_20260716_170830_44f9ea45-4cfd-44ef-a4e0-a531204ac330.mp4", desc: "Premium poplin and linen clothing offering relaxed luxury and elegant drapery. Clean silhouettes designed for effortless transitioning." },
-  { id: "D", brand: "Mumbai Shirt Company", category: "Formals", tagline: "Bespoke Shirts", src: "/stock/hf_20260716_170838_38b5090a-a2b9-44f9-a807-e8215a7d197e.mp4", desc: "Tailored luxury formalwear and bespoke shirting. Meticulously engineered cuffs, collars, and fabrics prioritizing comfort." },
-  { id: "E", brand: "Dune Marshals", category: "Eyewear", tagline: "Optics & Armor", src: "/stock/hf_20260716_170846_4744c2b3-2340-41a8-8ab0-ea6a0745aba3.mp4", desc: "Futuristic eyewear and protective optics. Raw frame designs built to withstand extreme elements without compromising style." },
-  { id: "F", brand: "Street Labs",   category: "Footwear", tagline: "Future Sneaker culture", src: "/stock/hf_20260716_170855_1352c018-a624-45c1-a700-05cba4fedecd.mp4", desc: "Innovative footwear fusing street aesthetics with ergonomic design. Every pair is a curated, non-mass-produced statement." },
-  { id: "G", brand: "Piso by Sonia", category: "Accessories", tagline: "Artisanal Metals", src: "/stock/hf_20260716_170904_64415aa0-49a3-48d8-bc1b-cc1b5541f949.mp4", desc: "Bespoke jewelry, heavy silver chains, and intricate metallic accessories. Handcrafted statement pieces to complete the uniform." },
-  { id: "H", brand: "Heritage",      category: "Traditionals", tagline: "Modern Traditionals", src: "/stock/hf_20260716_170912_a9673eab-8a70-4684-acb5-3600eae39f5a.mp4", desc: "Authentic traditional wear and cultural craftsmanship reborn. Bold Indian ethnic wear redesigned with modern cuts and drapes." },
+  { id: "A", brand: "", category: "", tagline: "", src: "", desc: "", isBlank: true },
+  { id: "B", brand: "Main Character", category: "Modern Casuals", tagline: "Streetwear", src: "/real_ads/blueorng-advertisment.mp4", desc: "Aesthetic streetwear inspired by modern youth culture and bold expressions." },
+  { id: "C", brand: "5feet11", category: "Semi Formals", tagline: "Linen & Casuals", src: "/real_ads/5feet11-advertisment.mp4", desc: "Premium fabrics and relaxed fits engineered for everyday elegance." },
+  { id: "D", brand: "The Bombay Shirt Company", category: "Formals", tagline: "Bespoke Shirts", src: "/real_ads/bombay_shirt_company-advertisment.mp4", desc: "Custom-made luxury shirting designed by you, tailored for comfort." },
+  { id: "E", brand: "Sand Marshal", category: "Eyewear", tagline: "Optics & Eyewear", src: "/real_ads/samandmarshall-advertisment.mp4", desc: "Visionary designer eyewear crafted to shield your sight and define your style." },
+  { id: "F", brand: "Miso by Sonia", category: "Accessories", tagline: "Artisanal Jewelry", src: "/real_ads/misobysonia-advertisment.mp4", desc: "Handcrafted statement jewelry pieces made to last and elevate your identity." },
+  { id: "G", brand: "Gully Labs", category: "Footwear", tagline: "Future Sneaker Culture", src: "/real_ads/gully_labs-advertisment.mp4", desc: "Sneakers that tell a story. Blending heritage craftsmanship with street sensibilities." },
+  { id: "H", brand: "Vastramay", category: "Traditionals", tagline: "Modern Traditionals", src: "/real_ads/vastramay-advertisment.mp4", desc: "Ethnic fusion wear redefining modern Indian drapery and style." },
 ];
 
 export default function BrandsPage() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
   return (
-    <div className="page-scroll" style={{ background: "#FAFAFA", minHeight: "100vh", height: "100vh", overflowY: "auto", overflowX: "hidden", color: "#111111", paddingBottom: 100 }}>
-      {/* Decorative background grid elements */}
-      <div style={{ position: "fixed", inset: 0, opacity: 0.03, pointerEvents: "none", zIndex: 1, backgroundImage: "linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
-
+    <div className="page-scroll" style={{ background: "transparent", minHeight: "100vh", height: "100vh", overflowY: "auto", overflowX: "hidden", color: "#111111", paddingBottom: 100 }}>
+      
       <div style={{ position: "relative", zIndex: 5, maxWidth: 1300, margin: "0 auto", padding: "130px 40px 40px" }}>
         
         {/* Header Block */}
@@ -37,7 +33,7 @@ export default function BrandsPage() {
           <h1 style={{ fontFamily: "inherit", fontSize: "clamp(48px, 8vw, 100px)", fontWeight: 950, color: BURG, margin: "10px 0 20px", letterSpacing: -4, lineHeight: 0.85, textTransform: "uppercase" }}>
             independent<br/>partners
           </h1>
-          <p style={{ fontSize: 16, color: "rgba(0,0,0,0.6)", maxWidth: 500, lineHeight: 1.5, margin: 0 }}>
+          <p style={{ fontSize: 16, color: "rgba(0,0,0,0.65)", maxWidth: 500, lineHeight: 1.5, margin: 0 }}>
             Discover the independent brands disrupting the status quo. Curated styles, unique fabrics, and zero mass production.
           </p>
         </div>
@@ -46,6 +42,26 @@ export default function BrandsPage() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 32 }}>
           {BRANDS.map((item, idx) => {
             const isHovered = hoveredIdx === idx;
+            
+            // Render first glass panel completely blank
+            if (item.isBlank) {
+              return (
+                <div
+                  key={item.id}
+                  style={{
+                    position: "relative",
+                    borderRadius: 24,
+                    aspectRatio: "3/4",
+                    background: "rgba(255, 255, 255, 0.25)",
+                    border: "1.5px solid rgba(0, 0, 0, 0.08)",
+                    backdropFilter: "blur(24px) saturate(180%)",
+                    boxShadow: "0 10px 40px rgba(0,0,0,0.03)",
+                    pointerEvents: "none"
+                  }}
+                />
+              );
+            }
+
             return (
               <div
                 key={item.id}
@@ -56,12 +72,15 @@ export default function BrandsPage() {
                   borderRadius: 24,
                   overflow: "hidden",
                   aspectRatio: "3/4",
-                  background: "#FFFFFF",
-                  border: "1px solid rgba(0, 0, 0, 0.15)",
-                  transition: "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s",
+                  // Premium Apple Liquid Glass Panel Design
+                  background: "rgba(255, 255, 255, 0.28)",
+                  border: "1px solid rgba(0, 0, 0, 0.08)",
+                  backdropFilter: "blur(30px) saturate(190%)",
+                  WebkitBackdropFilter: "blur(30px) saturate(190%)",
+                  transition: "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s, background-color 0.5s, box-shadow 0.5s",
                   transform: isHovered ? "translateY(-8px) scale(1.02)" : "translateY(0) scale(1)",
-                  boxShadow: isHovered ? "0 20px 40px rgba(0,0,0,0.12)" : "none",
-                  borderColor: isHovered ? "rgba(0, 0, 0, 0.35)" : "rgba(0, 0, 0, 0.12)"
+                  boxShadow: isHovered ? "0 25px 50px rgba(0,0,0,0.08)" : "0 10px 40px rgba(0,0,0,0.03)",
+                  borderColor: isHovered ? "rgba(0, 0, 0, 0.18)" : "rgba(0, 0, 0, 0.08)"
                 }}
               >
                 {/* Loop Video in background */}
@@ -77,16 +96,16 @@ export default function BrandsPage() {
                     width: "100%",
                     height: "100%",
                     objectFit: "cover",
-                    opacity: isHovered ? 0.75 : 0.45,
-                    transition: "opacity 0.5s"
+                    opacity: isHovered ? 0.78 : 0.4,
+                    transition: "opacity 0.5s ease"
                   }}
                 />
 
-                {/* Dark Overlay Gradient */}
+                {/* Glass Bottom Overlay Gradient */}
                 <div style={{
                   position: "absolute",
                   inset: 0,
-                  background: "linear-gradient(to top, rgba(250,250,250,0.95) 0%, rgba(250,250,250,0.4) 60%, transparent 100%)",
+                  background: "linear-gradient(to top, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.3) 60%, transparent 100%)",
                   zIndex: 2
                 }} />
 
@@ -108,7 +127,7 @@ export default function BrandsPage() {
                       letterSpacing: 2.5,
                       textTransform: "uppercase",
                       color: "#FFFFFF",
-                      background: "rgba(0, 0, 0, 0.85)",
+                      background: "rgba(0, 0, 0, 0.8)",
                       border: "1px solid rgba(0, 0, 0, 0.9)",
                       padding: "6px 12px",
                       borderRadius: 9999,
@@ -129,7 +148,7 @@ export default function BrandsPage() {
 
                     <p style={{
                       fontSize: 12,
-                      color: "rgba(0,0,0,0.75)",
+                      color: "rgba(0,0,0,0.72)",
                       lineHeight: 1.45,
                       margin: 0,
                       opacity: isHovered ? 1 : 0,

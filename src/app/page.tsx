@@ -61,14 +61,14 @@ const CAROUSEL_CARDS = [
 ];
 
 const BRAND_CARDS = [
-  { id: "A", brand: "May Character", tagline: "Techwear", src: "/stock/hf_20260716_170814_196b8582-4782-4688-84cd-1cc5042c639b.mp4", desc: "Cyberpunk and functional techwear engineered for the modern nomad." },
-  { id: "B", brand: "Orange Blue",   tagline: "Bold", src: "/stock/hf_20260716_170822_3222bd46-685c-40ec-8816-fbdf2b769010.mp4", desc: "Bold silhouettes and hyper-minimal fashion forward essentials." },
-  { id: "C", brand: "6'11\"",        tagline: "Poplin & Linen", src: "/stock/hf_20260716_170830_44f9ea45-4cfd-44ef-a4e0-a531204ac330.mp4", desc: "Premium poplin and linen fits for the semi-formal aesthetic." },
-  { id: "D", brand: "Mumbai Shirt Company", tagline: "Formals", src: "/stock/hf_20260716_170838_38b5090a-a2b9-44f9-a807-e8215a7d197e.mp4", desc: "Tailored luxury formalwear and bespoke shirting." },
-  { id: "E", brand: "Dune Marshals", tagline: "Eyewear", src: "/stock/hf_20260716_170846_4744c2b3-2340-41a8-8ab0-ea6a0745aba3.mp4", desc: "Futuristic eyewear and protective optics for modern environments." },
-  { id: "F", brand: "Street Labs",   tagline: "Footwear", src: "/stock/hf_20260716_170855_1352c018-a624-45c1-a700-05cba4fedecd.mp4", desc: "Innovative footwear merging street culture with high-end performance." },
-  { id: "G", brand: "Piso by Sonia", tagline: "Accessories", src: "/stock/hf_20260716_170904_64415aa0-49a3-48d8-bc1b-cc1b5541f949.mp4", desc: "Bespoke jewelry and intricate metalwork accessories." },
-  { id: "H", brand: "Heritage",      tagline: "Traditionals", src: "/stock/hf_20260716_170912_a9673eab-8a70-4684-acb5-3600eae39f5a.mp4", desc: "Authentic traditional wear and cultural craftsmanship reborn." },
+  { id: "A", brand: "", tagline: "", src: "", desc: "", isBlank: true },
+  { id: "B", brand: "Main Character", tagline: "Streetwear", src: "/real_ads/blueorng-advertisment.mp4", desc: "Aesthetic streetwear inspired by modern youth culture and bold expressions." },
+  { id: "C", brand: "5feet11", tagline: "Linen & Casuals", src: "/real_ads/5feet11-advertisment.mp4", desc: "Premium fabrics and relaxed fits engineered for everyday elegance." },
+  { id: "D", brand: "The Bombay Shirt Company", tagline: "Bespoke Shirts", src: "/real_ads/bombay_shirt_company-advertisment.mp4", desc: "Custom-made luxury shirting designed by you, tailored for comfort." },
+  { id: "E", brand: "Sand Marshal", tagline: "Eyewear", src: "/real_ads/samandmarshall-advertisment.mp4", desc: "Visionary designer eyewear crafted to shield your sight and define your style." },
+  { id: "F", brand: "Miso by Sonia", tagline: "Artisanal Jewelry", src: "/real_ads/misobysonia-advertisment.mp4", desc: "Handcrafted statement jewelry pieces made to last and elevate your identity." },
+  { id: "G", brand: "Gully Labs", tagline: "Footwear", src: "/real_ads/gully_labs-advertisment.mp4", desc: "Sneakers that tell a story. Blending heritage craftsmanship with street sensibilities." },
+  { id: "H", brand: "Vastramay", tagline: "Traditionals", src: "/real_ads/vastramay-advertisment.mp4", desc: "Ethnic fusion wear redefining modern Indian drapery and style." },
 ];
 
 const TOP_PRODUCTS = [
@@ -212,6 +212,26 @@ function AccordionSection() {
                 const opacity = hovered ? (isHov ? 1 : 0) : 1;
                 const translateY = hovered && !isHov ? 16 : 0;
 
+                if (card.isBlank) {
+                  return (
+                    <div
+                      key={card.id}
+                      className="expand-card"
+                      style={{ 
+                        flex: flexVal,
+                        height: "100%",
+                        transition: "flex 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+                        borderRadius: 24,
+                        background: "rgba(255, 255, 255, 0.05)",
+                        border: "1.5px solid rgba(0, 0, 0, 0.08)",
+                        backdropFilter: "blur(20px)",
+                      }}
+                      onMouseEnter={() => setHovered(card.id)}
+                      onMouseLeave={() => setHovered(null)}
+                    />
+                  );
+                }
+
                 return (
                   <Link
                     key={card.id}
@@ -269,6 +289,26 @@ function AccordionSection() {
                 const flexVal = isRow2Hovered ? (isHov ? 5 : 1) : 1;
                 const opacity = hovered ? (isHov ? 1 : 0) : 1;
                 const translateY = hovered && !isHov ? 16 : 0;
+
+                if (card.isBlank) {
+                  return (
+                    <div
+                      key={card.id}
+                      className="expand-card"
+                      style={{ 
+                        flex: flexVal,
+                        height: "100%",
+                        transition: "flex 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+                        borderRadius: 24,
+                        background: "rgba(255, 255, 255, 0.05)",
+                        border: "1.5px solid rgba(0, 0, 0, 0.08)",
+                        backdropFilter: "blur(20px)",
+                      }}
+                      onMouseEnter={() => setHovered(card.id)}
+                      onMouseLeave={() => setHovered(null)}
+                    />
+                  );
+                }
 
                 return (
                   <Link

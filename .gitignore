@@ -41,3 +41,5 @@ next-env.d.ts
 # stock media
 public/stock/
 public/stock/**/*
+public/real_ads/
+public/real_ads/**/*
