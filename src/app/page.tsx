@@ -135,7 +135,7 @@ function HeroSection() {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         style={{
-          width: "100%", aspectRatio: "16/9", borderRadius: 36,
+          width: "100%", maxWidth: "1000px", aspectRatio: "16/9", borderRadius: 36,
           background: CREAM,
           border: "1.5px solid rgba(0,0,0,0.1)",
           boxShadow: "0 30px 70px rgba(0,0,0,0.08)",
@@ -594,7 +594,7 @@ function AdSection() {
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         style={{
-          width: "100%", aspectRatio: "16/9", borderRadius: 36,
+          width: "100%", maxWidth: "1000px", aspectRatio: "16/9", borderRadius: 36,
           background: CREAM,
           border: "1.5px solid rgba(0,0,0,0.1)",
           boxShadow: "0 30px 70px rgba(0,0,0,0.08)",
