@@ -822,9 +822,6 @@ function FinaleSection() {
             concat
             <span style={{ color: BURG_LIGHT }}>.</span>
           </div>
-          <div style={{ marginTop: 20, fontSize: 11, fontWeight: 700, letterSpacing: 5, textTransform: "uppercase", color: "rgba(0,0,0,0.45)" }}>
-            Aggregating the aesthetic underground
-          </div>
         </div>
 
       <footer style={{
