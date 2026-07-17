@@ -129,37 +129,114 @@ function ScrollIndicator() {
 // ─── SECTION 1 : HERO ─────────────────────────────────────────────
 function HeroSection() {
   return (
-    <section className="snap-section" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "100px 36px 36px", boxSizing: "border-box" }}>
+    <section className="snap-section" style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center", padding: "100px 36px 36px", boxSizing: "border-box", overflow: "hidden" }}>
+      
+      {/* Background Animated Typography Layer */}
+      <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "12vh 0", opacity: 0.04, overflow: "hidden" }}>
+        <motion.div 
+          initial={{ x: "0%" }}
+          animate={{ x: "-30%" }}
+          transition={{ repeat: Infinity, duration: 45, ease: "linear" }}
+          style={{ whiteSpace: "nowrap" }}
+        >
+          <span style={{ fontFamily: "inherit", fontSize: "28vw", fontWeight: 900, textTransform: "uppercase", letterSpacing: -12, color: BURG }}>AESTHETIC UNDERGROUND </span>
+        </motion.div>
+        <motion.div 
+          initial={{ x: "-30%" }}
+          animate={{ x: "0%" }}
+          transition={{ repeat: Infinity, duration: 55, ease: "linear" }}
+          style={{ whiteSpace: "nowrap" }}
+        >
+          <span style={{ fontFamily: "inherit", fontSize: "28vw", fontWeight: 900, textTransform: "uppercase", letterSpacing: -12, color: BURG }}>CURATED COUNTERCULTURE </span>
+        </motion.div>
+      </div>
+
+      {/* Foreground Typographical Elements */}
+      <div style={{ position: "absolute", top: "22%", left: "6%", zIndex: 2, pointerEvents: "none" }}>
+        <motion.h1 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          style={{ margin: 0, fontSize: "clamp(48px, 7vw, 110px)", fontWeight: 900, textTransform: "uppercase", letterSpacing: -4, color: BURG, lineHeight: 0.85 }}
+        >
+          Aggregating <br/>
+          <span style={{ color: BURG_LIGHT }}>The</span> <br/>
+          Underground.
+        </motion.h1>
+      </div>
+
+      <div style={{ position: "absolute", bottom: "16%", right: "6%", zIndex: 2, textAlign: "right", pointerEvents: "none" }}>
+        <motion.p 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          style={{ margin: 0, fontSize: "clamp(13px, 1.4vw, 18px)", fontWeight: 600, color: BURG_MID, maxWidth: 340, lineHeight: 1.5 }}
+        >
+          Zero mass production. Curated indie fashion, unique fabrics, and disruptive independent creators redefining the aesthetic.
+        </motion.p>
+      </div>
+
       <motion.div 
-        initial={{ opacity: 0, y: 40, scale: 0.98 }}
+        initial={{ opacity: 0, y: 40, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
         style={{
           width: "100%", maxWidth: "1000px", aspectRatio: "16/9", borderRadius: 36,
           background: CREAM,
           border: "1.5px solid rgba(0,0,0,0.1)",
-          boxShadow: "0 30px 70px rgba(0,0,0,0.08)",
-          position: "relative", display: "flex", flexDirection: "column", justifyContent: "flex-end",
-          padding: 48, boxSizing: "border-box", overflow: "hidden", zIndex: 5,
+          boxShadow: "0 40px 100px rgba(0,0,0,0.15)",
+          position: "relative", display: "flex", flexDirection: "column", justifyContent: "space-between",
+          padding: 40, boxSizing: "border-box", overflow: "hidden", zIndex: 5,
         }}
       >
         <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
           <video src="/real_ads/first_section_web.mp4" autoPlay loop muted playsInline style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </div>
 
-        {/* Dark vignette to bottom so buttons are readable over bright videos */}
-        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 45%)`, zIndex: 1 }} />
+        {/* Dynamic vignette */}
+        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%)`, zIndex: 1 }} />
+        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 30%)`, zIndex: 1 }} />
 
-        {/* Buttons */}
-        <div style={{ position: "relative", zIndex: 5, display: "flex", gap: 14, alignItems: "center" }}>
-          <Link href="/floors" className="hero-btn">
-            View Floors
-          </Link>
-          <Link href="/stores" className="hero-btn">
-            View Stores
-          </Link>
-          <Link href="/shop" className="hero-btn">
-            Full Collection
+        {/* Top bar inside panel */}
+        <div style={{ position: "relative", zIndex: 5, display: "flex", justifyContent: "space-between", alignItems: "flex-start", width: "100%" }}>
+          <div style={{ padding: "6px 14px", background: "rgba(255,255,255,0.15)", backdropFilter: "blur(12px)", borderRadius: 999, border: "1px solid rgba(255,255,255,0.2)" }}>
+            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: 2, color: CREAM, textTransform: "uppercase" }}>CONCAT.</span>
+          </div>
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <motion.div animate={{ opacity: [1, 0.3, 1] }} transition={{ repeat: Infinity, duration: 1.5 }} style={{ width: 6, height: 6, borderRadius: "50%", background: "#ff3333" }} />
+            <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 2, color: CREAM, textTransform: "uppercase" }}>LIVE</span>
+          </div>
+        </div>
+
+        {/* Inner Content overlay */}
+        <div style={{ position: "relative", zIndex: 5, display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%" }}>
+          
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <div>
+              <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.7)", marginBottom: 4 }}>
+                Aesthetic Directives
+              </div>
+              <h2 style={{ margin: 0, fontSize: "clamp(24px, 4vw, 42px)", fontWeight: 900, color: CREAM, textTransform: "uppercase", letterSpacing: -1.5, lineHeight: 1 }}>
+                FALL '26
+              </h2>
+            </div>
+            
+            <div style={{ display: "flex", gap: 12 }}>
+              <Link href="/floors" className="hero-btn">View Floors</Link>
+              <Link href="/stores" className="hero-btn">View Stores</Link>
+            </div>
+          </div>
+
+          <Link href="/shop" style={{ 
+            display: "inline-flex", alignItems: "center", justifyContent: "center", 
+            width: 64, height: 64, borderRadius: "50%", background: CREAM, color: BURG,
+            boxShadow: "0 10px 30px rgba(0,0,0,0.3)", transition: "transform 0.4s cubic-bezier(0.16,1,0.3,1)",
+            textDecoration: "none"
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.15) rotate(15deg)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1) rotate(0deg)"; }}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </Link>
         </div>
       </motion.div>
