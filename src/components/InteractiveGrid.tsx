@@ -65,12 +65,6 @@ export default function InteractiveGrid() {
       animId = requestAnimationFrame(draw);
       ctx.clearRect(0, 0, width, height);
 
-      // Easing cursor
-      if (mouseRef.current.x !== -1000) {
-        easeMx += (mouseRef.current.x - easeMx) * 0.075;
-        easeMy += (mouseRef.current.y - easeMy) * 0.075;
-      }
-
       // ── Global Gravity Target ──────────────────────────────────────
       const introTarget = document.getElementById("intro-gravity-text");
       let textCx = -1000, textCy = -1000;
@@ -103,7 +97,7 @@ export default function InteractiveGrid() {
         
         // 2. Mouse Crater (dynamic user interaction)
         if (mouseRef.current.x !== -1000) {
-          const wMouse = warpPoint(finalX, finalY, easeMx, easeMy, 150, 24, 2.2);
+          const wMouse = warpPoint(finalX, finalY, mouseRef.current.x, mouseRef.current.y, 150, 24, 2.2);
           finalX += wMouse.x;
           finalY += wMouse.y;
         }
@@ -151,14 +145,14 @@ export default function InteractiveGrid() {
 
       // ── Cursor Spotlight ──────────────────────────────────────────
       if (mouseRef.current.x !== -1000) {
-        const grd = ctx.createRadialGradient(easeMx, easeMy, 0, easeMx, easeMy, 250);
+        const grd = ctx.createRadialGradient(mouseRef.current.x, mouseRef.current.y, 0, mouseRef.current.x, mouseRef.current.y, 250);
         grd.addColorStop(0, "rgba(0,0,0,0.15)");
         grd.addColorStop(0.5, "rgba(0,0,0,0.05)");
         grd.addColorStop(1, "rgba(0,0,0,0)");
         
         ctx.fillStyle = grd;
         ctx.beginPath();
-        ctx.arc(easeMx, easeMy, 250, 0, Math.PI * 2);
+        ctx.arc(mouseRef.current.x, mouseRef.current.y, 250, 0, Math.PI * 2);
         ctx.fill();
       }
     };

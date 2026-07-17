@@ -115,7 +115,7 @@ function ScrollIndicator() {
       padding: "6px 14px", borderRadius: 9999,
       background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)",
       backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
-      color: "rgba(255,255,255,0.6)", opacity: 1, zIndex: 9999,
+      color: BURG, opacity: 1, zIndex: 9999,
       boxShadow: "0 4px 20px rgba(0,0,0,0.3)"
     }}>
       <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>SCROLL</span>
