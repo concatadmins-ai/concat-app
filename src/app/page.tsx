@@ -12,96 +12,32 @@ const CREAM     = "#FFFFFF";
 const CREAM_DARK= "#F5F5F5";
 
 // ─── MEDIA MAPPINGS ───────────────────────────────────────────────
-const HERO_VIMEO_IDS = [
-  "1210710495", // blueorng
-  "1210710493", // gullylabs
-  "1210710494"  // 5feet11
+const HERO_VIDEO_SRCS = [
+  "/real_ads/blueorng-advertisment.mp4",
+  "/real_ads/gully_labs-advertisment.mp4",
+  "/real_ads/5feet11-advertisment.mp4"
 ];
 
-const AD_VIMEO_IDS = [
-  "1210710492", // Bombay shirt / Vastramay
-  "1210710565", // misobysonia
-  "1210710629"  // samandmarshall
+const AD_VIDEO_SRCS = [
+  "/real_ads/vastramay-advertisment.mp4",
+  "/real_ads/misobysonia-advertisment.mp4",
+  "/real_ads/samandmarshall-advertisment.mp4"
 ];
 
-function VimeoBackground({ videoId, opacity = 1, eager = false }: { videoId: string; opacity?: number; eager?: boolean }) {
-  const [isIntersecting, setIntersecting] = useState(eager);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (eager) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setIntersecting(true);
-        observer.disconnect();
-      }
-    }, { rootMargin: "400px" });
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [eager]);
-
-  if (!videoId) return null;
+function LocalVideoBackground({ src, opacity = 1 }: { src: string; opacity?: number }) {
+  if (!src) return null;
   return (
-    <div ref={ref} style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", opacity, transition: "opacity 1s ease", backgroundColor: "#111" }}>
-      {isIntersecting && (
-        <iframe
-          src={`https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&autopause=0&muted=1&background=1&quality=1080p`}
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            width: "100vw",
-            height: "56.25vw",
-            minHeight: "100vh",
-            minWidth: "177.77vh",
-            transform: "translate(-50%, -50%) scale(1.15)",
-            border: "none",
-            zIndex: 0
-          }}
-          allow="autoplay; fullscreen"
-        />
-      )}
+    <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", opacity, transition: "opacity 1s ease", backgroundColor: "#111" }}>
+      <video src={src} autoPlay loop muted playsInline style={{ position: "absolute", top: "50%", left: "50%", width: "100vw", height: "56.25vw", minHeight: "100vh", minWidth: "177.77vh", transform: "translate(-50%, -50%) scale(1.15)", objectFit: "cover", zIndex: 0 }} />
     </div>
   );
 }
 
-function VimeoCardBackground({ videoId, opacity = 1, eager = false }: { videoId: string; opacity?: number; eager?: boolean }) {
-  const [isIntersecting, setIntersecting] = useState(eager);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (eager) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setIntersecting(true);
-        observer.disconnect();
-      }
-    }, { rootMargin: "400px" });
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [eager]);
-
-  if (!videoId) return null;
+function LocalVideoCardBackground({ src, opacity = 1 }: { src: string; opacity?: number }) {
+  if (!src) return null;
   return (
-    <div ref={ref} style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", opacity, transition: "opacity 0.6s ease", backgroundColor: "#111" }}>
-      {isIntersecting && (
-        <iframe
-          src={`https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&autopause=0&muted=1&background=1&quality=1080p`}
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            width: "177.77vh",
-            height: "100vh",
-            minWidth: "100%",
-            minHeight: "100%",
-            transform: "translate(-50%, -50%) scale(1.35)",
-            border: "none",
-            zIndex: 0
-          }}
-          allow="autoplay; fullscreen"
-        />
-      )}
+    <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", opacity, transition: "opacity 0.6s ease", backgroundColor: "#111" }}>
+      <video src={src} autoPlay loop muted playsInline style={{ position: "absolute", top: "50%", left: "50%", width: "100%", height: "100%", transform: "translate(-50%, -50%) scale(1.05)", objectFit: "cover", zIndex: 0 }} />
     </div>
   );
 }
@@ -133,24 +69,24 @@ const PRODUCT_IMAGES = [
 
 // ─── DATA ─────────────────────────────────────────────────────────
 const CAROUSEL_CARDS = [
-  { title: "MODERN CASUALS", btnText: "visit modern casuals floor", vimeoId: "1210713158", href: "/floors" },
-  { title: "SEMI FORMALS",   btnText: "visit semi formals floor",   vimeoId: "1210713256", href: "/floors" },
-  { title: "ACCESSORIES",    btnText: "visit accessories floor",    vimeoId: "1210713160", href: "/floors" },
-  { title: "FOOTWEAR",       btnText: "visit footwear floor",       vimeoId: "1210713231", href: "/floors" },
-  { title: "FORMALS",        btnText: "visit formals floor",        vimeoId: "1210713234", href: "/floors" },
-  { title: "EYEWEAR",        vimeoId: "1210713159", btnText: "visit eyewear floor", href: "/floors" },
-  { title: "TRADITIONALS",   btnText: "visit traditionals floor",   vimeoId: "1210713161", href: "/floors" },
+  { title: "MODERN CASUALS", btnText: "visit modern casuals floor", src: "/stock/hf_20260716_170443_38e6b78a-8799-4829-87bb-c502c0f8ad3c.mp4", href: "/floors" },
+  { title: "SEMI FORMALS",   btnText: "visit semi formals floor",   src: "/stock/hf_20260716_170450_33c114d8-c778-4116-97c7-597d3dbe2fe6.mp4", href: "/floors" },
+  { title: "ACCESSORIES",    btnText: "visit accessories floor",    src: "/stock/hf_20260716_170805_2c160018-e4cb-4818-b7c1-47a638851a3c.mp4", href: "/floors" },
+  { title: "FOOTWEAR",       btnText: "visit footwear floor",       src: "/stock/hf_20260716_170814_196b8582-4782-4688-84cd-1cc5042c639b.mp4", href: "/floors" },
+  { title: "FORMALS",        btnText: "visit formals floor",        src: "/stock/hf_20260716_170822_3222bd46-685c-40ec-8816-fbdf2b769010.mp4", href: "/floors" },
+  { title: "EYEWEAR",        src: "/stock/hf_20260716_170830_44f9ea45-4cfd-44ef-a4e0-a531204ac330.mp4", btnText: "visit eyewear floor", href: "/floors" },
+  { title: "TRADITIONALS",   btnText: "visit traditionals floor",   src: "/stock/hf_20260716_170838_38b5090a-a2b9-44f9-a807-e8215a7d197e.mp4", href: "/floors" },
 ];
 
 const BRAND_CARDS = [
-  { id: "A", brand: "", tagline: "", vimeoId: "", desc: "", isBlank: true },
-  { id: "B", brand: "Main Character", tagline: "Streetwear", vimeoId: "1210710495", desc: "Aesthetic streetwear inspired by modern youth culture and bold expressions." },
-  { id: "C", brand: "5feet11", tagline: "Linen & Casuals", vimeoId: "1210710494", desc: "Premium fabrics and relaxed fits engineered for everyday elegance." },
-  { id: "D", brand: "The Bombay Shirt Company", tagline: "Bespoke Shirts", vimeoId: "1210710492", desc: "Custom-made luxury shirting designed by you, tailored for comfort." },
-  { id: "E", brand: "Sand Marshal", tagline: "Eyewear", vimeoId: "1210710629", desc: "Visionary designer eyewear crafted to shield your sight and define your style." },
-  { id: "F", brand: "Miso by Sonia", tagline: "Artisanal Jewelry", vimeoId: "1210710565", desc: "Handcrafted statement jewelry pieces made to last and elevate your identity." },
-  { id: "G", brand: "Gully Labs", tagline: "Footwear", vimeoId: "1210710493", desc: "Sneakers that tell a story. Blending heritage craftsmanship with street sensibilities." },
-  { id: "H", brand: "Vastramay", tagline: "Traditionals", vimeoId: "1210710492", desc: "Ethnic fusion wear redefining modern Indian drapery and style." },
+  { id: "A", brand: "", tagline: "", src: "", desc: "", isBlank: true },
+  { id: "B", brand: "Main Character", tagline: "Streetwear", src: "/real_ads/blueorng-advertisment.mp4", desc: "Aesthetic streetwear inspired by modern youth culture and bold expressions." },
+  { id: "C", brand: "5feet11", tagline: "Linen & Casuals", src: "/real_ads/5feet11-advertisment.mp4", desc: "Premium fabrics and relaxed fits engineered for everyday elegance." },
+  { id: "D", brand: "The Bombay Shirt Company", tagline: "Bespoke Shirts", src: "/real_ads/bombay_shirt_company-advertisment.mp4", desc: "Custom-made luxury shirting designed by you, tailored for comfort." },
+  { id: "E", brand: "Sand Marshal", tagline: "Eyewear", src: "/real_ads/samandmarshall-advertisment.mp4", desc: "Visionary designer eyewear crafted to shield your sight and define your style." },
+  { id: "F", brand: "Miso by Sonia", tagline: "Artisanal Jewelry", src: "/real_ads/misobysonia-advertisment.mp4", desc: "Handcrafted statement jewelry pieces made to last and elevate your identity." },
+  { id: "G", brand: "Gully Labs", tagline: "Footwear", src: "/real_ads/gully_labs-advertisment.mp4", desc: "Sneakers that tell a story. Blending heritage craftsmanship with street sensibilities." },
+  { id: "H", brand: "Vastramay", tagline: "Traditionals", src: "/real_ads/vastramay-advertisment.mp4", desc: "Ethnic fusion wear redefining modern Indian drapery and style." },
 ];
 
 const TOP_PRODUCTS = [
@@ -195,7 +131,7 @@ function HeroSection() {
   useEffect(() => {
     // Rotate hero videos every 10 seconds
     const interval = setInterval(() => {
-      setVidIndex((prev) => (prev + 1) % HERO_VIMEO_IDS.length);
+      setVidIndex((prev) => (prev + 1) % HERO_VIDEO_SRCS.length);
     }, 10000);
     return () => clearInterval(interval);
   }, []);
@@ -224,7 +160,7 @@ function HeroSection() {
             transition={{ duration: 1 }}
             style={{ position: "absolute", inset: 0, zIndex: 0 }}
           >
-            <VimeoBackground videoId={HERO_VIMEO_IDS[vidIndex]} opacity={1} eager={true} />
+            <LocalVideoBackground src={HERO_VIDEO_SRCS[vidIndex]} opacity={1} />
           </motion.div>
         </AnimatePresence>
 
@@ -329,7 +265,7 @@ function AccordionSection() {
                     onMouseEnter={() => setHovered(card.id)}
                     onMouseLeave={() => setHovered(null)}
                   >
-                    <VimeoCardBackground videoId={card.vimeoId} opacity={1} />
+                    <LocalVideoCardBackground src={card.src} opacity={1} />
                     <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 55%, transparent 100%)`, zIndex: 1 }} />
 
                     <div style={{
@@ -408,7 +344,7 @@ function AccordionSection() {
                     onMouseEnter={() => setHovered(card.id)}
                     onMouseLeave={() => setHovered(null)}
                   >
-                    <VimeoCardBackground videoId={card.vimeoId} opacity={1} />
+                    <LocalVideoCardBackground src={card.src} opacity={1} />
                     <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 55%, transparent 100%)`, zIndex: 1 }} />
 
                     <div style={{
@@ -476,22 +412,31 @@ function CarouselSection() {
         const op = isVisible ? 1 : 0;
         const pointerEvents = isVisible ? "auto" : "none";
 
+        const vid = el.querySelector("video") as HTMLVideoElement;
+        const isCenter = closestIdx === i;
+        if (vid) {
+          if (isCenter) {
+            if (vid.paused) vid.play().catch(()=>{});
+          } else {
+            if (!vid.paused) {
+              vid.pause();
+              vid.currentTime = 0;
+            }
+          }
+        }
+
+        const scale = (0.6 + 0.4 * depth).toFixed(4);
+        
+        el.style.cssText = `position:absolute;width:225px;height:400px;left:-112.5px;top:-200px;transform:translateX(${x.toFixed(1)}px) translateZ(${z.toFixed(1)}px) scale(${scale});opacity:${op};pointer-events:${pointerEvents};filter:none;z-index:${Math.round(depth*200)};border-radius:18px;overflow:hidden;cursor:pointer;will-change:transform;box-sizing:border-box;border:1px solid rgba(255,255,255,0.35);box-shadow:0 12px 40px rgba(0,0,0,0.8);background-color:#111111;transition:transform 0.8s cubic-bezier(0.16,1,0.3,1),width 0.8s cubic-bezier(0.16,1,0.3,1),height 0.8s cubic-bezier(0.16,1,0.3,1),left 0.8s cubic-bezier(0.16,1,0.3,1),top 0.8s cubic-bezier(0.16,1,0.3,1),opacity 0.6s ease,filter 0.6s ease;`;
+
         if (hoverActive !== -1) {
           if (isHov) {
-            el.style.cssText = `position:absolute;width:360px;height:640px;left:-180px;top:-320px;transform:translateX(0) translateZ(350px) scale(1);opacity:1;filter:none;z-index:999;pointer-events:auto;box-shadow:0 0 60px rgba(0,0,0,0.8),0 0 0 2.5px rgba(255,255,255,0.6);background-color:#111111;border-color:rgba(255,255,255,0.7);border-radius:18px;overflow:hidden;cursor:pointer;will-change:transform;box-sizing:border-box;border:1px solid rgba(255,255,255,0.35);transition:transform 0.8s cubic-bezier(0.16,1,0.3,1),width 0.8s cubic-bezier(0.16,1,0.3,1),height 0.8s cubic-bezier(0.16,1,0.3,1),left 0.8s cubic-bezier(0.16,1,0.3,1),top 0.8s cubic-bezier(0.16,1,0.3,1),opacity 0.6s ease,filter 0.6s ease;`;
             if (btn) { btn.style.opacity="1"; btn.style.height="34px"; btn.style.padding="8px 22px"; btn.style.marginTop="14px"; }
-            if (title) title.style.fontSize="22px";
           } else {
-            const sc = ((0.6 + 0.4 * depth) * 0.65).toFixed(4);
-            el.style.cssText = `position:absolute;width:225px;height:400px;left:-112.5px;top:-200px;transform:translateX(${(x*1.5).toFixed(1)}px) translateZ(${z.toFixed(1)}px) scale(${sc});opacity:${op};pointer-events:${pointerEvents};filter:none;z-index:${Math.round(depth*100)};border-radius:18px;overflow:hidden;cursor:pointer;will-change:transform;box-sizing:border-box;border:1px solid rgba(255,255,255,0.25);box-shadow:0 8px 32px rgba(0,0,0,0.8);background-color:#111111;transition:transform 0.8s cubic-bezier(0.16,1,0.3,1),width 0.8s cubic-bezier(0.16,1,0.3,1),height 0.8s cubic-bezier(0.16,1,0.3,1),left 0.8s cubic-bezier(0.16,1,0.3,1),top 0.8s cubic-bezier(0.16,1,0.3,1),opacity 0.6s ease,filter 0.6s ease;`;
             if (btn) { btn.style.opacity="0"; btn.style.height="0"; btn.style.padding="0"; btn.style.marginTop="0"; }
-            if (title) title.style.fontSize="14px";
           }
         } else {
-          const scale = (0.6 + 0.4 * depth).toFixed(4);
-          el.style.cssText = `position:absolute;width:225px;height:400px;left:-112.5px;top:-200px;transform:translateX(${x.toFixed(1)}px) translateZ(${z.toFixed(1)}px) scale(${scale});opacity:${op};pointer-events:${pointerEvents};filter:none;z-index:${Math.round(depth*200)};border-radius:18px;overflow:hidden;cursor:pointer;will-change:transform;box-sizing:border-box;border:1px solid rgba(255,255,255,0.35);box-shadow:0 12px 40px rgba(0,0,0,0.8);background-color:#111111;transition:transform 0.8s cubic-bezier(0.16,1,0.3,1),width 0.8s cubic-bezier(0.16,1,0.3,1),height 0.8s cubic-bezier(0.16,1,0.3,1),left 0.8s cubic-bezier(0.16,1,0.3,1),top 0.8s cubic-bezier(0.16,1,0.3,1),opacity 0.6s ease,filter 0.6s ease;`;
           if (btn) { btn.style.opacity="0"; btn.style.height="0"; btn.style.padding="0"; btn.style.marginTop="0"; }
-          if (title) title.style.fontSize="14px";
         }
       }
       animRef.current = requestAnimationFrame(tick);
@@ -538,7 +483,7 @@ function CarouselSection() {
                 onMouseLeave={() => { stateRef.current.hoveredIdx = -1; }}
                 style={{ backgroundColor: "#FFFFFF" }}
               >
-                <VimeoCardBackground videoId={card.vimeoId} opacity={1} />
+                <LocalVideoCardBackground src={card.src} opacity={1} />
                 <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)`, zIndex: 1 }} />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 55%)", pointerEvents: "none", zIndex: 1 }} />
                 <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "20px 18px", zIndex: 2 }}>
@@ -669,16 +614,6 @@ function TopSellingSection() {
 
 // ─── SECTION 5 : AD CAMPAIGN PANEL ───────────────────────────────
 function AdSection() {
-  const [vidIndex, setVidIndex] = useState(0);
-
-  const nextAd = () => {
-    setVidIndex((prev) => (prev + 1) % AD_VIMEO_IDS.length);
-  };
-
-  const prevAd = () => {
-    setVidIndex((prev) => (prev - 1 + AD_VIMEO_IDS.length) % AD_VIMEO_IDS.length);
-  };
-
   return (
     <section className="snap-section" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "100px 36px 36px", boxSizing: "border-box" }}>
       <motion.div 
@@ -694,33 +629,14 @@ function AdSection() {
           position: "relative", overflow: "hidden"
         }}
       >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={vidIndex}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.6 }}
-            style={{ position: "absolute", inset: 0 }}
-          >
-            <VimeoBackground videoId={AD_VIMEO_IDS[vidIndex]} opacity={1} />
-          </motion.div>
-        </AnimatePresence>
+        <div style={{ position: "absolute", inset: 0 }}>
+          <img src="/store_interior.jpg" alt="New Stores" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        </div>
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%)`, zIndex: 1 }} />
 
         {/* Campaign Info - Subheading removed, size reduced */}
         <div style={{ position: "absolute", left: 48, bottom: 48, zIndex: 5 }}>
-          <h3 style={{ fontFamily: "inherit", fontSize: "clamp(18px, 2.5vw, 28px)", fontWeight: 950, color: CREAM, margin: 0, textTransform: "uppercase", letterSpacing: -0.5 }}>LATEST CAMPAIGN</h3>
-        </div>
-
-        {/* Arrow Controls */}
-        <div style={{ position: "absolute", right: 48, bottom: 48, zIndex: 5, display: "flex", gap: 16 }}>
-          <button onClick={prevAd} style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.3)", color: "#000", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(10px)" }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-          </button>
-          <button onClick={nextAd} style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.3)", color: "#000", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(10px)" }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
+          <h3 style={{ fontFamily: "inherit", fontSize: "clamp(18px, 2.5vw, 28px)", fontWeight: 950, color: CREAM, margin: 0, textTransform: "uppercase", letterSpacing: -0.5 }}>NEW STORES</h3>
         </div>
       </motion.div>
     </section>

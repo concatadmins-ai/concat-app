@@ -9,53 +9,21 @@ const BURG_LIGHT = "#777777";
 const CREAM = "#FFFFFF";
 
 const BRANDS = [
-  { id: "A", brand: "", category: "", tagline: "", vimeoId: "", desc: "", isBlank: true },
-  { id: "B", brand: "Main Character", category: "Modern Casuals", tagline: "Streetwear", vimeoId: "1210710495", desc: "Aesthetic streetwear inspired by modern youth culture and bold expressions." },
-  { id: "C", brand: "5feet11", category: "Semi Formals", tagline: "Linen & Casuals", vimeoId: "1210710494", desc: "Premium fabrics and relaxed fits engineered for everyday elegance." },
-  { id: "D", brand: "The Bombay Shirt Company", category: "Formals", tagline: "Bespoke Shirts", vimeoId: "1210710492", desc: "Custom-made luxury shirting designed by you, tailored for comfort." },
-  { id: "E", brand: "Sand Marshal", category: "Eyewear", tagline: "Optics & Eyewear", vimeoId: "1210710629", desc: "Visionary designer eyewear crafted to shield your sight and define your style." },
-  { id: "F", brand: "Miso by Sonia", category: "Accessories", tagline: "Artisanal Jewelry", vimeoId: "1210710565", desc: "Handcrafted statement jewelry pieces made to last and elevate your identity." },
-  { id: "G", brand: "Gully Labs", category: "Footwear", tagline: "Future Sneaker Culture", vimeoId: "1210710493", desc: "Sneakers that tell a story. Blending heritage craftsmanship with street sensibilities." },
-  { id: "H", brand: "Vastramay", category: "Traditionals", tagline: "Modern Traditionals", vimeoId: "1210710492", desc: "Ethnic fusion wear redefining modern Indian drapery and style." },
+  { id: "A", brand: "", category: "", tagline: "", src: "", desc: "", isBlank: true },
+  { id: "B", brand: "Main Character", category: "Modern Casuals", tagline: "Streetwear", src: "/real_ads/blueorng-advertisment.mp4", desc: "Aesthetic streetwear inspired by modern youth culture and bold expressions." },
+  { id: "C", brand: "5feet11", category: "Semi Formals", tagline: "Linen & Casuals", src: "/real_ads/5feet11-advertisment.mp4", desc: "Premium fabrics and relaxed fits engineered for everyday elegance." },
+  { id: "D", brand: "The Bombay Shirt Company", category: "Formals", tagline: "Bespoke Shirts", src: "/real_ads/bombay_shirt_company-advertisment.mp4", desc: "Custom-made luxury shirting designed by you, tailored for comfort." },
+  { id: "E", brand: "Sand Marshal", category: "Eyewear", tagline: "Optics & Eyewear", src: "/real_ads/samandmarshall-advertisment.mp4", desc: "Visionary designer eyewear crafted to shield your sight and define your style." },
+  { id: "F", brand: "Miso by Sonia", category: "Accessories", tagline: "Artisanal Jewelry", src: "/real_ads/misobysonia-advertisment.mp4", desc: "Handcrafted statement jewelry pieces made to last and elevate your identity." },
+  { id: "G", brand: "Gully Labs", category: "Footwear", tagline: "Future Sneaker Culture", src: "/real_ads/gully_labs-advertisment.mp4", desc: "Sneakers that tell a story. Blending heritage craftsmanship with street sensibilities." },
+  { id: "H", brand: "Vastramay", category: "Traditionals", tagline: "Modern Traditionals", src: "/real_ads/vastramay-advertisment.mp4", desc: "Ethnic fusion wear redefining modern Indian drapery and style." },
 ];
 
-function VimeoCardBackground({ videoId, opacity = 1, eager = false }: { videoId: string; opacity?: number; eager?: boolean }) {
-  const [isIntersecting, setIntersecting] = useState(eager);
-  const ref = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    if (eager) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setIntersecting(true);
-        observer.disconnect();
-      }
-    }, { rootMargin: "400px" });
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [eager]);
-
-  if (!videoId) return null;
+function LocalVideoCardBackground({ src, opacity = 1 }: { src: string; opacity?: number }) {
+  if (!src) return null;
   return (
-    <div ref={ref} style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", opacity, transition: "opacity 0.6s ease", backgroundColor: "#111" }}>
-      {isIntersecting && (
-        <iframe
-          src={`https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&autopause=0&muted=1&background=1&quality=1080p`}
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            width: "177.77vh",
-            height: "100vh",
-            minWidth: "100%",
-            minHeight: "100%",
-            transform: "translate(-50%, -50%) scale(1.35)",
-            border: "none",
-            zIndex: 0
-          }}
-          allow="autoplay; fullscreen"
-        />
-      )}
+    <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", opacity, transition: "opacity 0.6s ease", backgroundColor: "#111" }}>
+      <video src={src} autoPlay loop muted playsInline style={{ position: "absolute", top: "50%", left: "50%", width: "100%", height: "100%", transform: "translate(-50%, -50%) scale(1.05)", objectFit: "cover", zIndex: 0 }} />
     </div>
   );
 }
@@ -124,8 +92,8 @@ export default function BrandsPage() {
                   borderColor: isHovered ? "rgba(0, 0, 0, 0.18)" : "rgba(0, 0, 0, 0.08)"
                 }}
               >
-                {/* Vimeo embed in background */}
-                <VimeoCardBackground videoId={item.vimeoId} opacity={1} />
+                {/* Local Video embed in background */}
+                <LocalVideoCardBackground src={item.src} opacity={1} />
 
                 {/* Glass Bottom Overlay Gradient */}
                 <div style={{
