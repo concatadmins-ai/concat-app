@@ -131,18 +131,21 @@ function HeroSection() {
   return (
     <section className="snap-section" style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center", padding: "100px 36px 36px", boxSizing: "border-box", overflow: "hidden" }}>
       
-      {/* Foreground Typographical Elements */}
-      <div style={{ position: "absolute", top: "22%", left: "6%", zIndex: 2, pointerEvents: "none" }}>
-        <motion.h1 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          style={{ margin: 0, fontSize: "clamp(48px, 7vw, 110px)", fontWeight: 900, textTransform: "uppercase", letterSpacing: -4, color: BURG, lineHeight: 0.85 }}
+      {/* Background Scrolling Watermark */}
+      <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", zIndex: 1, display: "flex", alignItems: "center" }}>
+        <motion.div 
+          initial={{ x: "0%" }}
+          animate={{ x: "-50%" }}
+          transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
+          style={{ display: "flex", whiteSpace: "nowrap" }}
         >
-          Aggregating <br/>
-          <span style={{ color: BURG_LIGHT }}>The</span> <br/>
-          Underground.
-        </motion.h1>
+          <span style={{ fontSize: "28vw", fontWeight: 950, color: "rgba(0, 0, 0, 0.04)", textTransform: "uppercase", letterSpacing: "-0.04em", paddingRight: "10vw" }}>
+            CONCAT CONCAT
+          </span>
+          <span style={{ fontSize: "28vw", fontWeight: 950, color: "rgba(0, 0, 0, 0.04)", textTransform: "uppercase", letterSpacing: "-0.04em", paddingRight: "10vw" }}>
+            CONCAT CONCAT
+          </span>
+        </motion.div>
       </div>
 
       <motion.div 
