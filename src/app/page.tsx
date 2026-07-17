@@ -99,13 +99,13 @@ const PRODUCT_IMAGES = [
 
 // ─── DATA ─────────────────────────────────────────────────────────
 const CAROUSEL_CARDS = [
-  { title: "MODERN CASUALS", btnText: "visit modern casuals floor", img: FLOOR_IMAGES[0], href: "/floors" },
-  { title: "SEMI FORMALS",   btnText: "visit semi formals floor",   img: FLOOR_IMAGES[1],  href: "/floors" },
-  { title: "ACCESSORIES",    btnText: "visit accessories floor",    img: FLOOR_IMAGES[2],   href: "/floors" },
-  { title: "FOOTWEAR",       btnText: "visit footwear floor",       img: FLOOR_IMAGES[3],      href: "/floors" },
-  { title: "FORMALS",        btnText: "visit formals floor",        img: FLOOR_IMAGES[4],       href: "/floors" },
-  { title: "EYEWEAR",        btnText: "visit eyewear floor",        img: FLOOR_IMAGES[5],       href: "/floors" },
-  { title: "TRADITIONALS",   btnText: "visit traditionals floor",   img: FLOOR_IMAGES[6],        href: "/floors" },
+  { title: "MODERN CASUALS", btnText: "visit modern casuals floor", vimeoId: "1210713158", href: "/floors" },
+  { title: "SEMI FORMALS",   btnText: "visit semi formals floor",   vimeoId: "1210713256", href: "/floors" },
+  { title: "ACCESSORIES",    btnText: "visit accessories floor",    vimeoId: "1210713160", href: "/floors" },
+  { title: "FOOTWEAR",       btnText: "visit footwear floor",       vimeoId: "1210713231", href: "/floors" },
+  { title: "FORMALS",        btnText: "visit formals floor",        vimeoId: "1210713234", href: "/floors" },
+  { title: "EYEWEAR",        vimeoId: "1210713159", btnText: "visit eyewear floor", href: "/floors" },
+  { title: "TRADITIONALS",   btnText: "visit traditionals floor",   vimeoId: "1210713161", href: "/floors" },
 ];
 
 const BRAND_CARDS = [
@@ -442,18 +442,18 @@ function CarouselSection() {
 
         if (hoverActive !== -1) {
           if (isHov) {
-            el.style.cssText = `position:absolute;width:560px;height:315px;left:-280px;top:-157.5px;transform:translateX(0) translateZ(350px) scale(1);opacity:1;filter:none;z-index:999;pointer-events:auto;box-shadow:0 0 60px rgba(0,0,0,0.8),0 0 0 2.5px rgba(255,255,255,0.6);background-color:#111111;border-color:rgba(255,255,255,0.7);border-radius:18px;overflow:hidden;cursor:pointer;will-change:transform;box-sizing:border-box;border:1px solid rgba(255,255,255,0.35);transition:transform 0.8s cubic-bezier(0.16,1,0.3,1),width 0.8s cubic-bezier(0.16,1,0.3,1),height 0.8s cubic-bezier(0.16,1,0.3,1),left 0.8s cubic-bezier(0.16,1,0.3,1),top 0.8s cubic-bezier(0.16,1,0.3,1),opacity 0.6s ease,filter 0.6s ease;`;
+            el.style.cssText = `position:absolute;width:360px;height:640px;left:-180px;top:-320px;transform:translateX(0) translateZ(350px) scale(1);opacity:1;filter:none;z-index:999;pointer-events:auto;box-shadow:0 0 60px rgba(0,0,0,0.8),0 0 0 2.5px rgba(255,255,255,0.6);background-color:#111111;border-color:rgba(255,255,255,0.7);border-radius:18px;overflow:hidden;cursor:pointer;will-change:transform;box-sizing:border-box;border:1px solid rgba(255,255,255,0.35);transition:transform 0.8s cubic-bezier(0.16,1,0.3,1),width 0.8s cubic-bezier(0.16,1,0.3,1),height 0.8s cubic-bezier(0.16,1,0.3,1),left 0.8s cubic-bezier(0.16,1,0.3,1),top 0.8s cubic-bezier(0.16,1,0.3,1),opacity 0.6s ease,filter 0.6s ease;`;
             if (btn) { btn.style.opacity="1"; btn.style.height="34px"; btn.style.padding="8px 22px"; btn.style.marginTop="14px"; }
             if (title) title.style.fontSize="22px";
           } else {
             const sc = ((0.6 + 0.4 * depth) * 0.65).toFixed(4);
-            el.style.cssText = `position:absolute;width:230px;height:380px;left:-115px;top:-190px;transform:translateX(${(x*1.5).toFixed(1)}px) translateZ(${z.toFixed(1)}px) scale(${sc});opacity:${op};pointer-events:${pointerEvents};filter:none;z-index:${Math.round(depth*100)};border-radius:18px;overflow:hidden;cursor:pointer;will-change:transform;box-sizing:border-box;border:1px solid rgba(255,255,255,0.25);box-shadow:0 8px 32px rgba(0,0,0,0.8);background-color:#111111;transition:transform 0.8s cubic-bezier(0.16,1,0.3,1),width 0.8s cubic-bezier(0.16,1,0.3,1),height 0.8s cubic-bezier(0.16,1,0.3,1),left 0.8s cubic-bezier(0.16,1,0.3,1),top 0.8s cubic-bezier(0.16,1,0.3,1),opacity 0.6s ease,filter 0.6s ease;`;
+            el.style.cssText = `position:absolute;width:225px;height:400px;left:-112.5px;top:-200px;transform:translateX(${(x*1.5).toFixed(1)}px) translateZ(${z.toFixed(1)}px) scale(${sc});opacity:${op};pointer-events:${pointerEvents};filter:none;z-index:${Math.round(depth*100)};border-radius:18px;overflow:hidden;cursor:pointer;will-change:transform;box-sizing:border-box;border:1px solid rgba(255,255,255,0.25);box-shadow:0 8px 32px rgba(0,0,0,0.8);background-color:#111111;transition:transform 0.8s cubic-bezier(0.16,1,0.3,1),width 0.8s cubic-bezier(0.16,1,0.3,1),height 0.8s cubic-bezier(0.16,1,0.3,1),left 0.8s cubic-bezier(0.16,1,0.3,1),top 0.8s cubic-bezier(0.16,1,0.3,1),opacity 0.6s ease,filter 0.6s ease;`;
             if (btn) { btn.style.opacity="0"; btn.style.height="0"; btn.style.padding="0"; btn.style.marginTop="0"; }
             if (title) title.style.fontSize="14px";
           }
         } else {
           const scale = (0.6 + 0.4 * depth).toFixed(4);
-          el.style.cssText = `position:absolute;width:230px;height:380px;left:-115px;top:-190px;transform:translateX(${x.toFixed(1)}px) translateZ(${z.toFixed(1)}px) scale(${scale});opacity:${op};pointer-events:${pointerEvents};filter:none;z-index:${Math.round(depth*200)};border-radius:18px;overflow:hidden;cursor:pointer;will-change:transform;box-sizing:border-box;border:1px solid rgba(255,255,255,0.35);box-shadow:0 12px 40px rgba(0,0,0,0.8);background-color:#111111;transition:transform 0.8s cubic-bezier(0.16,1,0.3,1),width 0.8s cubic-bezier(0.16,1,0.3,1),height 0.8s cubic-bezier(0.16,1,0.3,1),left 0.8s cubic-bezier(0.16,1,0.3,1),top 0.8s cubic-bezier(0.16,1,0.3,1),opacity 0.6s ease,filter 0.6s ease;`;
+          el.style.cssText = `position:absolute;width:225px;height:400px;left:-112.5px;top:-200px;transform:translateX(${x.toFixed(1)}px) translateZ(${z.toFixed(1)}px) scale(${scale});opacity:${op};pointer-events:${pointerEvents};filter:none;z-index:${Math.round(depth*200)};border-radius:18px;overflow:hidden;cursor:pointer;will-change:transform;box-sizing:border-box;border:1px solid rgba(255,255,255,0.35);box-shadow:0 12px 40px rgba(0,0,0,0.8);background-color:#111111;transition:transform 0.8s cubic-bezier(0.16,1,0.3,1),width 0.8s cubic-bezier(0.16,1,0.3,1),height 0.8s cubic-bezier(0.16,1,0.3,1),left 0.8s cubic-bezier(0.16,1,0.3,1),top 0.8s cubic-bezier(0.16,1,0.3,1),opacity 0.6s ease,filter 0.6s ease;`;
           if (btn) { btn.style.opacity="0"; btn.style.height="0"; btn.style.padding="0"; btn.style.marginTop="0"; }
           if (title) title.style.fontSize="14px";
         }
@@ -502,10 +502,10 @@ function CarouselSection() {
                 onMouseLeave={() => { stateRef.current.hoveredIdx = -1; }}
                 style={{ backgroundColor: "#FFFFFF" }}
               >
-                <div style={{ position: "absolute", inset: 0, backgroundImage: `url('${card.img}')`, backgroundSize: "cover", backgroundPosition: "center" }} />
-                <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.08) 50%, transparent 100%)` }} />
-                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 55%)", pointerEvents: "none" }} />
-                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "20px 18px" }}>
+                <VimeoCardBackground videoId={card.vimeoId} opacity={0.8} />
+                <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.08) 50%, transparent 100%)`, zIndex: 1 }} />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 55%)", pointerEvents: "none", zIndex: 1 }} />
+                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "20px 18px", zIndex: 2 }}>
                   <div className="card-title" style={{ fontSize: 14, fontWeight: 800, color: BURG, textTransform: "uppercase", letterSpacing: 0.5, lineHeight: 1.2, textShadow: "0 2px 8px rgba(255,255,255,0.5)", transition: "font-size 0.5s ease" }}>
                     {card.title}
                   </div>
