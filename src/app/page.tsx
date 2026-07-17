@@ -749,87 +749,74 @@ function AdSection() {
   );
 }
 
-// ─── SECTION 5.5 : INTRO TO CONCAT ────────────────────────────────
-function IntroSection() {
-  return (
-    <section className="snap-section" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "80px 36px", boxSizing: "border-box", position: "relative", zIndex: 10 }}>
-
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        style={{ maxWidth: 820, textAlign: "center", position: "relative", zIndex: 2 }}
-      >
-        {/* We give this container an ID so the global InteractiveGrid knows where to form the massive gravity crater */}
-        <div id="intro-gravity-text" style={{
-          padding: "clamp(48px, 7vw, 72px) clamp(32px, 6vw, 64px)",
-          position: "relative",
-          overflow: "hidden",
-          borderRadius: 40,
-        }}>
-          {/* We keep a subtle glow attached to the text so the crater doesn't feel entirely empty, but it won't block the grid */}
-          <div style={{
-            position: "absolute", inset: 0, zIndex: -1, pointerEvents: "none",
-            background: "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.02) 40%, transparent 100%)",
-          }} />
-
-          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 5, textTransform: "uppercase", color: BURG_LIGHT, marginBottom: 28, opacity: 0.8 }}>
-            Why CONCAT exists
-          </div>
-
-          <h2 style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 900, color: BURG, margin: "0 0 28px", letterSpacing: -1.5, lineHeight: 1.05 }}>
-            Beyond the algorithm.<br/>
-            <span style={{ color: BURG_LIGHT }}>Beyond the mass market.</span>
-          </h2>
-
-          <p style={{ fontSize: "clamp(16px, 1.8vw, 19px)", fontWeight: 400, color: "rgba(0,0,0,0.72)", margin: "0 0 44px", lineHeight: 1.75, maxWidth: 640, marginLeft: "auto", marginRight: "auto" }}>
-            You are not limited to the same commercial brands you see everywhere. There's an entire world of independent labels — crafting superior styles and fabrics, at the exact same price, for every age, taste, and niche.
-            <br/><br/>
-            We built CONCAT so you never have to rely on luck to discover them.
-          </p>
-
-          <Link href="/about-us" style={{
-            display: "inline-flex", alignItems: "center", gap: 10,
-            background: "rgba(0,0,0,0.04)", border: "1px solid rgba(0,0,0,0.12)",
-            padding: "14px 30px", borderRadius: 9999, color: BURG,
-            fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.5,
-            textDecoration: "none", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
-            backdropFilter: "blur(12px)"
-          }}
-          onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(0,0,0,0.08)"; el.style.transform = "scale(1.05) translateY(-2px)"; el.style.boxShadow = "0 12px 30px rgba(0,0,0,0.1)"; }}
-          onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(0,0,0,0.04)"; el.style.transform = "scale(1)"; el.style.boxShadow = "none"; }}
-          >
-            Our Story
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </Link>
-        </div>
-      </motion.div>
-    </section>
-  );
-}
-
-
 // ─── SECTION 6 : FINALE ──────────────────────────────────────────
 function FinaleSection() {
   return (
-    <section id="finale" className="snap-section" style={{ padding: "100px 36px 40px", boxSizing: "border-box", display: "flex", flexDirection: "column" }}>
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}
-      >
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-          <div style={{ fontFamily: "inherit", fontSize: "clamp(70px,14vw,200px)", fontWeight: 900, letterSpacing: -6, lineHeight: 0.88, color: BURG, textAlign: "center" }}>
-            concat
-            <span style={{ color: BURG_LIGHT }}>.</span>
-          </div>
-        </div>
+    <section id="finale" className="snap-section" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "60px 36px 30px", boxSizing: "border-box", position: "relative", zIndex: 10 }}>
+      
+      {/* Intro content */}
+      <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          style={{ maxWidth: 820, textAlign: "center", position: "relative", zIndex: 2 }}
+        >
+          {/* Gravity Target Container */}
+          <div id="intro-gravity-text" style={{
+            padding: "24px clamp(32px, 6vw, 64px) 16px",
+            position: "relative",
+            overflow: "hidden",
+            borderRadius: 40,
+          }}>
+            <div style={{
+              position: "absolute", inset: 0, zIndex: -1, pointerEvents: "none",
+              background: "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.02) 40%, transparent 100%)",
+            }} />
 
+            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 5, textTransform: "uppercase", color: BURG_LIGHT, marginBottom: 16, opacity: 0.8 }}>
+              Why CONCAT exists
+            </div>
+
+            <h2 style={{ fontSize: "clamp(26px, 3.5vw, 42px)", fontWeight: 900, color: BURG, margin: "0 0 16px", letterSpacing: -1.5, lineHeight: 1.05 }}>
+              Beyond the algorithm.<br/>
+              <span style={{ color: BURG_LIGHT }}>Beyond the mass market.</span>
+            </h2>
+
+            <p style={{ fontSize: "clamp(13px, 1.4vw, 16px)", fontWeight: 400, color: "rgba(0,0,0,0.72)", margin: "0 0 24px", lineHeight: 1.6, maxWidth: 600, marginLeft: "auto", marginRight: "auto" }}>
+              You are not limited to the same commercial brands you see everywhere. There's an entire world of independent labels — crafting superior styles and fabrics, at the exact same price, for every age, taste, and niche.
+            </p>
+
+            <Link href="/about-us" style={{
+              display: "inline-flex", alignItems: "center", gap: 10,
+              background: "rgba(0,0,0,0.04)", border: "1px solid rgba(0,0,0,0.12)",
+              padding: "12px 28px", borderRadius: 9999, color: BURG,
+              fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.5,
+              textDecoration: "none", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+              backdropFilter: "blur(12px)"
+            }}
+            onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(0,0,0,0.08)"; el.style.transform = "scale(1.05) translateY(-2px)"; el.style.boxShadow = "0 12px 30px rgba(0,0,0,0.1)"; }}
+            onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(0,0,0,0.04)"; el.style.transform = "scale(1)"; el.style.boxShadow = "none"; }}
+            >
+              Our Story
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </Link>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Finale Logo */}
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", margin: "10px 0 15px" }}>
+        <div style={{ fontFamily: "inherit", fontSize: "clamp(60px,10vw,140px)", fontWeight: 900, letterSpacing: -4, lineHeight: 0.88, color: BURG, textAlign: "center" }}>
+          concat
+          <span style={{ color: BURG_LIGHT }}>.</span>
+        </div>
+      </div>
+
+      {/* Footer */}
       <footer style={{
-        borderRadius: 22, padding: "22px 32px",
+        borderRadius: 22, padding: "18px 28px",
         display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 14,
         background: "rgba(0,0,0,0.03)", border: "1px solid rgba(0,0,0,0.08)",
         backdropFilter: "blur(30px)", WebkitBackdropFilter: "blur(30px)",
@@ -849,7 +836,6 @@ function FinaleSection() {
         </nav>
         <span style={{ fontSize: 11, fontWeight: 400, color: "rgba(0,0,0,0.55)" }}>© 2026 CONCAT</span>
       </footer>
-      </motion.div>
     </section>
   );
 }
@@ -881,7 +867,6 @@ export default function Home() {
       <TopSellingSection />
       <CarouselSection />
       <AdSection />
-      <IntroSection />
       <FinaleSection />
       <ScrollIndicator visible={showScroll} />
     </div>

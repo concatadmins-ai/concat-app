@@ -97,9 +97,26 @@ export default function InteractiveGrid() {
         
         // 2. Mouse Crater (dynamic user interaction)
         if (mouseRef.current.x !== -1000) {
+          const dx = finalX - mouseRef.current.x;
+          const dy = finalY - mouseRef.current.y;
+          const mouseDist = Math.sqrt(dx * dx + dy * dy);
+
           const wMouse = warpPoint(finalX, finalY, mouseRef.current.x, mouseRef.current.y, 150, 24, 2.2);
           finalX += wMouse.x;
           finalY += wMouse.y;
+
+          // Electric pulsation effect (wiggles grid lines concentrically)
+          if (mouseDist < 450) {
+            const waveSpeed = 0.018;
+            const waveFreq = 0.08;
+            const waveValue = Math.sin(mouseDist * waveFreq - Date.now() * waveSpeed);
+            const fade = Math.max(0, (450 - mouseDist) / 450);
+            
+            const angle = Math.atan2(dy, dx) + Math.PI / 2; // perpendicular
+            const electricStrength = 3.5 * waveValue * fade;
+            finalX += Math.cos(angle) * electricStrength;
+            finalY += Math.sin(angle) * electricStrength;
+          }
         }
         
         return { x: finalX, y: finalY };
@@ -145,14 +162,24 @@ export default function InteractiveGrid() {
 
       // ── Cursor Spotlight ──────────────────────────────────────────
       if (mouseRef.current.x !== -1000) {
-        const grd = ctx.createRadialGradient(mouseRef.current.x, mouseRef.current.y, 0, mouseRef.current.x, mouseRef.current.y, 250);
-        grd.addColorStop(0, "rgba(74, 14, 23, 0.18)");
-        grd.addColorStop(0.5, "rgba(74, 14, 23, 0.06)");
-        grd.addColorStop(1, "rgba(74, 14, 23, 0)");
+        // Outer glow
+        const grd = ctx.createRadialGradient(mouseRef.current.x, mouseRef.current.y, 0, mouseRef.current.x, mouseRef.current.y, 350);
+        grd.addColorStop(0, "rgba(0, 180, 255, 0.25)");
+        grd.addColorStop(0.4, "rgba(0, 120, 255, 0.08)");
+        grd.addColorStop(1, "rgba(0, 0, 0, 0)");
         
         ctx.fillStyle = grd;
         ctx.beginPath();
-        ctx.arc(mouseRef.current.x, mouseRef.current.y, 250, 0, Math.PI * 2);
+        ctx.arc(mouseRef.current.x, mouseRef.current.y, 350, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Sharp electric inner core
+        const coreGrd = ctx.createRadialGradient(mouseRef.current.x, mouseRef.current.y, 0, mouseRef.current.x, mouseRef.current.y, 80);
+        coreGrd.addColorStop(0, "rgba(0, 220, 255, 0.3)");
+        coreGrd.addColorStop(1, "rgba(0, 220, 255, 0)");
+        ctx.fillStyle = coreGrd;
+        ctx.beginPath();
+        ctx.arc(mouseRef.current.x, mouseRef.current.y, 80, 0, Math.PI * 2);
         ctx.fill();
       }
     };
