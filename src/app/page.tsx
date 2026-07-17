@@ -107,16 +107,20 @@ const TOP_PRODUCTS = [
 ];
 
 // ─── REUSABLE SCROLL INDICATOR ────────────────────────────────────
-function ScrollIndicator() {
+function ScrollIndicator({ visible }: { visible: boolean }) {
   return (
     <div style={{
-      position: "fixed", bottom: 16, left: "50%", transform: "translateX(-50%)",
+      position: "fixed", bottom: 16, left: "50%",
       display: "flex", alignItems: "center", gap: 6,
       padding: "6px 14px", borderRadius: 9999,
       background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)",
       backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
-      color: BURG, opacity: 1, zIndex: 9999,
-      boxShadow: "0 4px 20px rgba(0,0,0,0.3)"
+      color: BURG, opacity: visible ? 1 : 0, zIndex: 9999,
+      boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
+      transition: "opacity 0.4s ease, transform 0.4s ease, visibility 0.4s",
+      transform: visible ? "translateX(-50%) translateY(0)" : "translateX(-50%) translateY(10px)",
+      visibility: visible ? "visible" : "hidden",
+      pointerEvents: visible ? "auto" : "none"
     }}>
       <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>SCROLL</span>
       <svg className="animate-bounce" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -852,6 +856,24 @@ function FinaleSection() {
 
 // ─── HOME PAGE ────────────────────────────────────────────────────
 export default function Home() {
+  const [showScroll, setShowScroll] = useState(true);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowScroll(!entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+
+    const finaleEl = document.getElementById("finale");
+    if (finaleEl) observer.observe(finaleEl);
+
+    return () => {
+      if (finaleEl) observer.unobserve(finaleEl);
+    };
+  }, []);
+
   return (
     <div className="snap-container">
       <HeroSection />
@@ -861,7 +883,7 @@ export default function Home() {
       <AdSection />
       <IntroSection />
       <FinaleSection />
-      <ScrollIndicator />
+      <ScrollIndicator visible={showScroll} />
     </div>
   );
 }
