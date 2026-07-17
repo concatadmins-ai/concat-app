@@ -132,7 +132,7 @@ function ScrollIndicator({ visible }: { visible: boolean }) {
 // ─── SECTION 1 : HERO ─────────────────────────────────────────────
 function HeroSection() {
   return (
-    <section className="snap-section" style={{ position: "relative", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "135px 48px 32px", boxSizing: "border-box", overflow: "hidden" }}>
+    <section className="snap-section" style={{ position: "relative", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "110px 48px 32px", boxSizing: "border-box", overflow: "hidden" }}>
       
       {/* Main Grid Content (left stack + main card) */}
       <div style={{
