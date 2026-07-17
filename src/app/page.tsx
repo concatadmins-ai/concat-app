@@ -152,7 +152,7 @@ function HeroSection() {
           transition={{ repeat: Infinity, ease: "linear", duration: 25 }}
           style={{ display: "flex", whiteSpace: "nowrap", width: "fit-content" }}
         >
-          {Array(4).fill("FALL '26 — AESTHETIC").map((text, idx) => (
+          {Array(4).fill("Discover New Brands — Beyond the Mass Market").map((text, idx) => (
             <span key={idx} style={{
               fontFamily: "inherit",
               fontSize: "clamp(40px, 8.5vw, 105px)",
@@ -164,7 +164,7 @@ function HeroSection() {
               paddingRight: "80px",
               display: "inline-block"
             }}>
-              {text} &nbsp;—&nbsp;
+              {text} &nbsp;&nbsp;•&nbsp;&nbsp;
             </span>
           ))}
         </motion.div>
