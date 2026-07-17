@@ -9,7 +9,7 @@ const BURG_LIGHT = "#777777";
 const CREAM = "#FFFFFF";
 
 const BRANDS = [
-  { id: "A", brand: "", category: "", tagline: "", src: "/real_ads/first_section_video.mp4", desc: "", isBlank: false, scale: 1.25 },
+  { id: "A", brand: "", category: "", tagline: "", src: "", desc: "", isBlank: true },
   { id: "B", brand: "Main Character", category: "Modern Casuals", tagline: "Streetwear", src: "/real_ads/blueorng-advertisment.mp4", desc: "Aesthetic streetwear inspired by modern youth culture and bold expressions." },
   { id: "C", brand: "5feet11", category: "Semi Formals", tagline: "Linen & Casuals", src: "/real_ads/5feet11-advertisment.mp4", desc: "Premium fabrics and relaxed fits engineered for everyday elegance." },
   { id: "D", brand: "The Bombay Shirt Company", category: "Formals", tagline: "Bespoke Shirts", src: "/real_ads/bombay_shirt_company-advertisment.mp4", desc: "Custom-made luxury shirting designed by you, tailored for comfort." },

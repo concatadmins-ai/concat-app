@@ -42,6 +42,49 @@ function LocalVideoCardBackground({ src, opacity = 1, scale = 1.05 }: { src: str
   );
 }
 
+function SequentialVideoBackground({ sources, opacity = 1, scale = 1.05 }: { sources: string[], opacity?: number, scale?: number }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
+  useEffect(() => {
+    const video = videoRefs.current[currentIndex];
+    if (video) {
+      video.currentTime = 0;
+      video.play().catch(e => console.log("Play failed", e));
+    }
+  }, [currentIndex]);
+
+  return (
+    <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", opacity, backgroundColor: "#111" }}>
+      {sources.map((src, i) => (
+        <video
+          key={src}
+          ref={el => { videoRefs.current[i] = el; }}
+          src={src}
+          muted
+          playsInline
+          preload="auto"
+          onEnded={() => {
+            setCurrentIndex((prev) => (prev + 1) % sources.length);
+          }}
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            width: "100%",
+            height: "100%",
+            transform: `translate(-50%, -50%) scale(${scale})`,
+            objectFit: "cover",
+            opacity: i === currentIndex ? 1 : 0,
+            zIndex: i === currentIndex ? 1 : 0,
+            transition: "opacity 0.1s linear"
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 const FLOOR_IMAGES = [
   "/stock/hf_20260716_170918_8117694f-5cfb-4f2e-8081-6efa779dfc86.png",
   "/stock/hf_20260716_170924_df9ce8ea-ffec-4ce5-9372-6967b3068aa4.png",
@@ -79,7 +122,7 @@ const CAROUSEL_CARDS = [
 ];
 
 const BRAND_CARDS = [
-  { id: "A", brand: "", tagline: "", src: "/real_ads/first_section_video.mp4", desc: "", isBlank: false, scale: 1.25 },
+  { id: "A", brand: "", tagline: "", src: "", desc: "", isBlank: true },
   { id: "B", brand: "Main Character", tagline: "Streetwear", src: "/real_ads/blueorng-advertisment.mp4", desc: "Aesthetic streetwear inspired by modern youth culture and bold expressions." },
   { id: "C", brand: "5feet11", tagline: "Linen & Casuals", src: "/real_ads/5feet11-advertisment.mp4", desc: "Premium fabrics and relaxed fits engineered for everyday elegance." },
   { id: "D", brand: "The Bombay Shirt Company", tagline: "Bespoke Shirts", src: "/real_ads/bombay_shirt_company-advertisment.mp4", desc: "Custom-made luxury shirting designed by you, tailored for comfort." },
@@ -126,16 +169,6 @@ function ScrollIndicator() {
 
 // ─── SECTION 1 : HERO ─────────────────────────────────────────────
 function HeroSection() {
-  const [vidIndex, setVidIndex] = useState(0);
-
-  useEffect(() => {
-    // Rotate hero videos every 10 seconds
-    const interval = setInterval(() => {
-      setVidIndex((prev) => (prev + 1) % HERO_VIDEO_SRCS.length);
-    }, 10000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <section className="snap-section" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "100px 36px 36px", boxSizing: "border-box" }}>
       <motion.div 
@@ -151,32 +184,12 @@ function HeroSection() {
           padding: 48, boxSizing: "border-box", overflow: "hidden", zIndex: 5,
         }}
       >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={vidIndex}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1 }}
-            style={{ position: "absolute", inset: 0, zIndex: 0 }}
-          >
-            <LocalVideoBackground src={HERO_VIDEO_SRCS[vidIndex]} opacity={1} />
-          </motion.div>
-        </AnimatePresence>
+        <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+          <SequentialVideoBackground sources={["/real_ads/first_section_part000.mp4", "/real_ads/first_section_part001.mp4", "/real_ads/first_section_part002.mp4"]} opacity={1} scale={1.05} />
+        </div>
 
         {/* Dark vignette to bottom so buttons are readable over bright videos */}
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 45%)`, zIndex: 1 }} />
-
-        {/* CONCAT wordmark watermark */}
-        <div style={{
-          position: "absolute", top: "50%", left: "50%",
-          transform: "translate(-50%,-50%)",
-          fontFamily: "inherit", fontSize: "clamp(60px,12vw,170px)",
-          fontWeight: 900, letterSpacing: -6, color: "rgba(255,255,255,0.15)",
-          pointerEvents: "none", userSelect: "none", whiteSpace: "nowrap", zIndex: 1,
-        }}>
-          CONCAT
-        </div>
 
         {/* Buttons */}
         <div style={{ position: "relative", zIndex: 5, display: "flex", gap: 14, alignItems: "center" }}>
@@ -630,7 +643,7 @@ function AdSection() {
         }}
       >
         <div style={{ position: "absolute", inset: 0 }}>
-          <LocalVideoBackground src="/real_ads/new stores_video.mp4" opacity={1} />
+          <SequentialVideoBackground sources={["/real_ads/new_stores_part000.mp4", "/real_ads/new_stores_part001.mp4", "/real_ads/new_stores_part002.mp4"]} opacity={1} scale={1.05} />
         </div>
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%)`, zIndex: 1 }} />
 
