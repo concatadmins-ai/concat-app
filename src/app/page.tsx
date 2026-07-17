@@ -33,11 +33,11 @@ function LocalVideoBackground({ src, opacity = 1 }: { src: string; opacity?: num
   );
 }
 
-function LocalVideoCardBackground({ src, opacity = 1 }: { src: string; opacity?: number }) {
+function LocalVideoCardBackground({ src, opacity = 1, scale = 1.05 }: { src: string; opacity?: number; scale?: number }) {
   if (!src) return null;
   return (
     <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", opacity, transition: "opacity 0.6s ease", backgroundColor: "#111" }}>
-      <video src={src} autoPlay loop muted playsInline style={{ position: "absolute", top: "50%", left: "50%", width: "100%", height: "100%", transform: "translate(-50%, -50%) scale(1.05)", objectFit: "cover", zIndex: 0 }} />
+      <video src={src} autoPlay loop muted playsInline style={{ position: "absolute", top: "50%", left: "50%", width: "100%", height: "100%", transform: `translate(-50%, -50%) scale(${scale})`, objectFit: "cover", zIndex: 0 }} />
     </div>
   );
 }
@@ -79,7 +79,7 @@ const CAROUSEL_CARDS = [
 ];
 
 const BRAND_CARDS = [
-  { id: "A", brand: "", tagline: "", src: "", desc: "", isBlank: true },
+  { id: "A", brand: "", tagline: "", src: "/real_ads/first_section_video.mp4", desc: "", isBlank: false, scale: 1.25 },
   { id: "B", brand: "Main Character", tagline: "Streetwear", src: "/real_ads/blueorng-advertisment.mp4", desc: "Aesthetic streetwear inspired by modern youth culture and bold expressions." },
   { id: "C", brand: "5feet11", tagline: "Linen & Casuals", src: "/real_ads/5feet11-advertisment.mp4", desc: "Premium fabrics and relaxed fits engineered for everyday elegance." },
   { id: "D", brand: "The Bombay Shirt Company", tagline: "Bespoke Shirts", src: "/real_ads/bombay_shirt_company-advertisment.mp4", desc: "Custom-made luxury shirting designed by you, tailored for comfort." },
@@ -265,7 +265,7 @@ function AccordionSection() {
                     onMouseEnter={() => setHovered(card.id)}
                     onMouseLeave={() => setHovered(null)}
                   >
-                    <LocalVideoCardBackground src={card.src} opacity={1} />
+                    <LocalVideoCardBackground src={card.src} opacity={1} scale={(card as any).scale || 1.05} />
                     <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 55%, transparent 100%)`, zIndex: 1 }} />
 
                     <div style={{
@@ -344,7 +344,7 @@ function AccordionSection() {
                     onMouseEnter={() => setHovered(card.id)}
                     onMouseLeave={() => setHovered(null)}
                   >
-                    <LocalVideoCardBackground src={card.src} opacity={1} />
+                    <LocalVideoCardBackground src={card.src} opacity={1} scale={(card as any).scale || 1.05} />
                     <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 55%, transparent 100%)`, zIndex: 1 }} />
 
                     <div style={{
@@ -483,7 +483,7 @@ function CarouselSection() {
                 onMouseLeave={() => { stateRef.current.hoveredIdx = -1; }}
                 style={{ backgroundColor: "#FFFFFF" }}
               >
-                <LocalVideoCardBackground src={card.src} opacity={1} />
+                {/* Video removed from carousel as requested */}
                 <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)`, zIndex: 1 }} />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 55%)", pointerEvents: "none", zIndex: 1 }} />
                 <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "20px 18px", zIndex: 2 }}>
@@ -630,7 +630,7 @@ function AdSection() {
         }}
       >
         <div style={{ position: "absolute", inset: 0 }}>
-          <img src="/store_interior.jpg" alt="New Stores" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <LocalVideoBackground src="/real_ads/new stores_video.mp4" opacity={1} />
         </div>
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%)`, zIndex: 1 }} />
 

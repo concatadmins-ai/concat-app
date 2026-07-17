@@ -9,7 +9,7 @@ const BURG_LIGHT = "#777777";
 const CREAM = "#FFFFFF";
 
 const BRANDS = [
-  { id: "A", brand: "", category: "", tagline: "", src: "", desc: "", isBlank: true },
+  { id: "A", brand: "", category: "", tagline: "", src: "/real_ads/first_section_video.mp4", desc: "", isBlank: false, scale: 1.25 },
   { id: "B", brand: "Main Character", category: "Modern Casuals", tagline: "Streetwear", src: "/real_ads/blueorng-advertisment.mp4", desc: "Aesthetic streetwear inspired by modern youth culture and bold expressions." },
   { id: "C", brand: "5feet11", category: "Semi Formals", tagline: "Linen & Casuals", src: "/real_ads/5feet11-advertisment.mp4", desc: "Premium fabrics and relaxed fits engineered for everyday elegance." },
   { id: "D", brand: "The Bombay Shirt Company", category: "Formals", tagline: "Bespoke Shirts", src: "/real_ads/bombay_shirt_company-advertisment.mp4", desc: "Custom-made luxury shirting designed by you, tailored for comfort." },
@@ -19,11 +19,11 @@ const BRANDS = [
   { id: "H", brand: "Vastramay", category: "Traditionals", tagline: "Modern Traditionals", src: "/real_ads/vastramay-advertisment.mp4", desc: "Ethnic fusion wear redefining modern Indian drapery and style." },
 ];
 
-function LocalVideoCardBackground({ src, opacity = 1 }: { src: string; opacity?: number }) {
+function LocalVideoCardBackground({ src, opacity = 1, scale = 1.05 }: { src: string; opacity?: number; scale?: number }) {
   if (!src) return null;
   return (
     <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", opacity, transition: "opacity 0.6s ease", backgroundColor: "#111" }}>
-      <video src={src} autoPlay loop muted playsInline style={{ position: "absolute", top: "50%", left: "50%", width: "100%", height: "100%", transform: "translate(-50%, -50%) scale(1.05)", objectFit: "cover", zIndex: 0 }} />
+      <video src={src} autoPlay loop muted playsInline style={{ position: "absolute", top: "50%", left: "50%", width: "100%", height: "100%", transform: `translate(-50%, -50%) scale(${scale})`, objectFit: "cover", zIndex: 0 }} />
     </div>
   );
 }
@@ -93,7 +93,7 @@ export default function BrandsPage() {
                 }}
               >
                 {/* Local Video embed in background */}
-                <LocalVideoCardBackground src={item.src} opacity={1} />
+                <LocalVideoCardBackground src={item.src} opacity={1} scale={(item as any).scale || 1.05} />
 
                 {/* Glass Bottom Overlay Gradient */}
                 <div style={{
