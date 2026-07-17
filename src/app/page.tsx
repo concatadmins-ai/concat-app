@@ -71,18 +71,18 @@ const PRODUCT_IMAGES = [
 
 // ─── DATA ─────────────────────────────────────────────────────────
 const CAROUSEL_CARDS = [
-  { title: "MODERN CASUALS", btnText: "visit modern casuals floor", src: "/stock/hf_20260716_170443_38e6b78a-8799-4829-87bb-c502c0f8ad3c.mp4", href: "/floors" },
-  { title: "SEMI FORMALS",   btnText: "visit semi formals floor",   src: "/stock/hf_20260716_170450_33c114d8-c778-4116-97c7-597d3dbe2fe6.mp4", href: "/floors" },
-  { title: "ACCESSORIES",    btnText: "visit accessories floor",    src: "/stock/hf_20260716_170805_2c160018-e4cb-4818-b7c1-47a638851a3c.mp4", href: "/floors" },
-  { title: "FOOTWEAR",       btnText: "visit footwear floor",       src: "/stock/hf_20260716_170814_196b8582-4782-4688-84cd-1cc5042c639b.mp4", href: "/floors" },
-  { title: "FORMALS",        btnText: "visit formals floor",        src: "/stock/hf_20260716_170822_3222bd46-685c-40ec-8816-fbdf2b769010.mp4", href: "/floors" },
-  { title: "EYEWEAR",        src: "/stock/hf_20260716_170830_44f9ea45-4cfd-44ef-a4e0-a531204ac330.mp4", btnText: "visit eyewear floor", href: "/floors" },
-  { title: "TRADITIONALS",   btnText: "visit traditionals floor",   src: "/stock/hf_20260716_170838_38b5090a-a2b9-44f9-a807-e8215a7d197e.mp4", href: "/floors" },
+  { title: "BLUEORNG",                 btnText: "visit modern casuals floor", src: "/real_ads/blueorng-advertisment.mp4", href: "/floors" },
+  { title: "5FEET11",                  btnText: "visit semi formals floor",   src: "/real_ads/5feet11-advertisment.mp4", href: "/floors" },
+  { title: "MISO BY SONIA",            btnText: "visit accessories floor",    src: "/real_ads/misobysonia-advertisment.mp4", href: "/floors" },
+  { title: "GULLY LABS",               btnText: "visit footwear floor",       src: "/real_ads/gully_labs-advertisment.mp4", href: "/floors" },
+  { title: "THE BOMBAY SHIRT COMPANY", btnText: "visit formals floor",        src: "/real_ads/bombay_shirt_company-advertisment.mp4", href: "/floors" },
+  { title: "SAM AND MARSHALL",         btnText: "visit eyewear floor",        src: "/real_ads/samandmarshall-advertisment.mp4", href: "/floors" },
+  { title: "VASTRAMAY",                btnText: "visit traditionals floor",   src: "/real_ads/vastramay-advertisment.mp4", href: "/floors" },
 ];
 
 const BRAND_CARDS = [
   { id: "A", brand: "", tagline: "", src: "", desc: "", isBlank: true },
-  { id: "B", brand: "Main Character", tagline: "Streetwear", src: "/real_ads/blueorng-advertisment.mp4", desc: "Aesthetic streetwear inspired by modern youth culture and bold expressions." },
+  { id: "B", brand: "Blueorng", tagline: "Streetwear", src: "/real_ads/blueorng-advertisment.mp4", desc: "Aesthetic streetwear inspired by modern youth culture and bold expressions." },
   { id: "C", brand: "5feet11", tagline: "Linen & Casuals", src: "/real_ads/5feet11-advertisment.mp4", desc: "Premium fabrics and relaxed fits engineered for everyday elegance." },
   { id: "D", brand: "The Bombay Shirt Company", tagline: "Bespoke Shirts", src: "/real_ads/bombay_shirt_company-advertisment.mp4", desc: "Custom-made luxury shirting designed by you, tailored for comfort." },
   { id: "E", brand: "Sand Marshal", tagline: "Eyewear", src: "/real_ads/samandmarshall-advertisment.mp4", desc: "Visionary designer eyewear crafted to shield your sight and define your style." },
@@ -131,26 +131,6 @@ function HeroSection() {
   return (
     <section className="snap-section" style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center", padding: "100px 36px 36px", boxSizing: "border-box", overflow: "hidden" }}>
       
-      {/* Background Animated Typography Layer */}
-      <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "12vh 0", opacity: 0.04, overflow: "hidden" }}>
-        <motion.div 
-          initial={{ x: "0%" }}
-          animate={{ x: "-30%" }}
-          transition={{ repeat: Infinity, duration: 45, ease: "linear" }}
-          style={{ whiteSpace: "nowrap" }}
-        >
-          <span style={{ fontFamily: "inherit", fontSize: "28vw", fontWeight: 900, textTransform: "uppercase", letterSpacing: -12, color: BURG }}>AESTHETIC UNDERGROUND </span>
-        </motion.div>
-        <motion.div 
-          initial={{ x: "-30%" }}
-          animate={{ x: "0%" }}
-          transition={{ repeat: Infinity, duration: 55, ease: "linear" }}
-          style={{ whiteSpace: "nowrap" }}
-        >
-          <span style={{ fontFamily: "inherit", fontSize: "28vw", fontWeight: 900, textTransform: "uppercase", letterSpacing: -12, color: BURG }}>CURATED COUNTERCULTURE </span>
-        </motion.div>
-      </div>
-
       {/* Foreground Typographical Elements */}
       <div style={{ position: "absolute", top: "22%", left: "6%", zIndex: 2, pointerEvents: "none" }}>
         <motion.h1 
@@ -163,17 +143,6 @@ function HeroSection() {
           <span style={{ color: BURG_LIGHT }}>The</span> <br/>
           Underground.
         </motion.h1>
-      </div>
-
-      <div style={{ position: "absolute", bottom: "16%", right: "6%", zIndex: 2, textAlign: "right", pointerEvents: "none" }}>
-        <motion.p 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          style={{ margin: 0, fontSize: "clamp(13px, 1.4vw, 18px)", fontWeight: 600, color: BURG_MID, maxWidth: 340, lineHeight: 1.5 }}
-        >
-          Zero mass production. Curated indie fashion, unique fabrics, and disruptive independent creators redefining the aesthetic.
-        </motion.p>
       </div>
 
       <motion.div 
