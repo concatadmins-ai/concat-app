@@ -150,6 +150,16 @@ export default function AboutPage() {
           </div>
         </div>
       </div>
+      
+      <div style={{ position: "relative", padding: "0 72px 28px", zIndex: 5 }}>
+        <div style={{ display: "flex", justifyContent: "center", gap: 28, flexWrap: "wrap", padding: "16px 24px", borderRadius: 9999, background: "rgba(255,255,255,0.4)", border: "1px solid rgba(0,0,0,0.08)", backdropFilter: "blur(12px)", fontSize: 9.5, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: "rgba(0,0,0,0.45)" }}>
+          <span>Every label verified</span>
+          <span style={{ color: "rgba(0,0,0,0.2)" }}>✦</span>
+          <span>Every piece quality-checked</span>
+          <span style={{ color: "rgba(0,0,0,0.2)" }}>✦</span>
+          <span>Grievance desk on call</span>
+        </div>
+      </div>
 
       <Footer />
     </div>

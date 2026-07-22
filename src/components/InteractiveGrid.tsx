@@ -4,158 +4,188 @@ import React, { useEffect, useRef } from "react";
 
 export default function InteractiveGrid() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouseRef = useRef({ x: -1000, y: -1000 }); // Start off-screen
-  
+  const mouseRef = useRef({ x: -1000, y: -1000, targetX: -1000, targetY: -1000, active: false });
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
+    let dpr = window.devicePixelRatio || 1;
+    let width = 0;
+    let height = 0;
 
-    let easeMx = width / 2;
-    let easeMy = height / 2;
+    const resize = () => {
+      dpr = window.devicePixelRatio || 1;
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.scale(dpr, dpr);
+    };
+    resize();
 
     const onMouseMove = (e: MouseEvent) => {
-      mouseRef.current.x = e.clientX;
-      mouseRef.current.y = e.clientY;
+      mouseRef.current.targetX = e.clientX;
+      mouseRef.current.targetY = e.clientY;
+      mouseRef.current.active = true;
       document.documentElement.style.setProperty("--mx", e.clientX + "px");
       document.documentElement.style.setProperty("--my", e.clientY + "px");
     };
-    window.addEventListener("mousemove", onMouseMove);
-    
-    const onMouseLeave = () => {
-      mouseRef.current.x = -1000;
-      mouseRef.current.y = -1000;
-    };
-    document.addEventListener("mouseleave", onMouseLeave);
 
-    const onResize = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    };
-    window.addEventListener("resize", onResize);
-
-    const LINE_STEP = 65;
-    const DOT_STEP = 8;
-    const DOT_RADIUS = 0.75;
-
-    const warpPoint = (
-      x: number, y: number,
-      targetX: number, targetY: number,
-      threshold: number, maxPush: number, pow = 2.2
-    ) => {
-      const dx = x - targetX;
-      const dy = y - targetY;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < threshold) {
-        const force = Math.pow((threshold - dist) / threshold, pow);
-        const push = force * maxPush;
-        const angle = Math.atan2(dy, dx);
-        return { x: Math.cos(angle) * push, y: Math.sin(angle) * push };
+    const onTouchMove = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        mouseRef.current.targetX = e.touches[0].clientX;
+        mouseRef.current.targetY = e.touches[0].clientY;
+        mouseRef.current.active = true;
       }
-      return { x: 0, y: 0 };
     };
+
+    const onMouseLeave = () => {
+      mouseRef.current.active = false;
+      mouseRef.current.targetX = -1000;
+      mouseRef.current.targetY = -1000;
+    };
+
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
+    document.addEventListener("mouseleave", onMouseLeave);
+    window.addEventListener("resize", resize);
+
+    // Configuration for grid and distortion
+    const GRID_SIZE = 56; // Distance between grid lines
+    const SAMPLE_STEP = 8; // Step size for smooth line bending
+    const WARP_RADIUS = 220; // Radius of cursor influence
+    const WARP_FORCE = 42; // Max pixel displacement
 
     let animId: number;
 
     const draw = () => {
       animId = requestAnimationFrame(draw);
+
+      // Smooth lerp mouse position for silky elastic response
+      const m = mouseRef.current;
+      if (m.x === -1000) {
+        m.x = m.targetX;
+        m.y = m.targetY;
+      } else {
+        m.x += (m.targetX - m.x) * 0.15;
+        m.y += (m.targetY - m.y) * 0.15;
+      }
+
       ctx.clearRect(0, 0, width, height);
 
-      // ── Global Gravity Target ──────────────────────────────────────
-      const introTarget = document.getElementById("intro-gravity-text");
-      let textCx = -1000, textCy = -1000;
-      let craterActive = false;
-      
-      if (introTarget) {
-        const rect = introTarget.getBoundingClientRect();
-        // Check if visible vertically in viewport
-        if (rect.bottom > -200 && rect.top < height + 200) {
-          textCx = rect.left + rect.width / 2;
-          textCy = rect.top + rect.height / 2;
-          craterActive = true;
-        }
-      }
-      
-      const pulse = Math.sin(Date.now() * 0.002) * 15;
-      const textThreshold = 550 + pulse; 
-      const textPush = 160;
+      const mx = m.x;
+      const my = m.y;
+      const isMouseActive = mx > -500 && my > -500;
 
-      const applyWarps = (ox: number, oy: number) => {
-        let finalX = ox;
-        let finalY = oy;
-        
-        // 1. Text Crater (massively pushes grid away from text)
-        if (craterActive) {
-          const wText = warpPoint(finalX, finalY, textCx, textCy, textThreshold, textPush, 2.2);
-          finalX += wText.x;
-          finalY += wText.y;
+      // Function to calculate distorted position for any coordinate (x, y)
+      const getWarpedPoint = (x: number, y: number) => {
+        if (!isMouseActive) return { x, y, dist: 999 };
+
+        const dx = x - mx;
+        const dy = y - my;
+        const distSq = dx * dx + dy * dy;
+        const radiusSq = WARP_RADIUS * WARP_RADIUS;
+
+        if (distSq < radiusSq && distSq > 0.1) {
+          const dist = Math.sqrt(distSq);
+          // Exponential decay force for magnetic push effect
+          const factor = Math.pow((WARP_RADIUS - dist) / WARP_RADIUS, 2);
+          const push = factor * WARP_FORCE;
+          const angle = Math.atan2(dy, dx);
+
+          return {
+            x: x + Math.cos(angle) * push,
+            y: y + Math.sin(angle) * push,
+            dist,
+          };
         }
-        
-        // 2. Mouse Crater (dynamic user interaction)
-        if (mouseRef.current.x !== -1000) {
-          // Keep the half-size distortion crater threshold at 75
-          const wMouse = warpPoint(finalX, finalY, mouseRef.current.x, mouseRef.current.y, 75, 14, 2.2);
-          finalX += wMouse.x;
-          finalY += wMouse.y;
-        }
-        
-        return { x: finalX, y: finalY };
+
+        return { x, y, dist: Math.sqrt(distSq) };
       };
 
-      // ── Draw Dots ─────────────────────────────────────────────────
-      ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
-      ctx.beginPath();
-      for (let cy = -DOT_STEP; cy < height + DOT_STEP; cy += DOT_STEP) {
-        for (let cx = -DOT_STEP; cx < width + DOT_STEP; cx += DOT_STEP) {
-           const p = applyWarps(cx, cy);
-           ctx.moveTo(p.x, p.y);
-           ctx.arc(p.x, p.y, DOT_RADIUS, 0, Math.PI * 2);
-        }
-      }
-      ctx.fill();
-
-      // ── Draw Lines ────────────────────────────────────────────────
-      ctx.strokeStyle = "rgba(0, 0, 0, 0.08)";
-      ctx.lineWidth = 1;
-
-      ctx.beginPath();
-      for (let gy = LINE_STEP; gy < height; gy += LINE_STEP) {
-        let firstPoint = true;
-        for (let gx = -LINE_STEP; gx <= width + LINE_STEP; gx += LINE_STEP / 2) {
-          const p = applyWarps(gx, gy);
-          if (firstPoint) { ctx.moveTo(p.x, p.y); firstPoint = false; }
-          else ctx.lineTo(p.x, p.y);
-        }
-      }
-      ctx.stroke();
-
-      ctx.beginPath();
-      for (let gx = LINE_STEP; gx < width; gx += LINE_STEP) {
-        let firstPoint = true;
-        for (let gy = -LINE_STEP; gy <= height + LINE_STEP; gy += LINE_STEP / 2) {
-          const p = applyWarps(gx, gy);
-          if (firstPoint) { ctx.moveTo(p.x, p.y); firstPoint = false; }
-          else ctx.lineTo(p.x, p.y);
-        }
-      }
-      ctx.stroke();
-
-      // ── Cursor Spotlight ──────────────────────────────────────────
-      if (mouseRef.current.x !== -1000) {
-        // Clean subtle shadow spotlight under the cursor
-        const grd = ctx.createRadialGradient(mouseRef.current.x, mouseRef.current.y, 0, mouseRef.current.x, mouseRef.current.y, 160);
-        grd.addColorStop(0, "rgba(0, 0, 0, 0.12)");
-        grd.addColorStop(0.5, "rgba(0, 0, 0, 0.04)");
-        grd.addColorStop(1, "rgba(0, 0, 0, 0)");
-        
-        ctx.fillStyle = grd;
+      // 1. Draw Subtle Cursor Spotlight Glow
+      if (isMouseActive) {
+        const glowRadius = 260;
+        const grad = ctx.createRadialGradient(mx, my, 0, mx, my, glowRadius);
+        grad.addColorStop(0, "rgba(0, 0, 0, 0.07)");
+        grad.addColorStop(0.5, "rgba(0, 0, 0, 0.02)");
+        grad.addColorStop(1, "rgba(0, 0, 0, 0)");
+        ctx.fillStyle = grad;
         ctx.beginPath();
-        ctx.arc(mouseRef.current.x, mouseRef.current.y, 160, 0, Math.PI * 2);
+        ctx.arc(mx, my, glowRadius, 0, Math.PI * 2);
         ctx.fill();
+      }
+
+      // 2. Draw Distorted Horizontal Lines
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = "rgba(0, 0, 0, 0.07)";
+
+      for (let gy = 0; gy <= height + GRID_SIZE; gy += GRID_SIZE) {
+        ctx.beginPath();
+        let first = true;
+
+        for (let gx = 0; gx <= width + SAMPLE_STEP; gx += SAMPLE_STEP) {
+          const p = getWarpedPoint(gx, gy);
+
+          // Highlight lines near the cursor
+          if (p.dist < WARP_RADIUS) {
+            ctx.stroke(); // flush previous path if opacity changes
+            ctx.beginPath();
+            const alpha = 0.07 + (1 - p.dist / WARP_RADIUS) * 0.14;
+            ctx.strokeStyle = `rgba(0, 0, 0, ${alpha})`;
+          }
+
+          if (first) {
+            ctx.moveTo(p.x, p.y);
+            first = false;
+          } else {
+            ctx.lineTo(p.x, p.y);
+          }
+        }
+        ctx.stroke();
+        ctx.strokeStyle = "rgba(0, 0, 0, 0.07)";
+      }
+
+      // 3. Draw Distorted Vertical Lines
+      for (let gx = 0; gx <= width + GRID_SIZE; gx += GRID_SIZE) {
+        ctx.beginPath();
+        let first = true;
+
+        for (let gy = 0; gy <= height + SAMPLE_STEP; gy += SAMPLE_STEP) {
+          const p = getWarpedPoint(gx, gy);
+
+          if (p.dist < WARP_RADIUS) {
+            ctx.stroke();
+            ctx.beginPath();
+            const alpha = 0.07 + (1 - p.dist / WARP_RADIUS) * 0.14;
+            ctx.strokeStyle = `rgba(0, 0, 0, ${alpha})`;
+          }
+
+          if (first) {
+            ctx.moveTo(p.x, p.y);
+            first = false;
+          } else {
+            ctx.lineTo(p.x, p.y);
+          }
+        }
+        ctx.stroke();
+        ctx.strokeStyle = "rgba(0, 0, 0, 0.07)";
+      }
+
+      // 4. Draw Intersecting Grid Nodes / Dots
+      ctx.fillStyle = "rgba(0, 0, 0, 0.18)";
+      for (let gx = 0; gx <= width + GRID_SIZE; gx += GRID_SIZE) {
+        for (let gy = 0; gy <= height + GRID_SIZE; gy += GRID_SIZE) {
+          const p = getWarpedPoint(gx, gy);
+          const r = p.dist < WARP_RADIUS ? 1.5 + (1 - p.dist / WARP_RADIUS) * 1.5 : 1.2;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
     };
 
@@ -164,15 +194,25 @@ export default function InteractiveGrid() {
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("touchmove", onTouchMove);
       document.removeEventListener("mouseleave", onMouseLeave);
-      window.removeEventListener("resize", onResize);
+      window.removeEventListener("resize", resize);
     };
   }, []);
 
   return (
     <canvas
       ref={canvasRef}
-      style={{ position: "fixed", inset: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 1 }}
+      style={{
+        position: "fixed",
+        inset: 0,
+        width: "100vw",
+        height: "100vh",
+        pointerEvents: "none",
+        zIndex: 8, // Above page backgrounds, below navigation & modals
+        mixBlendMode: "multiply",
+      }}
     />
   );
 }
+

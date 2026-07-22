@@ -17,9 +17,16 @@ export default function SellPage() {
   ];
 
   const shields = [
-    { title: "Verified Atelier Badge", desc: "Proves studio craftsmanship to first-time visitors" },
-    { title: "Universal Return Desk", desc: "We manage exchanges & returns across all 7 floors" },
-    { title: "Unified Checkout Cart", desc: "Higher conversion through multi-brand basket building" },
+    { title: "Verified badge", desc: "We vet your papers and studio once — every customer sees it forever." },
+    { title: "Quality gate", desc: "We check pieces against your spec, so reviews stay yours to win." },
+    { title: "Grievance desk", desc: "We absorb the support burden — disputes handled by our humans." }
+  ];
+
+  const steps = [
+    { num: "1", title: "Apply", desc: "Five minutes. Label name, your work, where you make it." },
+    { num: "2", title: "Verification & QC", desc: "We vet the business and check your pieces against spec." },
+    { num: "3", title: "Your storefront goes live", desc: "Film, rack, story — built with you, on your floor." },
+    { num: "4", title: "Grow floor by floor", desc: "Features, drops, campaigns. Your regulars find you here." }
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -85,7 +92,8 @@ export default function SellPage() {
         </div>
 
         {/* Trust Section */}
-        <div style={{ position: "relative", borderRadius: 40, background: "linear-gradient(160deg,rgba(32,32,37,0.9) 0%,rgba(12,12,14,0.94) 100%)", border: "1px solid rgba(255,255,255,0.14)", backdropFilter: "blur(28px) saturate(160%)", boxShadow: "0 30px 80px rgba(0,0,0,0.35)", color: "#FFFFFF", padding: "48px 52px", overflow: "hidden", marginBottom: 56 }}>
+        <div style={{ position: "relative", borderRadius: 40, background: "linear-gradient(160deg,rgba(32,32,37,0.9) 0%,rgba(12,12,14,0.94) 100%)", border: "1px solid rgba(255,255,255,0.14)", backdropFilter: "blur(28px) saturate(160%)", boxShadow: "0 30px 80px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.18)", color: "#FFFFFF", padding: "48px 52px", overflow: "hidden", marginBottom: 56 }}>
+          <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 55% 40% at 50% 0%,rgba(255,255,255,0.08) 0%,transparent 70%)", pointerEvents: "none" }} />
           <div style={{ position: "relative", display: "flex", gap: 48, alignItems: "center", flexWrap: "wrap" }}>
             <div style={{ flex: 1.2, minWidth: 400 }}>
               <div style={{ fontSize: 9, fontWeight: 800, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.5)", marginBottom: 12 }}>The real reason to be here</div>
@@ -93,7 +101,7 @@ export default function SellPage() {
                 Your biggest blocker<br />isn't price. <span style={{ color: "rgba(255,255,255,0.5)" }}>It's trust.</span>
               </h2>
               <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.7, color: "rgba(255,255,255,0.65)", maxWidth: 520, textWrap: "pretty" }}>
-                People find your label, love your pieces, and still close the tab — because they don't know you yet. On CONCAT they don't have to. Our verification badge, quality checks, and grievance desk stand behind every order, so a first-time visitor buys like a regular.
+                People find your label, love your pieces, and still close the tab — because they don't know you yet. On CONCAT they don't have to. Our verification badge, quality checks, and grievance desk stand behind every order, so a first-time visitor buys like a regular. Their hesitation was your lost revenue. We remove it.
               </p>
             </div>
             <div style={{ flex: 1, minWidth: 320, display: "flex", flexDirection: "column", gap: 12 }}>
@@ -110,31 +118,57 @@ export default function SellPage() {
           </div>
         </div>
 
-        {/* Application Form */}
-        <div id="apply" style={{ padding: 48, borderRadius: 36, background: "rgba(255,255,255,0.5)", border: "1px solid rgba(0,0,0,0.1)", backdropFilter: "blur(20px)", boxShadow: "0 16px 50px rgba(0,0,0,0.08)", maxWidth: 720, margin: "0 auto 40px" }}>
-          <h2 style={{ margin: "0 0 8px", fontSize: 32, fontWeight: 950, letterSpacing: "-1.5px", textTransform: "uppercase", lineHeight: 1 }}>Apply for a storefront</h2>
-          <div style={{ fontSize: 13, color: "rgba(0,0,0,0.55)", marginBottom: 24 }}>Tell us about your label. We review applications every Tuesday and Thursday.</div>
+        {/* How It Works */}
+        <div style={{ marginBottom: 56 }}>
+          <div style={{ textAlign: "center", marginBottom: 24 }}>
+            <h2 style={{ margin: 0, fontSize: 32, fontWeight: 950, letterSpacing: "-1.5px", textTransform: "uppercase", lineHeight: 1 }}>from application to open doors</h2>
+            <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: "2.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.5)", marginTop: 8 }}>Most stores go live in under two weeks</div>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
+            {steps.map((st, i) => (
+              <div key={i} style={{ position: "relative", padding: "26px 24px", borderRadius: 26, background: "rgba(255,255,255,0.55)", border: "1px solid rgba(0,0,0,0.1)", backdropFilter: "blur(14px)" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+                  <span style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 34, height: 34, borderRadius: "50%", background: "#111111", color: "#FFFFFF", fontSize: 12, fontWeight: 950, flex: "none" }}>{st.num}</span>
+                  <span style={{ flex: 1, height: 1.5, background: "repeating-linear-gradient(90deg, rgba(0,0,0,0.25) 0 6px, transparent 6px 12px)" }} />
+                </div>
+                <div style={{ fontSize: 14.5, fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.2px", marginBottom: 6 }}>{st.title}</div>
+                <div style={{ fontSize: 12, lineHeight: 1.55, color: "rgba(0,0,0,0.6)" }}>{st.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
 
-          {formSubmitted ? (
-            <div style={{ padding: 24, borderRadius: 20, background: "#111111", color: "#FFFFFF", textAlign: "center", fontSize: 14, fontWeight: 800 }}>
-              ✓ Application Received! Our floor curation team will reach out via email within 48 hours.
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
-                <input required type="text" placeholder="Label Name" style={{ padding: "15px 20px", borderRadius: 14, background: "rgba(255,255,255,0.6)", border: "1px solid rgba(0,0,0,0.15)", fontSize: 13, outline: "none" }} />
-                <input required type="text" placeholder="Instagram / Website URL" style={{ padding: "15px 20px", borderRadius: 14, background: "rgba(255,255,255,0.6)", border: "1px solid rgba(0,0,0,0.15)", fontSize: 13, outline: "none" }} />
+        {/* Application Form */}
+        <div id="apply" style={{ position: "relative", borderRadius: 36, background: "rgba(255,255,255,0.55)", border: "1px solid rgba(255,255,255,0.14)", backdropFilter: "blur(20px)", boxShadow: "0 20px 60px rgba(0,0,0,0.1)", padding: "40px 44px", display: "flex", gap: 44, alignItems: "center", flexWrap: "wrap", marginBottom: 40 }}>
+          <div style={{ flex: 1, minWidth: 360 }}>
+            <h2 style={{ margin: "0 0 10px", fontSize: 30, fontWeight: 950, letterSpacing: "-1.2px", lineHeight: 1.05, textTransform: "uppercase" }}>
+              The board has a space<br />
+              <span style={{ color: "rgba(0,0,0,0.4)" }}>with your name on it.</span>
+            </h2>
+            <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.65, color: "rgba(0,0,0,0.6)", maxWidth: 420 }}>
+              Tell us about your label — we reply within 48 hours. If it's a fit, verification starts the same week.
+            </p>
+          </div>
+
+          <div style={{ flex: 1, minWidth: 340, display: "flex", flexDirection: "column", gap: 12 }}>
+            {formSubmitted ? (
+              <div style={{ padding: 24, borderRadius: 20, background: "#111111", color: "#FFFFFF", textAlign: "center", fontSize: 14, fontWeight: 800 }}>
+                ✓ Application Received! Our floor curation team will reach out via email within 48 hours.
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
-                <input required type="text" placeholder="Founder Name" style={{ padding: "15px 20px", borderRadius: 14, background: "rgba(255,255,255,0.6)", border: "1px solid rgba(0,0,0,0.15)", fontSize: 13, outline: "none" }} />
-                <input required type="email" placeholder="Email Address" style={{ padding: "15px 20px", borderRadius: 14, background: "rgba(255,255,255,0.6)", border: "1px solid rgba(0,0,0,0.15)", fontSize: 13, outline: "none" }} />
-              </div>
-              <textarea placeholder="Describe your product line & craft story..." style={{ padding: "15px 20px", borderRadius: 14, background: "rgba(255,255,255,0.6)", border: "1px solid rgba(0,0,0,0.15)", fontSize: 13, height: 110, outline: "none", resize: "none" }} />
-              <button type="submit" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", padding: "16px 32px", borderRadius: 9999, background: "#111111", color: "#FFFFFF", fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", cursor: "pointer", border: "none", boxShadow: "0 10px 28px rgba(0,0,0,0.15)" }}>
-                Submit Application →
-              </button>
-            </form>
-          )}
+            ) : (
+              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input required type="text" placeholder="Label name" style={{ padding: "15px 20px", borderRadius: 14, background: "rgba(255,255,255,0.6)", border: "1px solid rgba(0,0,0,0.15)", fontSize: 13, outline: "none", color: "#111" }} />
+                <input required type="text" placeholder="Instagram / website" style={{ padding: "15px 20px", borderRadius: 14, background: "rgba(255,255,255,0.6)", border: "1px solid rgba(0,0,0,0.15)", fontSize: 13, outline: "none", color: "#111" }} />
+                <textarea required placeholder="What do you make?" style={{ padding: "15px 20px", borderRadius: 14, background: "rgba(255,255,255,0.6)", border: "1px solid rgba(0,0,0,0.15)", fontSize: 13, outline: "none", color: "#111", resize: "none" }} />
+                <button type="submit" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "15px 32px", borderRadius: 9999, background: "#111111", color: "#FFFFFF", fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", cursor: "pointer", boxShadow: "0 10px 28px rgba(0,0,0,0.15)", border: "none" }}>
+                  Apply to partner
+                </button>
+                <div style={{ fontSize: 10.5, textAlign: "center", color: "rgba(0,0,0,0.45)", marginTop: 4 }}>
+                  Free listing, always · you keep your identity · payments settle direct
+                </div>
+              </form>
+            )}
+          </div>
         </div>
       </div>
 
