@@ -150,9 +150,8 @@ export default function HomePage() {
   ];
 
   return (
-    <div style={{ position: "relative", width: "100%", minHeight: "100vh", background: "linear-gradient(150deg,#FFFFFF 0%,#FAFAFA 20%,#F0F0F0 45%,#FAFAFA 70%,#F5F5F5 100%)", fontFamily: "'Geist', system-ui, sans-serif", color: "#111111", overflow: "hidden" }}>
-      {/* Background Dot Grid */}
-      <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(0,0,0,0.14) 0.8px, transparent 0.9px)", backgroundSize: "8px 8px", pointerEvents: "none", zIndex: 0 }} />
+    <div style={{ position: "relative", width: "100%", minHeight: "100vh", background: "transparent", fontFamily: "'Geist', system-ui, sans-serif", color: "#111111", overflow: "hidden" }}>
+      
 
       {/* S1 HERO */}
       <section style={{ position: "relative", minHeight: "820px" }}>
@@ -395,7 +394,7 @@ export default function HomePage() {
             </div>
           </Link>
 
-          <Link href="/shop" style={{ position: "relative", display: "flex", flexDirection: "column", background: "linear-gradient(160deg,#1d1d22 0%,#0c0c0e 100%)", color: "#FFFFFF", padding: "40px 44px 36px", minHeight: 520, textDecoration: "none" }}>
+          <Link href="/shop" style={{ position: "relative", display: "flex", flexDirection: "column", background: "transparent", color: "#FFFFFF", padding: "40px 44px 36px", minHeight: 520, textDecoration: "none" }}>
             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(115deg,rgba(255,255,255,0.08) 0%,transparent 30%)", pointerEvents: "none" }} />
             <div style={{ fontSize: 9, fontWeight: 800, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.45)", textAlign: "right" }}>The boardroom cut</div>
             <div style={{ marginTop: 8, fontSize: 30, fontWeight: 950, letterSpacing: "-1.5px", textTransform: "uppercase", lineHeight: 1, textAlign: "right" }}>Avelis Stretch<br />Dress Pants</div>
@@ -472,7 +471,7 @@ export default function HomePage() {
         </div>
 
         <div style={{ position: "relative", paddingTop: 26 }}>
-          <div style={{ position: "relative", height: 10, borderRadius: 9999, background: "linear-gradient(180deg,#2a2a2a,#0d0d0d)", boxShadow: "0 6px 16px rgba(0,0,0,0.3)", margin: "0 8px" }}>
+          <div style={{ position: "relative", height: 10, borderRadius: 9999, background: "transparent", boxShadow: "0 6px 16px rgba(0,0,0,0.3)", margin: "0 8px" }}>
             <span style={{ position: "absolute", left: -8, top: -4, width: 18, height: 18, borderRadius: "50%", background: "#111111" }}></span>
             <span style={{ position: "absolute", right: -8, top: -4, width: 18, height: 18, borderRadius: "50%", background: "#111111" }}></span>
           </div>
@@ -586,7 +585,7 @@ export default function HomePage() {
                   <div key={i} onClick={() => handleFlipCard(i)} style={{ cursor: "pointer", perspective: 1400 }}>
                     <div style={{ position: "relative", width: "100%", aspectRatio: "3/4.5", transformStyle: "preserve-3d", transition: "transform 0.8s cubic-bezier(0.16,1,0.3,1)", transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)" }}>
                       {/* Card Front */}
-                      <div style={{ position: "absolute", inset: 0, backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", borderRadius: 18, background: "linear-gradient(165deg,#23232b 0%,#101014 50%,#1b1b22 100%)", border: "1px solid rgba(255,255,255,0.16)", boxShadow: "0 20px 50px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.22)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+                      <div style={{ position: "absolute", inset: 0, backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", borderRadius: 18, background: "transparent", border: "1px solid rgba(255,255,255,0.16)", boxShadow: "0 20px 50px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.22)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
                         <span style={{ position: "absolute", top: 14, left: 16, fontFamily: "ui-monospace, Menlo, monospace", fontSize: 9, letterSpacing: 2, color: "rgba(255,255,255,0.35)" }}>PANE {cd.n}</span>
                         <span style={{ position: "absolute", top: 14, right: 16, fontFamily: "ui-monospace, Menlo, monospace", fontSize: 9, letterSpacing: 2, color: "rgba(255,255,255,0.35)" }}>?</span>
                         <span style={{ fontSize: 54, fontWeight: 950, letterSpacing: "-3px", color: "rgba(255,255,255,0.12)", lineHeight: 1 }}>c.</span>

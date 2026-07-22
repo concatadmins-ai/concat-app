@@ -9,7 +9,7 @@ export default function InteractiveGrid() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
     let dpr = window.devicePixelRatio || 1;
@@ -51,11 +51,12 @@ export default function InteractiveGrid() {
     document.addEventListener("mouseleave", onMouseLeave);
     window.addEventListener("resize", resize);
 
-    // Configuration for grid and distortion
-    const GRID_SIZE = 50; // Distance between grid lines
-    const SAMPLE_STEP = 6; // Step size for smooth line bending
-    const WARP_RADIUS = 260; // Radius of cursor influence
-    const WARP_FORCE = 68; // Max pixel displacement
+    // Configuration for grid and distortion mimicking the original CSS grid
+    // Original: radial-gradient(rgba(0,0,0,0.14) 0.8px, transparent 0.9px), size: 8px 8px
+    const GRID_SIZE = 8; 
+    const DOT_RADIUS = 0.8;
+    const WARP_RADIUS = 180; // Radius of cursor influence
+    const WARP_FORCE = 25; // Max pixel displacement
 
     let animId: number;
 
@@ -68,8 +69,8 @@ export default function InteractiveGrid() {
         m.x = m.targetX;
         m.y = m.targetY;
       } else {
-        m.x += (m.targetX - m.x) * 0.18;
-        m.y += (m.targetY - m.y) * 0.18;
+        m.x += (m.targetX - m.x) * 0.15;
+        m.y += (m.targetY - m.y) * 0.15;
       }
 
       ctx.clearRect(0, 0, width, height);
@@ -78,121 +79,43 @@ export default function InteractiveGrid() {
       const my = m.y;
       const isMouseActive = mx > -500 && my > -500;
 
-      // Function to calculate distorted position for any coordinate (x, y)
-      const getWarpedPoint = (x: number, y: number) => {
-        if (!isMouseActive) return { x, y, dist: 999 };
-
-        const dx = x - mx;
-        const dy = y - my;
-        const distSq = dx * dx + dy * dy;
-        const radiusSq = WARP_RADIUS * WARP_RADIUS;
-
-        if (distSq < radiusSq && distSq > 0.1) {
-          const dist = Math.sqrt(distSq);
-          // Exponential decay force for magnetic push effect
-          const factor = Math.pow((WARP_RADIUS - dist) / WARP_RADIUS, 1.8);
-          const push = factor * WARP_FORCE;
-          const angle = Math.atan2(dy, dx);
-
-          return {
-            x: x + Math.cos(angle) * push,
-            y: y + Math.sin(angle) * push,
-            dist,
-          };
-        }
-
-        return { x, y, dist: Math.sqrt(distSq) };
-      };
-
-      // 1. Draw Spotlight Aura under Cursor
-      if (isMouseActive) {
-        const glowRadius = 280;
-        const grad = ctx.createRadialGradient(mx, my, 0, mx, my, glowRadius);
-        grad.addColorStop(0, "rgba(0, 0, 0, 0.08)");
-        grad.addColorStop(0.4, "rgba(0, 0, 0, 0.03)");
-        grad.addColorStop(1, "rgba(0, 0, 0, 0)");
-        ctx.fillStyle = grad;
-        ctx.beginPath();
-        ctx.arc(mx, my, glowRadius, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      // 2. Draw Distorted Horizontal Lines
-      ctx.lineWidth = 1;
-
-      for (let gy = 0; gy <= height + GRID_SIZE; gy += GRID_SIZE) {
-        ctx.beginPath();
-        let first = true;
-        let currentAlpha = 0.08;
-        ctx.strokeStyle = `rgba(0, 0, 0, ${currentAlpha})`;
-
-        for (let gx = 0; gx <= width + SAMPLE_STEP; gx += SAMPLE_STEP) {
-          const p = getWarpedPoint(gx, gy);
-
-          const targetAlpha = p.dist < WARP_RADIUS ? 0.08 + (1 - p.dist / WARP_RADIUS) * 0.35 : 0.08;
-
-          if (Math.abs(targetAlpha - currentAlpha) > 0.05) {
-            ctx.stroke();
-            ctx.beginPath();
-            currentAlpha = targetAlpha;
-            ctx.strokeStyle = `rgba(0, 0, 0, ${currentAlpha})`;
-            ctx.lineWidth = p.dist < WARP_RADIUS ? 1.4 : 1;
-          }
-
-          if (first) {
-            ctx.moveTo(p.x, p.y);
-            first = false;
-          } else {
-            ctx.lineTo(p.x, p.y);
-          }
-        }
-        ctx.stroke();
-      }
-
-      // 3. Draw Distorted Vertical Lines
-      for (let gx = 0; gx <= width + GRID_SIZE; gx += GRID_SIZE) {
-        ctx.beginPath();
-        let first = true;
-        let currentAlpha = 0.08;
-        ctx.strokeStyle = `rgba(0, 0, 0, ${currentAlpha})`;
-
-        for (let gy = 0; gy <= height + SAMPLE_STEP; gy += SAMPLE_STEP) {
-          const p = getWarpedPoint(gx, gy);
-
-          const targetAlpha = p.dist < WARP_RADIUS ? 0.08 + (1 - p.dist / WARP_RADIUS) * 0.35 : 0.08;
-
-          if (Math.abs(targetAlpha - currentAlpha) > 0.05) {
-            ctx.stroke();
-            ctx.beginPath();
-            currentAlpha = targetAlpha;
-            ctx.strokeStyle = `rgba(0, 0, 0, ${currentAlpha})`;
-            ctx.lineWidth = p.dist < WARP_RADIUS ? 1.4 : 1;
-          }
-
-          if (first) {
-            ctx.moveTo(p.x, p.y);
-            first = false;
-          } else {
-            ctx.lineTo(p.x, p.y);
-          }
-        }
-        ctx.stroke();
-      }
-
-      // 4. Draw Intersecting Grid Dots
+      // Draw Intersecting Grid Dots
+      ctx.fillStyle = "rgba(0, 0, 0, 0.14)";
+      ctx.beginPath();
+      
       for (let gx = 0; gx <= width + GRID_SIZE; gx += GRID_SIZE) {
         for (let gy = 0; gy <= height + GRID_SIZE; gy += GRID_SIZE) {
-          const p = getWarpedPoint(gx, gy);
-          const isNear = p.dist < WARP_RADIUS;
-          const r = isNear ? 1.5 + (1 - p.dist / WARP_RADIUS) * 2.2 : 1.2;
-          const alpha = isNear ? 0.25 + (1 - p.dist / WARP_RADIUS) * 0.55 : 0.18;
+          let px = gx;
+          let py = gy;
+          let r = DOT_RADIUS;
 
-          ctx.fillStyle = `rgba(0, 0, 0, ${alpha})`;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
-          ctx.fill();
+          if (isMouseActive) {
+            const dx = gx - mx;
+            const dy = gy - my;
+            const distSq = dx * dx + dy * dy;
+            const radiusSq = WARP_RADIUS * WARP_RADIUS;
+
+            if (distSq < radiusSq && distSq > 0.1) {
+              const dist = Math.sqrt(distSq);
+              // Exponential decay force for magnetic push effect
+              const factor = Math.pow((WARP_RADIUS - dist) / WARP_RADIUS, 1.8);
+              const push = factor * WARP_FORCE;
+              const angle = Math.atan2(dy, dx);
+              
+              px = gx + Math.cos(angle) * push;
+              py = gy + Math.sin(angle) * push;
+              
+              // Slightly enlarge dots near the cursor for a subtle interactive feel
+              r = DOT_RADIUS + factor * 0.5;
+            }
+          }
+
+          // Use moveTo/arc for high performance single-path drawing
+          ctx.moveTo(px, py);
+          ctx.arc(px, py, r, 0, Math.PI * 2);
         }
       }
+      ctx.fill();
     };
 
     draw();
@@ -215,8 +138,7 @@ export default function InteractiveGrid() {
         width: "100vw",
         height: "100vh",
         pointerEvents: "none",
-        zIndex: 40, // High z-index to overlay over page backgrounds (zIndex: 10), below navbar (zIndex: 50+)
-        mixBlendMode: "multiply",
+        zIndex: 0, // Placed at the very bottom, right above the body background!
       }}
     />
   );
