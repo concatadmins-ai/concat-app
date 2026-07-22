@@ -1,50 +1,54 @@
 "use client";
+
 import React from "react";
 import Link from "next/link";
+import Footer from "@/components/Footer";
 
-const BURG = "#111111"; const BURG_MID = "#555555"; const BURG_LIGHT = "#777777";
-const FLOORS = [
-  { title: "Modern Casuals", slug: "modern-casuals", img: "/modern_casuals_1784145387264.png", desc: "Effortless everyday wear with a fashion-forward edge. Structured loungewear, relaxed fits, and everyday luxuries.", count: "48 Pieces" },
-  { title: "Semi Formals",   slug: "semi-formals",   img: "/semi_formals_1784145407787.png",  desc: "The bridge between corporate and creative. Sharp tailoring softened with modern silhouettes and premium fabrics.", count: "36 Pieces" },
-  { title: "Accessories",    slug: "accessories",    img: "/accessories_1784145426818.png",    desc: "The finishing touch. Curated bags, belts, jewelry, and adornments from independent artisan houses.", count: "62 Pieces" },
-  { title: "Footwear",       slug: "footwear",       img: "/footwear_1784145445750.png",       desc: "From architectural boots to hand-stitched sneakers. Every step is a statement.", count: "29 Pieces" },
-  { title: "Formals",        slug: "formals",        img: "/formals_1784145500501.png",        desc: "Precision-cut suits, gowns, and occasion wear. Crafted for moments that demand perfection.", count: "41 Pieces" },
-  { title: "Eyewear",        slug: "eyewear",        img: "/eyewear_1784145482095.png",        desc: "Vision-led luxury frames. Each pair is a collaboration between optical science and artistic design.", count: "18 Pieces" },
-];
 export default function FloorsPage() {
+  const floorSlabs = [
+    { num: "6", href: "/floors/6", name: "Ethnic", desc: "Modern Indian drapery & fusion wear", count: "5 stores", width: "58%", src: "/real_ads/ethnic-carousel.mp4" },
+    { num: "5", href: "/floors/5", name: "Eyewear", desc: "Designer frames & shades", count: "3 stores", width: "65%", src: "/real_ads/eyewear-carousel.mp4" },
+    { num: "4", href: "/floors/4", name: "Formals", desc: "Tailoring, shirting & occasionwear", count: "4 stores", width: "72%", src: "/real_ads/formals-carousel.mp4" },
+    { num: "3", href: "/floors/3", name: "Footwear", desc: "Sneakers to hand-made leather", count: "5 stores", width: "79%", src: "/real_ads/footwear-carousel.mp4" },
+    { num: "2", href: "/floors/2", name: "Accessories", desc: "Jewelry, bags & finishing touches", count: "7 stores", width: "86%", src: "/real_ads/accersories-carousel.mp4" },
+    { num: "1", href: "/floors/1", name: "Semi Formals", desc: "Smart layers for work and after", count: "6 stores", width: "93%", src: "/real_ads/semi-formals-carousel.mp4" },
+    { num: "G", href: "/floors/G", name: "Casuals", desc: "Streetwear, tees, denim & everyday staples", count: "12 stores", width: "100%", src: "/real_ads/casual_carousel.mp4" },
+  ];
+
   return (
-    <div className="page-scroll" style={{ padding: "110px 40px 60px", background: "#FAFAFA", color: "#111111" }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: "rgba(0,0,0,0.45)", margin: "0 0 14px" }}>Our Building</p>
-        <h1 style={{ fontFamily: "inherit", fontSize: "clamp(40px,6vw,88px)", fontWeight: 900, color: BURG, margin: "0 0 72px", letterSpacing: -4, lineHeight: 0.9, textTransform: "uppercase" }}>The Floors</h1>
-        <div>
-          {FLOORS.map((floor, i) => (
-            <Link key={floor.slug} href={`/shop?floor=${floor.slug}`}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "26px 0", borderBottom: "1px solid rgba(0,0,0,0.08)", cursor: "pointer", gap: 28, transition: "all 0.3s ease" }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.paddingLeft="20px"; (e.currentTarget as HTMLElement).style.background="rgba(0,0,0,0.04)"; (e.currentTarget as HTMLElement).style.borderRadius="12px"; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.paddingLeft="0"; (e.currentTarget as HTMLElement).style.background="transparent"; (e.currentTarget as HTMLElement).style.borderRadius="0"; }}
-              >
-                <div style={{ display: "flex", alignItems: "center", gap: 28, flex: 1 }}>
-                  <div style={{ width: 76, height: 76, borderRadius: 12, overflow: "hidden", flexShrink: 0, border: "1px solid rgba(0,0,0,0.08)" }}>
-                    <img src={floor.img} alt={floor.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                  </div>
-                  <div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 6 }}>
-                      <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: "rgba(0,0,0,0.4)" }}>Floor {String(i+1).padStart(2,"0")}</span>
-                      <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: BURG_LIGHT }}>{floor.count}</span>
-                    </div>
-                    <h2 style={{ color: BURG, fontSize: "clamp(17px,2.2vw,26px)", fontWeight: 700, margin: "0 0 5px", textTransform: "uppercase" }}>{floor.title}</h2>
-                    <p style={{ color: "rgba(0,0,0,0.55)", fontSize: 13, margin: 0, maxWidth: 460, lineHeight: 1.5 }}>{floor.desc}</p>
-                  </div>
-                </div>
-                <div style={{ color: "rgba(0,0,0,0.3)", flexShrink: 0 }}>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="9 18 15 12 9 6"/></svg>
-                </div>
+    <div style={{ position: "relative", width: "100%", minHeight: "100vh", background: "linear-gradient(150deg,#FFFFFF 0%,#FAFAFA 25%,#F0F0F0 55%,#FAFAFA 78%,#F5F5F5 100%)", color: "#111111", overflow: "hidden", fontFamily: "'Geist', system-ui, sans-serif" }}>
+      <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(0,0,0,0.14) 0.8px, transparent 0.9px)", backgroundSize: "8px 8px", pointerEvents: "none" }} />
+
+      <div style={{ position: "relative", padding: "110px 72px 40px", zIndex: 5 }}>
+        <div style={{ textAlign: "center", marginBottom: 28 }}>
+          <h1 style={{ margin: 0, fontSize: 44, fontWeight: 950, letterSpacing: "-2px", textTransform: "uppercase", lineHeight: 1 }}>the building</h1>
+          <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: "2.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.45)", marginTop: 8 }}>
+            Seven floors, top to ground — pick where you get off
+          </div>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, maxWidth: 1040, margin: "0 auto" }}>
+          {floorSlabs.map((fs, idx) => (
+            <Link key={idx} href={fs.href} style={{ position: "relative", display: "block", height: 104, width: fs.width, borderRadius: 20, overflow: "hidden", border: "1.5px solid rgba(0,0,0,0.12)", background: "#111", boxShadow: "0 14px 40px rgba(0,0,0,0.14)", color: "inherit", textDecoration: "none" }}>
+              <video src={fs.src} autoPlay loop muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.15) 100%)" }} />
+              <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", gap: 22, padding: "0 28px" }}>
+                <span style={{ fontSize: 36, fontWeight: 950, letterSpacing: "-2px", color: "rgba(255,255,255,0.35)", width: 48, flex: "none" }}>{fs.num}</span>
+                <span style={{ minWidth: 0 }}>
+                  <span style={{ display: "block", fontSize: 20, fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.5px", color: "#FFFFFF", lineHeight: 1.1 }}>{fs.name}</span>
+                  <span style={{ display: "block", fontSize: 11, color: "rgba(255,255,255,0.6)", marginTop: 2 }}>{fs.desc}</span>
+                </span>
+                <span style={{ marginLeft: "auto", fontSize: 9, fontWeight: 800, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.55)", flex: "none" }}>{fs.count}</span>
+                <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 42, height: 42, borderRadius: "50%", background: "#FFFFFF", color: "#111111", flex: "none", boxShadow: "0 8px 24px rgba(0,0,0,0.35)" }}>→</span>
               </div>
             </Link>
           ))}
+          <div style={{ width: "100%", height: 14, borderRadius: "0 0 18px 18px", background: "#111111", marginTop: 2 }} />
+          <div style={{ fontSize: 9, fontWeight: 800, letterSpacing: 3, textTransform: "uppercase", color: "rgba(0,0,0,0.35)", marginTop: 10 }}>Ground level · CONCAT mall</div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }

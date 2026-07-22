@@ -1,44 +1,58 @@
 "use client";
-import React, { useState } from "react";
-const BURG = "#FFFFFF"; const BURG_LIGHT = "#AAAAAA"; const CREAM = "#111111";
-const JOBS = [
-  { title: "Senior Fashion Buyer",        dept: "Curation",   loc: "Mumbai, India",  type: "Full-time" },
-  { title: "Brand Partnerships Manager",  dept: "Growth",     loc: "Delhi, India",   type: "Full-time" },
-  { title: "Lead Frontend Engineer",      dept: "Technology", loc: "Remote",         type: "Full-time" },
-  { title: "Creative Director",           dept: "Creative",   loc: "London, UK",     type: "Full-time" },
-  { title: "Logistics & Operations Lead", dept: "Operations", loc: "Mumbai, India",  type: "Full-time" },
-  { title: "UX Research Lead",            dept: "Design",     loc: "Remote",         type: "Full-time" },
-  { title: "Visual Merchandising Lead",   dept: "Retail",     loc: "New York, USA",  type: "Full-time" },
-  { title: "Brand Content Strategist",    dept: "Marketing",  loc: "Tokyo, Japan",   type: "Full-time" },
-];
+
+import React from "react";
+import Footer from "@/components/Footer";
+
 export default function CareersPage() {
-  const [hov, setHov] = useState<number|null>(null);
+  const roles = [
+    { title: "Senior Product Designer", team: "Design", loc: "Remote" },
+    { title: "Full-stack Engineer", team: "Engineering", loc: "Mumbai" },
+    { title: "Brand Partnerships Lead", team: "Growth", loc: "Mumbai" },
+    { title: "Content & Campaign Producer", team: "Creative", loc: "Remote" },
+    { title: "Operations Associate", team: "Ops", loc: "Mumbai" },
+  ];
+
   return (
-    <div className="page-scroll" style={{ padding: "110px 40px 60px" }}>
-      <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-        <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: "rgba(74,14,23,0.4)", margin: "0 0 14px" }}>Join the Team</p>
-        <h1 style={{ fontFamily: "inherit", fontSize: "clamp(40px,6vw,88px)", fontWeight: 900, color: BURG, margin: "0 0 22px", letterSpacing: -4, lineHeight: 0.9, textTransform: "uppercase" }}>Careers</h1>
-        <p style={{ color: "rgba(74,14,23,0.55)", fontSize: 17, fontWeight: 300, maxWidth: 580, lineHeight: 1.75, margin: "0 0 72px" }}>
-          We're building something rare. If you're drawn to the intersection of culture, technology, and fashion — you might belong here.
-        </p>
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-          {JOBS.map((job, i) => (
-            <div key={i}
-              style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "22px 26px", borderRadius: 14, border: "1.5px solid", borderColor: hov===i ? BURG : "rgba(74,14,23,0.1)", background: hov===i ? "rgba(74,14,23,0.05)" : "rgba(255,255,255,0.25)", cursor: "pointer", transition: "all 0.2s ease" }}
-              onMouseEnter={() => setHov(i)} onMouseLeave={() => setHov(null)}
-            >
-              <div>
-                <h3 style={{ color: BURG, fontSize: 16, fontWeight: 700, margin: "0 0 5px" }}>{job.title}</h3>
-                <div style={{ display: "flex", gap: 14 }}>
-                  <span style={{ fontSize: 11, color: BURG_LIGHT, fontWeight: 700 }}>{job.dept}</span>
-                  <span style={{ fontSize: 11, color: "rgba(74,14,23,0.35)" }}>· {job.loc} · {job.type}</span>
-                </div>
+    <div style={{ position: "relative", width: "100%", minHeight: "100vh", background: "linear-gradient(150deg,#FFFFFF 0%,#FAFAFA 25%,#F0F0F0 55%,#FAFAFA 78%,#F5F5F5 100%)", color: "#111111", overflow: "hidden", fontFamily: "'Geist', system-ui, sans-serif" }}>
+      <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(0,0,0,0.14) 0.8px, transparent 0.9px)", backgroundSize: "8px 8px", pointerEvents: "none" }} />
+
+      <div style={{ position: "relative", padding: "120px 72px 24px", zIndex: 5 }}>
+        <div style={{ maxWidth: 720, marginBottom: 44 }}>
+          <h1 style={{ margin: "0 0 16px", fontSize: 56, fontWeight: 955, letterSpacing: "-2.5px", lineHeight: 1, textTransform: "uppercase" }}>
+            Build the mall<br />
+            <span style={{ color: "rgba(0,0,0,0.32)" }}>of the internet.</span>
+          </h1>
+          <p style={{ margin: 0, fontSize: 16, lineHeight: 1.65, color: "rgba(0,0,0,0.65)", textWrap: "pretty" }}>
+            We're a small team giving independent fashion a fighting chance against the mass market. If that moves you, come work with us.
+          </p>
+        </div>
+
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: "2.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.45)" }}>Open roles · 5</div>
+          <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.4)" }}>Mumbai / Remote</div>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          {roles.map((rl, idx) => (
+            <div key={idx} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 20, padding: "22px 18px", borderRadius: 20, borderBottom: "1px solid rgba(0,0,0,0.08)", cursor: "pointer" }}>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 16, minWidth: 0, flexWrap: "wrap" }}>
+                <span style={{ fontSize: 18, fontWeight: 900, letterSpacing: "-0.3px" }}>{rl.title}</span>
+                <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: "rgba(0,0,0,0.4)" }}>{rl.team}</span>
               </div>
-              <button className="btn-primary" style={{ padding: "10px 22px", fontSize: 10, whiteSpace: "nowrap" }}>Apply</button>
+              <div style={{ display: "flex", alignItems: "center", gap: 16, flex: "none" }}>
+                <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.4)" }}>{rl.loc}</span>
+                <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 36, height: 36, borderRadius: "50%", background: "#111111", color: "#FFFFFF" }}>→</span>
+              </div>
             </div>
           ))}
         </div>
+
+        <div style={{ marginTop: 28, fontSize: 12, color: "rgba(0,0,0,0.5)" }}>
+          Don't see your role? Write to <strong style={{ color: "#111111" }}>careers@concat.shop</strong>
+        </div>
       </div>
+
+      <Footer />
     </div>
   );
 }

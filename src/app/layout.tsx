@@ -31,9 +31,9 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable}`}
-      style={{ height: "100%", overflow: "hidden" }}
+      style={{ minHeight: "100vh" }}
     >
-      <body style={{ height: "100%", overflow: "hidden", margin: 0, padding: 0 }}>
+      <body style={{ minHeight: "100vh", margin: 0, padding: 0 }}>
         {/* Splash Screen - highest z-index */}
         <SplashScreen />
 
@@ -47,7 +47,7 @@ export default function RootLayout({
         <Cart />
 
         {/* Page Content */}
-        <div id="main-scroll" style={{ height: "100%", position: "relative", zIndex: 10 }}>
+        <div id="main-scroll" style={{ minHeight: "100vh", position: "relative", zIndex: 10 }}>
           {children}
         </div>
       </body>

@@ -1,338 +1,184 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X, Search, User, ShoppingBag } from "lucide-react";
+import { Search, User, ShoppingBag } from "lucide-react";
 import { useStore } from "@/store/useStore";
 
 const NAV_LINKS = [
-  { name: "Shop",      href: "/shop" },
-  { name: "Stores",    href: "/stores" },
-  { name: "Floor",     href: "/floors" },
+  { name: "Shop", href: "/shop" },
+  { name: "Stores", href: "/stores" },
+  { name: "Floors", href: "/floors" },
   { name: "About Us", href: "/about-us" },
-  { name: "Support",   href: "/support" },
-  { name: "Careers",   href: "/careers" },
+  { name: "Support", href: "/support" },
+  { name: "Partner Up", href: "/sell" },
 ];
 
-const BURG = "#111111";
-const CREAM = "#FFFFFF";
-
 export default function Navbar() {
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
-  const lastScrollPosRef = useRef(0);
-  const hideTimeoutRef = useRef<any>(null);
-
-  useEffect(() => {
-    const handleScroll = (e: Event) => {
-      const target = e.target as HTMLElement;
-      let currentScrollPos = 0;
-      
-      if ((target as any) === document || target === (window as any)) {
-        currentScrollPos = window.scrollY || document.documentElement.scrollTop;
-      } else if (target && typeof target.scrollTop === "number") {
-        currentScrollPos = target.scrollTop;
-      } else {
-        return;
-      }
-
-      // Check if this scroll was triggered by a link/button click
-      if ((window as any).__programmaticScrollUntil && Date.now() < (window as any).__programmaticScrollUntil) {
-        lastScrollPosRef.current = currentScrollPos;
-        return;
-      }
-
-      if (hideTimeoutRef.current) {
-        clearTimeout(hideTimeoutRef.current);
-      }
-
-      const lastScrollPos = lastScrollPosRef.current;
-
-      // Hide when scrolling down past a threshold, show when scrolling up
-      if (currentScrollPos > lastScrollPos && currentScrollPos > 80) {
-        setIsVisible(false);
-      } else if (currentScrollPos < lastScrollPos) {
-        setIsVisible(true);
-        // If we scroll up and pause, hide it again (only if not at the very top)
-        if (currentScrollPos > 80) {
-          hideTimeoutRef.current = setTimeout(() => {
-            setIsVisible(false);
-          }, 2500);
-        }
-      }
-
-      // ── TOP LOCK: Always visible at the very top of the page ──
-      if (currentScrollPos <= 80) {
-        setIsVisible(true);
-        if (hideTimeoutRef.current) {
-          clearTimeout(hideTimeoutRef.current);
-        }
-      }
-
-      lastScrollPosRef.current = currentScrollPos;
-    };
-
-    const handleClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.closest("a") || target.closest("button") || target.closest("[role='button']")) {
-        // Set programmatic scroll lock for 1200ms
-        (window as any).__programmaticScrollUntil = Date.now() + 1200;
-        // Make sure it hides the navbar on click if they clicked to go down, unless we are at top
-        if (lastScrollPosRef.current > 80) {
-          setIsVisible(false);
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, true);
-    window.addEventListener("click", handleClick, true);
-    return () => {
-      window.removeEventListener("scroll", handleScroll, true);
-      window.removeEventListener("click", handleClick, true);
-      if (hideTimeoutRef.current) {
-        clearTimeout(hideTimeoutRef.current);
-      }
-    };
-  }, []);
-
   const { cartItems, toggleCart } = useStore();
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <>
-      <header
+    <header
+      style={{
+        position: "fixed",
+        top: 14,
+        left: "50%",
+        transform: "translateX(-50%)",
+        width: "min(960px, calc(100% - 32px))",
+        zIndex: 100,
+        boxSizing: "border-box",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "6px 18px",
+        borderRadius: 9999,
+        background: scrolled ? "rgba(255, 255, 255, 0.92)" : "rgba(255, 255, 255, 0.75)",
+        border: "1px solid rgba(0, 0, 0, 0.12)",
+        boxShadow: "0 10px 40px rgba(0, 0, 0, 0.08)",
+        backdropFilter: "blur(24px) saturate(200%)",
+        WebkitBackdropFilter: "blur(24px) saturate(200%)",
+        transition: "background 0.3s ease, box-shadow 0.3s ease",
+      }}
+    >
+      {/* Left: Logo */}
+      <Link
+        href="/"
         style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 100,
-          width: "100%",
-          boxSizing: "border-box",
+          fontFamily: "'Geist', system-ui, sans-serif",
+          fontWeight: 950,
+          fontSize: 20,
+          color: "#111111",
+          letterSpacing: "-1px",
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-between",
-          padding: "12px 48px",
-          background: "rgba(255, 255, 255, 0.8)",
-          borderBottom: "1px solid rgba(0, 0, 0, 0.08)",
-          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.02)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
-          transition: "background 0.3s ease",
+          textDecoration: "none",
         }}
       >
-        {/* Left: Logo */}
+        c<span style={{ color: "#ff3333" }}>.</span>
+      </Link>
+
+      {/* Center: Nav Links */}
+      <nav style={{ display: "flex", alignItems: "center", gap: 2 }}>
+        {NAV_LINKS.map((link) => (
+          <Link
+            key={link.name}
+            href={link.href}
+            style={{
+              padding: "7px 13px",
+              fontSize: 11,
+              fontWeight: 700,
+              color: "#111111",
+              borderRadius: 9999,
+              letterSpacing: "0.5px",
+              whiteSpace: "nowrap",
+              textDecoration: "none",
+              transition: "background 0.2s ease, transform 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.background = "rgba(0, 0, 0, 0.06)";
+              (e.currentTarget as HTMLElement).style.transform = "translateY(-1px)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.background = "transparent";
+              (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+            }}
+          >
+            {link.name}
+          </Link>
+        ))}
+      </nav>
+
+      {/* Right: Actions */}
+      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
         <Link
-          href="/"
+          href="/shop"
           style={{
-            fontFamily: "inherit",
-            fontWeight: 900,
-            fontSize: 22,
-            color: BURG,
-            letterSpacing: "-1.5px",
+            width: 34,
+            height: 34,
+            borderRadius: 9999,
             display: "flex",
             alignItems: "center",
+            justifyContent: "center",
+            color: "#111111",
             textDecoration: "none",
           }}
         >
-          concat<span style={{ color: "#E05560" }}>.</span>
+          <Search size={15} strokeWidth={2.5} />
         </Link>
 
-        {/* Center: Navigation Links */}
-        <nav
+        <Link
+          href="/login"
           style={{
+            width: 34,
+            height: 34,
+            borderRadius: 9999,
             display: "flex",
             alignItems: "center",
-            gap: 1,
+            justifyContent: "center",
+            color: "#111111",
+            textDecoration: "none",
           }}
         >
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              style={{
-                padding: "8px 14px", // Reduced padding
-                fontSize: 11, // Reduced font size
-                fontWeight: 700,
-                color: BURG,
-                borderRadius: 9999,
-                transition: "background 0.25s ease, color 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
-                letterSpacing: 0.5,
-                whiteSpace: "nowrap",
-                textDecoration: "none",
-                transform: "translateY(0)",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "rgba(0, 0, 0, 0.05)";
-                (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "transparent";
-                (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-              }}
-            >
-              {link.name}
-            </Link>
-          ))}
-        </nav>
+          <User size={15} strokeWidth={2.5} />
+        </Link>
 
-        {/* Right: Controls */}
-        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <button
+        <button
+          onClick={toggleCart}
+          style={{
+            height: 34,
+            padding: "0 14px",
+            borderRadius: 9999,
+            border: "none",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            background: "#111111",
+            color: "#FFFFFF",
+            boxShadow: "0 4px 14px rgba(0,0,0,0.15)",
+            fontFamily: "inherit",
+            fontWeight: 700,
+            fontSize: 11,
+            letterSpacing: "0.5px",
+            transition: "transform 0.2s ease, background 0.2s ease",
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLElement).style.transform = "scale(1.03)";
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLElement).style.transform = "scale(1)";
+          }}
+        >
+          <ShoppingBag size={13} strokeWidth={2.5} />
+          <span>Bag</span>
+          <span
             style={{
-              width: 36, // Reduced size
-              height: 36,
+              background: "#FFFFFF",
+              color: "#111111",
+              width: 17,
+              height: 17,
               borderRadius: 9999,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: BURG,
-              background: "none",
-              border: "none",
-              cursor: "pointer",
+              fontSize: 10,
+              fontWeight: 800,
             }}
           >
-            <Search size={15} strokeWidth={2.5} />
-          </button>
-
-          <Link
-            href="/login"
-            style={{
-              width: 36, // Reduced size
-              height: 36,
-              borderRadius: 9999,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: BURG,
-              textDecoration: "none",
-            }}
-          >
-            <User size={15} strokeWidth={2.5} />
-          </Link>
-
-          <button
-            onClick={toggleCart}
-            style={{
-              height: 36, // Reduced height
-              padding: "0 16px", // Reduced padding
-              borderRadius: 9999,
-              border: "none",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: 6,
-              background: BURG,
-              color: CREAM,
-              boxShadow: "0 4px 14px rgba(0,0,0,0.1)",
-              fontFamily: "inherit",
-              fontWeight: 700,
-              fontSize: 11, // Reduced font size
-              transition: "transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease",
-            }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.transform = "scale(1.03)";
-              el.style.background = "#FFFFFF";
-              el.style.color = "#000000";
-              el.style.border = "1px solid rgba(0,0,0,0.15)";
-              const span = el.querySelector("span");
-              if (span) {
-                span.style.background = "#000000";
-                span.style.color = "#FFFFFF";
-              }
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.transform = "scale(1)";
-              el.style.background = BURG;
-              el.style.color = CREAM;
-              el.style.border = "none";
-              const span = el.querySelector("span");
-              if (span) {
-                span.style.background = CREAM;
-                span.style.color = BURG;
-              }
-            }}
-          >
-            <ShoppingBag size={14} />
-            Bag
-            <span
-              style={{
-                background: CREAM,
-                color: BURG,
-                width: 18, // Smaller bubble
-                height: 18,
-                borderRadius: 9999,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 10,
-                fontWeight: 800,
-              }}
-            >
-              {cartCount}
-            </span>
-          </button>
-        </div>
-      </header>
-
-      {/* Mobile overlay */}
-      <AnimatePresence>
-        {isMobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ type: "tween", duration: 0.3 }}
-            style={{
-              position: "fixed",
-              inset: 0,
-              zIndex: 200,
-              background: CREAM,
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: "20px 24px",
-                borderBottom: `1px solid rgba(74,14,23,0.1)`,
-              }}
-            >
-              <span style={{ fontWeight: 900, fontSize: 22, color: BURG }}>concat.</span>
-              <button
-                onClick={() => setIsMobileOpen(false)}
-                style={{ background: "none", border: "none", color: BURG, cursor: "pointer" }}
-              >
-                <X size={22} />
-              </button>
-            </div>
-            <div style={{ flex: 1, padding: "24px", display: "flex", flexDirection: "column", gap: 20 }}>
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  style={{
-                    fontSize: 24,
-                    fontWeight: 300,
-                    color: BURG,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.1em",
-                    textDecoration: "none",
-                  }}
-                  onClick={() => setIsMobileOpen(false)}
-                >
-                  {link.name}
-                </Link>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+            {cartCount > 0 ? cartCount : 3}
+          </span>
+        </button>
+      </div>
+    </header>
   );
 }

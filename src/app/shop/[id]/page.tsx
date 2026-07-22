@@ -3,124 +3,166 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { ChevronDown, Heart, ArrowLeft, ShoppingBag } from "lucide-react";
-import { useStore } from "@/store/useStore";
-
-const BURG  = "#111111";
-const BURG_LIGHT = "#777777";
-const CREAM = "#FFFFFF";
-
-const MOCK_PRODUCTS = [
-  { id: 1,  name: "Velvet Evening Gown",   brand: "CONCAT", price: 1200, image: "/media__1784131496078.png",  desc: "A luxurious velvet evening gown crafted from Italian silk-velvet blend. Features a dramatic floor-length silhouette with subtle train." },
-  { id: 2,  name: "Silk Overcoat",         brand: "AURA",   price: 850,  image: "/media__1784131738979.png",  desc: "Fluid silk overcoat with a relaxed silhouette and clean, modern lines. Perfect layering piece for any season." },
-  { id: 3,  name: "Leather Tote",          brand: "NOVA",   price: 450,  image: "/media__1784132058127.png",  desc: "Structured full-grain leather tote with brass hardware. Spacious interior with suede lining." },
-  { id: 4,  name: "Oversized Cashmere",    brand: "CONCAT", price: 600,  image: "/media__1784132250371.png",  desc: "100% Grade A Mongolian cashmere in an oversized cut. Incredibly soft with a lived-in luxury feel." },
-  { id: 5,  name: "Pleated Trousers",      brand: "AURA",   price: 400,  image: "/media__1784132288061.png",  desc: "High-waisted pleated trousers in a wool-blend fabric. A modern take on tailored classics." },
-  { id: 6,  name: "Monolith Boots",        brand: "NOVA",   price: 890,  image: "/media__1784132530186.png",  desc: "Architectural platform boots in burnished leather. A statement piece that commands attention." },
-  { id: 7,  name: "Tailored Blazer",       brand: "CONCAT", price: 1100, image: "/media__1784132886336.png",  desc: "Single-breasted blazer in a heritage wool fabric. Impeccably constructed with hand-stitched lapels." },
-  { id: 8,  name: "Mesh Corset",           brand: "AURA",   price: 350,  image: "/media__1784133094296.png",  desc: "Structured mesh corset with boning detail. An avant-garde statement piece for the bold individual." },
-  { id: 9,  name: "Wide-Leg Linen",        brand: "KIRE",   price: 520,  image: "/media__1784133227077.png",  desc: "Relaxed wide-leg trousers in stone-washed linen. Effortlessly elegant and breathable." },
-  { id: 10, name: "Leather Bomber",        brand: "LUMIS",  price: 1350, image: "/media__1784133952584.png",  desc: "Supple lambskin leather bomber with rib-knit cuffs. A timeless investment piece." },
-  { id: 11, name: "Asymmetric Knit",       brand: "CONCAT", price: 680,  image: "/media__1784134008499.png",  desc: "Hand-knitted asymmetric top in merino wool. Artisanal craft meets contemporary design." },
-  { id: 12, name: "Crystal Heels",         brand: "NOVA",   price: 975,  image: "/media__1784145616978.png",  desc: "Slingback heels adorned with hand-set crystals. For the nights that demand to be remembered." },
-];
-const SIZES = ["XS", "S", "M", "L", "XL"];
+import Footer from "@/components/Footer";
 
 export default function ProductDetailPage() {
   const params = useParams();
-  const id = Number(params.id);
-  const product = MOCK_PRODUCTS.find((p) => p.id === id) || MOCK_PRODUCTS[0];
-  const [selectedSize, setSelectedSize] = useState<string | null>(null);
-  const [openAccordion, setOpenAccordion] = useState<string | null>(null);
-  const { addToCart, openCart } = useStore();
+  const rawId = (params?.id as string) || "1";
 
-  const handleAdd = () => {
-    if (!selectedSize) { alert("Please select a size."); return; }
-    addToCart({ id: product.id, name: product.name, brand: product.brand, price: product.price, image: product.image, quantity: 1, size: selectedSize });
-    openCart();
+  const [selectedSize, setSelectedSize] = useState("M");
+
+  const product = {
+    name: "Orng Tiger Fury T-Shirt",
+    brand: "BLUEORNG",
+    price: "₹4,900",
+    wasPrice: "₹5,900",
+    floor: "Floor G, Casuals",
+    desc: "Heavyweight 280 GSM cotton graphic tee featuring custom high-density silk print and relaxed drop-shoulder cut. Pre-shrunk and garment-dyed in small batches.",
+    image: "/products/blu-tiger-tee.png",
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    fabric: "280 GSM 100% combed cotton · machine wash cold",
+    shipping: "Free express shipping · 2–4 days · direct from studio",
+    returns: "7-day hassle-free returns via CONCAT Grievance Desk",
   };
 
-  return (
-    <div className="page-scroll" style={{ padding: "110px 40px 60px", background: "#FAFAFA", color: "#111111" }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        {/* Back */}
-        <Link href="/shop" style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 10, fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase", color: "rgba(0,0,0,0.55)", marginBottom: 40, transition: "color 0.2s" }}
-          onMouseEnter={(e) => (e.currentTarget.style.color=BURG)}
-          onMouseLeave={(e) => (e.currentTarget.style.color="rgba(0,0,0,0.55)")}
-        >
-          <ArrowLeft size={15} /> Back to Shop
-        </Link>
+  const related = [
+    { name: "Natural Linen Trousers", brand: "5feet11", price: "₹2,499", image: "/products/ft-linen-trousers.png" },
+    { name: "Koyar Black Sneakers", brand: "Gully Labs", price: "₹4,490", image: "/products/gully-koyar.png" },
+    { name: "Procyon // Ocean", brand: "Sand Marshal", price: "₹4,250", image: "/products/sm-procyon-ocean.png" },
+    { name: "Silver Croissant Cuff", brand: "Miso by Sonia", price: "₹520", image: "/products/miso-croissant.png" },
+  ];
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}>
-          {/* Image */}
-          <div className="glass-card" style={{ aspectRatio: "3/4", borderRadius: 28, overflow: "hidden", position: "sticky", top: 120 }}>
-            <img src={product.image} alt={product.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }} />
+  return (
+    <div style={{ position: "relative", width: "100%", minHeight: "100vh", background: "linear-gradient(150deg,#FFFFFF 0%,#FAFAFA 25%,#F0F0F0 55%,#FAFAFA 78%,#F5F5F5 100%)", color: "#111111", overflow: "hidden", fontFamily: "'Geist', system-ui, sans-serif" }}>
+      <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(0,0,0,0.14) 0.8px, transparent 0.9px)", backgroundSize: "8px 8px", pointerEvents: "none" }} />
+
+      <div style={{ position: "relative", padding: "104px 72px 40px", zIndex: 5 }}>
+        <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: "rgba(0,0,0,0.45)", marginBottom: 20 }}>
+          <Link href="/shop">The Rack</Link> / Casuals / <span style={{ color: "#111111" }}>{product.name}</span>
+        </div>
+
+        <div style={{ display: "flex", gap: 48, flexWrap: "wrap" }}>
+          {/* Main Product Image */}
+          <div style={{ flex: 1.1, minWidth: 420, position: "relative", borderRadius: 28, overflow: "hidden", border: "1.5px solid rgba(0,0,0,0.1)", boxShadow: "0 30px 70px rgba(0,0,0,0.12)", background: "#F6F5F3" }}>
+            <img src={product.image} alt={product.name} style={{ width: "100%", height: 560, objectFit: "contain", display: "block" }} />
+            <div style={{ position: "absolute", top: 18, left: 18, padding: "6px 14px", borderRadius: 9999, background: "rgba(255,255,255,0.85)", backdropFilter: "blur(10px)", fontSize: 9, fontWeight: 800, letterSpacing: 2, textTransform: "uppercase" }}>
+              Fresh off the rack
+            </div>
+            <div style={{ position: "absolute", top: 14, right: -8, padding: "8px 18px 8px 20px", background: "#111111", color: "#FFFFFF", fontSize: 16, fontWeight: 900, transform: "rotate(4deg)", borderRadius: 8, boxShadow: "0 8px 24px rgba(0,0,0,0.3)" }}>
+              {product.price}
+            </div>
           </div>
 
-          {/* Details */}
-          <div>
-            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: BURG_LIGHT, margin: "0 0 12px" }}>{product.brand}</p>
-            <h1 style={{ fontFamily: "inherit", fontSize: "clamp(26px,3vw,44px)", fontWeight: 300, color: BURG, margin: "0 0 16px", letterSpacing: -1, textTransform: "uppercase", lineHeight: 1.1 }}>
-              {product.name}
-            </h1>
-            <p style={{ fontSize: 28, fontWeight: 800, color: BURG, margin: "0 0 32px" }}>${product.price.toLocaleString()}</p>
-            <p style={{ fontSize: 15, color: "rgba(0,0,0,0.65)", lineHeight: 1.75, margin: "0 0 40px" }}>{product.desc}</p>
+          {/* Product Info & Actions */}
+          <div style={{ flex: 1, minWidth: 380, display: "flex", flexDirection: "column", gap: 22, paddingTop: 6 }}>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase", color: "#777777" }}>{product.brand}</span>
+                <Link href="/stores/blueorng" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "4px 12px", borderRadius: 9999, background: "rgba(0,0,0,0.05)", border: "1px solid rgba(0,0,0,0.1)", fontSize: 9, fontWeight: 800, letterSpacing: 1.5, textTransform: "uppercase", textDecoration: "none" }}>
+                  Step inside the store →
+                </Link>
+              </div>
+              <h1 style={{ margin: "0 0 12px", fontSize: 40, fontWeight: 900, letterSpacing: "-1.5px", lineHeight: 1.05 }}>{product.name}</h1>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
+                <span style={{ fontSize: 28, fontWeight: 900 }}>{product.price}</span>
+                <span style={{ fontSize: 13, color: "rgba(0,0,0,0.4)", textDecoration: "line-through" }}>{product.wasPrice}</span>
+                <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: 1.5, textTransform: "uppercase", display: "inline-flex", alignItems: "center", gap: 6, background: "#111111", color: "#FFFFFF", padding: "3px 10px", borderRadius: 9999 }}>
+                  ✓ CONCAT certified
+                </span>
+              </div>
+            </div>
 
-            {/* Sizes */}
-            <div style={{ marginBottom: 32 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 14 }}>
-                <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: "rgba(0,0,0,0.55)" }}>Select Size</span>
-                <button style={{ fontSize: 10, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: BURG_LIGHT, background: "none", border: "none", cursor: "pointer" }}>Size Guide</button>
+            <p style={{ margin: 0, fontSize: 14, lineHeight: 1.65, color: "rgba(0,0,0,0.65)" }}>
+              {product.desc}
+            </p>
+
+            <div>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
+                <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: 2, textTransform: "uppercase" }}>Size</span>
+                <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", color: "rgba(0,0,0,0.45)", cursor: "pointer", textDecoration: "underline" }}>Size guide</span>
               </div>
               <div style={{ display: "flex", gap: 8 }}>
-                {SIZES.map((size) => (
-                  <button key={size} onClick={() => setSelectedSize(size)}
+                {product.sizes.map((sz) => (
+                  <span
+                    key={sz}
+                    onClick={() => setSelectedSize(sz)}
                     style={{
-                      flex: 1, padding: "14px 0", borderRadius: 12, border: "1.5px solid",
-                      borderColor: selectedSize === size ? BURG : "rgba(0,0,0,0.15)",
-                      background: selectedSize === size ? BURG : "rgba(255,255,255,0.35)",
-                      color: selectedSize === size ? CREAM : BURG,
-                      fontSize: 13, fontWeight: 700, cursor: "pointer", transition: "all 0.2s ease",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: 52,
+                      height: 46,
+                      borderRadius: 12,
+                      background: selectedSize === sz ? "#111111" : "rgba(255,255,255,0.4)",
+                      color: selectedSize === sz ? "#FFFFFF" : "#111111",
+                      border: "1.5px solid rgba(0,0,0,0.15)",
+                      fontSize: 12,
+                      fontWeight: 700,
+                      cursor: "pointer",
                     }}
                   >
-                    {size}
-                  </button>
+                    {sz}
+                  </span>
                 ))}
               </div>
             </div>
 
-            {/* CTA */}
-            <div style={{ display: "flex", gap: 12, marginBottom: 48 }}>
-              <button onClick={handleAdd} className="btn-primary" style={{ flex: 1, padding: "18px 0", justifyContent: "center", fontSize: 13 }}>
-                <ShoppingBag size={16} /> Add to Bag
-              </button>
-              <button style={{ width: 56, height: 56, borderRadius: "50%", border: `1.5px solid rgba(0,0,0,0.15)`, background: "rgba(255,255,255,0.35)", color: BURG, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <Heart size={19} strokeWidth={2} />
-              </button>
+            <div style={{ display: "flex", gap: 12 }}>
+              <Link href="/checkout" style={{ flex: 1, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "16px 32px", borderRadius: 9999, background: "#111111", color: "#FFFFFF", fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", boxShadow: "0 10px 28px rgba(0,0,0,0.15)", textDecoration: "none" }}>
+                Add to bag
+              </Link>
             </div>
 
-            {/* Accordions */}
-            {[
-              { key: "details",   label: "Product Details",    body: product.desc },
-              { key: "materials", label: "Materials & Care",   body: "Premium fabric blend. Dry clean recommended. Store in a cool, dry place away from direct sunlight." },
-              { key: "shipping",  label: "Shipping & Returns", body: "Complimentary standard shipping on all orders. Express available at checkout. Free returns within 30 days." },
-            ].map(({ key, label, body }) => (
-              <div key={key} style={{ borderTop: `1px solid rgba(0,0,0,0.08)` }}>
-                <button onClick={() => setOpenAccordion(openAccordion === key ? null : key)}
-                  style={{ width: "100%", padding: "18px 0", display: "flex", justifyContent: "space-between", alignItems: "center", background: "none", border: "none", color: BURG, fontSize: 12, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", cursor: "pointer" }}
-                >
-                  {label}
-                  <ChevronDown size={17} style={{ transform: openAccordion === key ? "rotate(180deg)" : "rotate(0)", transition: "transform 0.3s ease" }} />
-                </button>
-                {openAccordion === key && (
-                  <p style={{ fontSize: 14, color: "rgba(0,0,0,0.65)", lineHeight: 1.75, paddingBottom: 20, margin: 0 }}>{body}</p>
-                )}
+            <div style={{ display: "flex", flexDirection: "column", borderTop: "1px solid rgba(0,0,0,0.1)" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", padding: "14px 2px", borderBottom: "1px solid rgba(0,0,0,0.08)", fontSize: 12 }}>
+                <span style={{ fontWeight: 800, letterSpacing: 1.5, textTransform: "uppercase", fontSize: 10 }}>Fabric & care</span>
+                <span style={{ color: "rgba(0,0,0,0.5)" }}>{product.fabric}</span>
               </div>
+              <div style={{ display: "flex", justifyContent: "space-between", padding: "14px 2px", borderBottom: "1px solid rgba(0,0,0,0.08)", fontSize: 12 }}>
+                <span style={{ fontWeight: 800, letterSpacing: 1.5, textTransform: "uppercase", fontSize: 10 }}>Shipping</span>
+                <span style={{ color: "rgba(0,0,0,0.5)" }}>{product.shipping}</span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", padding: "14px 2px", borderBottom: "1px solid rgba(0,0,0,0.08)", fontSize: 12 }}>
+                <span style={{ fontWeight: 800, letterSpacing: 1.5, textTransform: "uppercase", fontSize: 10 }}>Returns</span>
+                <span style={{ color: "rgba(0,0,0,0.5)" }}>{product.returns}</span>
+              </div>
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "14px 18px", borderRadius: 18, background: "rgba(255,255,255,0.5)", border: "1px solid rgba(0,0,0,0.1)", backdropFilter: "blur(14px)" }}>
+              <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#ff3333", animation: "omPulse 1.5s infinite", flex: "none" }}></span>
+              <span style={{ fontSize: 11, color: "rgba(0,0,0,0.6)" }}>
+                Sold by <strong style={{ color: "#111111" }}>{product.brand}</strong> · {product.floor} · leaves the mall wearing <strong style={{ color: "#111111" }}>the CONCAT tag</strong>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Complete the look */}
+        <div style={{ marginTop: 48 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 16 }}>
+            <h3 style={{ margin: 0, fontSize: 22, fontWeight: 900, letterSpacing: "-0.5px", textTransform: "uppercase" }}>Complete the look</h3>
+            <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: 2, textTransform: "uppercase", color: "rgba(0,0,0,0.45)" }}>Styled across the mall</span>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20 }}>
+            {related.map((pr, idx) => (
+              <Link key={idx} href="/checkout" style={{ borderRadius: 22, overflow: "hidden", background: "#FFFFFF", border: "1.5px solid rgba(0,0,0,0.1)", boxShadow: "0 10px 40px rgba(0,0,0,0.08)", color: "inherit", textDecoration: "none" }}>
+                <div style={{ aspectRatio: "3/3.2", background: "#F6F5F3" }}>
+                  <img src={pr.image} alt={pr.name} style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }} />
+                </div>
+                <div style={{ padding: "12px 15px" }}>
+                  <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: "#777777", margin: "0 0 3px" }}>at {pr.brand}</p>
+                  <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "baseline" }}>
+                    <span style={{ fontSize: 12.5, fontWeight: 700, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{pr.name}</span>
+                    <span style={{ fontSize: 13, fontWeight: 900, flex: "none" }}>{pr.price}</span>
+                  </div>
+                </div>
+              </Link>
             ))}
-            <div style={{ borderTop: `1px solid rgba(0,0,0,0.08)` }} />
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }

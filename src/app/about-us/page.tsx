@@ -1,187 +1,157 @@
 "use client";
 
-import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import Navbar from "@/components/Navbar";
+import React from "react";
 import Link from "next/link";
+import Footer from "@/components/Footer";
 
-const BURG = "#111111";
-const BURG_LIGHT = "#777777";
+export default function AboutPage() {
+  const doubts = [
+    "Is the sizing standard, or will it fit like a doll shirt?",
+    "If it arrives damaged, will anyone reply to my DMs?",
+    "Is this a real atelier or a drop-shipping ghost?",
+    "Can I return it if the fabric feels like sandpaper?",
+  ];
 
-export default function AboutUs() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
+  const fixes = [
+    "Verified atelier — real studio, real craft, real team",
+    "Standardized sizing & quality check on every dispatch",
+    "CONCAT Grievance Guarantee on every single order",
+    "One bag, one checkout, unified support desk",
+  ];
 
-  const y1 = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const y2 = useTransform(scrollYProgress, [0, 1], ["0%", "-40%"]);
-  const opacityFade = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  const howSteps = [
+    { num: "01", title: "Curation & Verification", desc: "We hand-select independent labels across India. We check their studio, sample their fabrics, and audit their stitch quality before giving them glass on a floor." },
+    { num: "02", title: "Floor Walk Experience", desc: "Browse by floor vibe — Casuals, Semi Formals, Accessories, Footwear, Formals, Eyewear, Ethnic — or step directly inside individual brand storefronts." },
+    { num: "03", title: "Unified Mall Cart", desc: "Add a linen trouser from Floor G, a sterling cuff from Floor 2, and sneakers from Floor 3 into a single bag with one single checkout." },
+  ];
 
   return (
-    <div ref={containerRef} className="page-scroll" style={{ background: "#FAFAFA", height: "100vh", overflowY: "auto", overflowX: "hidden", color: "#111111" }}>
-      <Navbar />
+    <div style={{ position: "relative", width: "100%", minHeight: "100vh", background: "linear-gradient(150deg,#FFFFFF 0%,#FAFAFA 25%,#F0F0F0 55%,#FAFAFA 78%,#F5F5F5 100%)", color: "#111111", overflow: "hidden", fontFamily: "'Geist', system-ui, sans-serif" }}>
+      <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(0,0,0,0.14) 0.8px, transparent 0.9px)", backgroundSize: "8px 8px", pointerEvents: "none" }} />
 
-      {/* BACKGROUND TEXTURE */}
-      <div className="screen-texture" style={{ opacity: 0.05 }} />
-
-      {/* SECTION 1: THE DROP (HERO) */}
-      <section style={{ 
-        minHeight: "100vh", position: "relative", display: "flex", alignItems: "center", justifyContent: "center",
-        flexDirection: "column", boxSizing: "border-box", overflow: "hidden"
-      }}>
-        {/* Background Image / Texture */}
-        <motion.div 
-          style={{ y: y1, position: "absolute", inset: 0, zIndex: 0, 
-            backgroundImage: "url('/media__1784131496078.png')",
-            backgroundSize: "cover", backgroundPosition: "center 20%",
-            filter: "grayscale(100%) brightness(0.7) contrast(1.2)"
-          }} 
-        />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 40%, #FAFAFA 100%)", zIndex: 1 }} />
-
-        <motion.div
-          style={{ opacity: opacityFade, position: "relative", zIndex: 10, textAlign: "center", padding: "0 20px" }}
-        >
-          <h1 style={{ 
-            fontSize: "clamp(60px, 15vw, 180px)", 
-            fontWeight: 900, 
-            letterSpacing: -4, 
-            lineHeight: 0.85, 
-            margin: 0,
-            color: "#000",
-            textTransform: "uppercase"
-          }}>
-            WE DON'T<br/>DO BASIC.
-          </h1>
-          <p style={{ 
-            fontSize: "clamp(16px, 2vw, 20px)", 
-            fontWeight: 700, 
-            letterSpacing: 4, 
-            textTransform: "uppercase", 
-            color: BURG_LIGHT, 
-            marginTop: 40 
-          }}>
-            The illusion of choice is over.
-          </p>
-        </motion.div>
-      </section>
-
-      {/* SECTION 2: MARQUEE */}
-      <div style={{ width: "100%", overflow: "hidden", background: "#111111", padding: "20px 0", borderTop: "1px solid #111111", borderBottom: "1px solid #111111", position: "relative", zIndex: 20 }}>
-        <motion.div 
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{ ease: "linear", duration: 15, repeat: Infinity }}
-          style={{ display: "flex", width: "200%", whiteSpace: "nowrap" }}
-        >
-          {Array(10).fill("NO MASS PRODUCTION // ONLY EXCEPTIONAL BRANDS // ").map((text, i) => (
-            <span key={i} style={{ fontSize: 24, fontWeight: 900, letterSpacing: 2, color: "#FFF", paddingRight: 40 }}>
-              {text}
+      <div style={{ position: "relative", padding: "130px 72px 24px", zIndex: 5 }}>
+        {/* Header Story */}
+        <div style={{ textAlign: "center", marginBottom: 44 }}>
+          <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 5, textTransform: "uppercase", color: "#777777", marginBottom: 26 }}>Why CONCAT exists</div>
+          <h1 style={{ margin: "0 auto", maxWidth: 980, fontSize: 54, fontWeight: 900, letterSpacing: "-2.5px", lineHeight: 1.18 }}>
+            The best clothes in India<br />
+            aren't made by
+            <span style={{ display: "inline-flex", verticalAlign: "middle", width: 104, height: 58, borderRadius: 9999, overflow: "hidden", border: "1.5px solid rgba(0,0,0,0.12)", margin: "0 8px", boxShadow: "0 10px 30px rgba(0,0,0,0.15)" }}>
+              <video src="/real_ads/first_section_web.mp4" autoPlay loop muted playsInline style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(1)" }} />
             </span>
-          ))}
-        </motion.div>
+            the brands you see everywhere.<br />
+            They're made by
+            <span style={{ display: "inline-flex", verticalAlign: "middle", width: 104, height: 58, borderRadius: 9999, overflow: "hidden", border: "1.5px solid rgba(0,0,0,0.12)", margin: "0 8px", boxShadow: "0 10px 30px rgba(0,0,0,0.15)", background: "#111" }}>
+              <video src="/real_ads/misobysonia-advertisment.mp4" autoPlay loop muted playsInline style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            </span>
+            <span style={{ color: "#777777" }}>independent labels you've never heard of.</span>
+          </h1>
+          <p style={{ margin: "26px auto 0", fontSize: 16, lineHeight: 1.7, color: "rgba(0,0,0,0.65)", maxWidth: 560, textWrap: "pretty" }}>
+            Same price. Better fabric. Actual character. The only thing they were missing was a storefront on a street you actually walk down. So we built the street.
+          </p>
+        </div>
+
+        {/* Comparison Section */}
+        <div style={{ marginBottom: 56 }}>
+          <div style={{ textAlign: "center", marginBottom: 24 }}>
+            <h2 style={{ margin: 0, fontSize: 32, fontWeight: 950, letterSpacing: "-1.5px", textTransform: "uppercase", lineHeight: 1 }}>the lucky find, fixed</h2>
+            <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: "2.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.45)", marginTop: 8 }}>You know this feeling</div>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, alignItems: "stretch" }}>
+            <div style={{ borderRadius: 32, background: "rgba(255,255,255,0.5)", border: "1.5px dashed rgba(0,0,0,0.2)", padding: "34px 36px" }}>
+              <div style={{ fontSize: 9, fontWeight: 800, letterSpacing: "2.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 10 }}>Somewhere on your feed · 1:20 AM</div>
+              <div style={{ fontSize: 22, fontWeight: 900, letterSpacing: "-0.7px", lineHeight: 1.2, marginBottom: 18, color: "rgba(0,0,0,0.75)" }}>
+                You find a label with insanely good pieces.<br />
+                <span style={{ color: "rgba(0,0,0,0.4)" }}>And then you hesitate.</span>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {doubts.map((d, i) => (
+                  <div key={i} style={{ display: "flex", gap: 12, alignItems: "center", fontSize: 13, color: "rgba(0,0,0,0.55)" }}>
+                    <span style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 22, height: 22, borderRadius: "50%", border: "1.5px solid rgba(0,0,0,0.25)", fontSize: 11, fontWeight: 900, color: "rgba(0,0,0,0.4)", flex: "none" }}>✕</span>
+                    {d}
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop: 20, fontSize: 12, color: "rgba(0,0,0,0.4)", fontStyle: "italic" }}>…so you close the tab. The label loses a customer. You lose the piece.</div>
+            </div>
+
+            <div style={{ position: "relative", borderRadius: 32, background: "linear-gradient(160deg,rgba(32,32,37,0.9) 0%,rgba(12,12,14,0.94) 100%)", border: "1px solid rgba(255,255,255,0.14)", backdropFilter: "blur(28px) saturate(160%)", boxShadow: "0 30px 80px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.18)", color: "#FFFFFF", padding: "34px 36px", overflow: "hidden" }}>
+              <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 60% 45% at 50% 0%,rgba(255,255,255,0.08) 0%,transparent 70%)", pointerEvents: "none" }} />
+              <div style={{ position: "relative" }}>
+                <div style={{ fontSize: 9, fontWeight: 800, letterSpacing: "2.5px", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginBottom: 10 }}>The same label · on CONCAT</div>
+                <div style={{ fontSize: 22, fontWeight: 900, letterSpacing: "-0.7px", lineHeight: 1.2, marginBottom: 18 }}>
+                  You find it here instead.<br />
+                  <span style={{ color: "rgba(255,255,255,0.45)" }}>And you just buy it.</span>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {fixes.map((f, i) => (
+                    <div key={i} style={{ display: "flex", gap: 12, alignItems: "center", fontSize: 13, color: "rgba(255,255,255,0.75)" }}>
+                      <span style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 22, height: 22, borderRadius: "50%", background: "#FFFFFF", color: "#111111", fontSize: 11, fontWeight: 900, flex: "none" }}>✓</span>
+                      {f}
+                    </div>
+                  ))}
+                </div>
+                <div style={{ marginTop: 20, fontSize: 12, color: "rgba(255,255,255,0.5)" }}>That's the whole company, in one scroll.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Mall Atrium Banner */}
+        <div style={{ position: "relative", height: 300, borderRadius: 36, overflow: "hidden", border: "1.5px solid rgba(0,0,0,0.1)", boxShadow: "0 30px 70px rgba(0,0,0,0.12)", marginBottom: 56 }}>
+          <img src="/mall_atrium.jpg" alt="CONCAT mall atrium" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top,rgba(0,0,0,0.6) 0%,transparent 50%)" }} />
+          <div style={{ position: "absolute", left: 32, bottom: 24, color: "#FFFFFF" }}>
+            <div style={{ fontSize: 9, fontWeight: 800, letterSpacing: 3, textTransform: "uppercase", opacity: 0.7, marginBottom: 4 }}>The idea</div>
+            <div style={{ fontSize: 24, fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.5px" }}>A mall, rebuilt for the internet</div>
+          </div>
+          <div style={{ position: "absolute", top: 20, right: 22, display: "flex", gap: 8, alignItems: "center" }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#ff3333", animation: "omPulse 1.5s infinite" }}></span>
+            <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 2, color: "#FFFFFF", textTransform: "uppercase" }}>Floors G–6 · open</span>
+          </div>
+        </div>
+
+        {/* How The Mall Works */}
+        <div style={{ marginBottom: 56 }}>
+          <div style={{ textAlign: "center", marginBottom: 24 }}>
+            <h2 style={{ margin: 0, fontSize: 32, fontWeight: 950, letterSpacing: "-1.5px", textTransform: "uppercase", lineHeight: 1 }}>how the mall works</h2>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+            {howSteps.map((hs, i) => (
+              <div key={i} style={{ padding: 30, borderRadius: 28, background: "rgba(255,255,255,0.5)", border: "1px solid rgba(0,0,0,0.1)", backdropFilter: "blur(14px)" }}>
+                <div style={{ fontSize: 34, fontWeight: 950, letterSpacing: "-1.5px", color: "rgba(0,0,0,0.18)", marginBottom: 14 }}>{hs.num}</div>
+                <div style={{ fontSize: 16, fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.3px", marginBottom: 8 }}>{hs.title}</div>
+                <div style={{ fontSize: 13, lineHeight: 1.6, color: "rgba(0,0,0,0.65)" }}>{hs.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Closing CTA */}
+        <div style={{ position: "relative", borderRadius: 36, background: "linear-gradient(160deg,rgba(32,32,37,0.9) 0%,rgba(12,12,14,0.94) 100%)", border: "1px solid rgba(255,255,255,0.14)", backdropFilter: "blur(28px) saturate(160%)", boxShadow: "0 30px 80px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.18)", color: "#FFFFFF", padding: "44px 48px", overflow: "hidden", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 28, flexWrap: "wrap" }}>
+          <div style={{ position: "relative", maxWidth: 560 }}>
+            <div style={{ fontSize: 9, fontWeight: 800, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.5)", marginBottom: 10 }}>The other half of the story</div>
+            <div style={{ fontSize: 28, fontWeight: 900, letterSpacing: "-1px", lineHeight: 1.15, marginBottom: 10 }}>
+              Great labels die in silence.<br />
+              <span style={{ color: "rgba(255,255,255,0.5)" }}>We're the megaphone.</span>
+            </div>
+            <div style={{ fontSize: 13.5, lineHeight: 1.65, color: "rgba(255,255,255,0.65)" }}>
+              Marketplaces bury small labels under ad-ranked noise. A mall gives them a storefront, a floor, footfall — and our verification badge, so their customers stop hesitating.
+            </div>
+          </div>
+          <div style={{ position: "relative", display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <Link href="/stores" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "14px 28px", borderRadius: 9999, background: "#FFFFFF", color: "#111111", fontSize: 11, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", textDecoration: "none" }}>
+              Meet the stores
+            </Link>
+            <Link href="/sell" style={{ display: "inline-flex", alignItems: "center", padding: "14px 28px", borderRadius: 9999, border: "1.5px solid rgba(255,255,255,0.4)", color: "#FFFFFF", fontSize: 11, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", textDecoration: "none" }}>
+              Partner up
+            </Link>
+          </div>
+        </div>
       </div>
 
-      {/* SECTION 3: THE ANTI-MARKETPLACE (STREETWEAR GRID) */}
-      <section style={{ padding: "120px 24px", boxSizing: "border-box", position: "relative", zIndex: 10 }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 40, alignItems: "center" }}>
-          
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <h2 style={{ fontSize: "clamp(40px, 6vw, 80px)", fontWeight: 900, letterSpacing: -2, lineHeight: 1, margin: "0 0 32px", textTransform: "uppercase" }}>
-              NOT ANOTHER<br/>MARKETPLACE.
-            </h2>
-            <p style={{ fontSize: 18, color: "rgba(0,0,0,0.7)", lineHeight: 1.6, marginBottom: 40, maxWidth: 500 }}>
-              You settle for mass-produced sameness because it's what the algorithm feeds you. Finding independent labels used to be pure luck. 
-              <br/><br/>
-              We fixed discovery. One roof. One checkout. The Store-in-Store model giving real brands their own space.
-            </p>
-            <Link href="/shop" style={{
-              display: "inline-block", padding: "16px 32px", background: "#000", color: "#FFF",
-              fontSize: 14, fontWeight: 900, letterSpacing: 2, textTransform: "uppercase",
-              textDecoration: "none", borderRadius: 0, transition: "all 0.3s ease",
-              border: "1px solid #000"
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = "#FFF"; e.currentTarget.style.color = "#000"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = "#000"; e.currentTarget.style.color = "#FFF"; }}
-            >
-              Enter The Shop
-            </Link>
-          </motion.div>
-
-          <motion.div 
-            style={{ position: "relative", height: "80vh", minHeight: 600, y: y2 }}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1 }}
-          >
-            <img src="/media__1784132886336.png" alt="Streetwear Look" style={{ position: "absolute", top: 0, right: "10%", width: "70%", height: "60%", objectFit: "cover", zIndex: 2, border: "2px solid #000", boxShadow: "20px 20px 0px rgba(0,0,0,0.1)" }} />
-            <img src="/accessories_1784145426818.png" alt="Accessory Look" style={{ position: "absolute", bottom: 0, left: 0, width: "60%", height: "50%", objectFit: "cover", zIndex: 3, border: "2px solid #000" }} />
-            <div style={{ position: "absolute", top: "45%", left: "50%", transform: "translate(-50%, -50%)", fontSize: "140px", fontWeight: 900, color: "transparent", WebkitTextStroke: "2px rgba(0,0,0,0.06)", zIndex: 1, pointerEvents: "none" }}>
-              RAW.
-            </div>
-          </motion.div>
-
-        </div>
-      </section>
-
-      {/* SECTION 4: THE VIBE / TECH */}
-      <section style={{ padding: "120px 24px", background: "#FFFFFF", boxSizing: "border-box", position: "relative", zIndex: 10, borderTop: "1px solid rgba(0,0,0,0.08)" }}>
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          style={{ maxWidth: 1200, margin: "0 auto", textAlign: "center" }}
-        >
-          <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: 4, color: BURG_LIGHT, marginBottom: 20, textTransform: "uppercase" }}>
-            Tech Meets Culture
-          </div>
-          <h2 style={{ fontSize: "clamp(32px, 5vw, 60px)", fontWeight: 900, textTransform: "uppercase", letterSpacing: -1, margin: "0 0 60px" }}>
-            Curated by culture.<br/>Powered by AI.
-          </h2>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 32, textAlign: "left" }}>
-            <div style={{ background: "#F9F9F9", padding: 40, border: "1px solid rgba(0,0,0,0.08)", borderRadius: 16 }}>
-              <div style={{ fontSize: 40, fontWeight: 900, color: BURG, marginBottom: 20 }}>01</div>
-              <h3 style={{ fontSize: 24, fontWeight: 900, marginBottom: 16, textTransform: "uppercase" }}>Vetted Quality</h3>
-              <p style={{ color: "rgba(0,0,0,0.65)", fontSize: 16, lineHeight: 1.6 }}>
-                If it's on CONCAT, it's worth wearing. No drop-shipped garbage. Only strictly vetted, high-quality independent brands.
-              </p>
-            </div>
-            <div style={{ background: "#F9F9F9", padding: 40, border: "1px solid rgba(0,0,0,0.08)", borderRadius: 16 }}>
-              <div style={{ fontSize: 40, fontWeight: 900, color: BURG, marginBottom: 20 }}>02</div>
-              <h3 style={{ fontSize: 24, fontWeight: 900, marginBottom: 16, textTransform: "uppercase" }}>AI Stylist</h3>
-              <p style={{ color: "rgba(0,0,0,0.65)", fontSize: 16, lineHeight: 1.6 }}>
-                Hyper-personalized recommendations that map to your existing wardrobe. AI isn't just a buzzword; it's your personal stylist.
-              </p>
-            </div>
-            <div style={{ background: "#F9F9F9", padding: 40, border: "1px solid rgba(0,0,0,0.08)", borderRadius: 16 }}>
-              <div style={{ fontSize: 40, fontWeight: 900, color: BURG, marginBottom: 20 }}>03</div>
-              <h3 style={{ fontSize: 24, fontWeight: 900, marginBottom: 16, textTransform: "uppercase" }}>One Checkout</h3>
-              <p style={{ color: "rgba(0,0,0,0.65)", fontSize: 16, lineHeight: 1.6 }}>
-                Discover 50 different independent brands. Add them all to one cart. Pay once. That's the ecosystem.
-              </p>
-            </div>
-          </div>
-        </motion.div>
-      </section>
-      
-      {/* FOOTER */}
-      <footer style={{ padding: "80px 24px", textAlign: "center", borderTop: "1px solid rgba(0,0,0,0.05)", position: "relative", zIndex: 10, background: "#FAFAFA" }}>
-        <div style={{ fontFamily: "inherit", fontSize: "clamp(50px, 10vw, 120px)", fontWeight: 900, color: "#EEEEEE", letterSpacing: -4, lineHeight: 0.8 }}>
-          concat.
-        </div>
-        <div style={{ fontSize: 12, color: "rgba(0,0,0,0.4)", marginTop: 24, letterSpacing: 2, textTransform: "uppercase" }}>
-          © 2026 CONCAT. AESTHETIC UNDERGROUND.
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
